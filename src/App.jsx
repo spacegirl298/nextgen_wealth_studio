@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer"
 
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import MoneySnapshot from "./pages/MoneySnapshot";
 import StrategyTrack from "./pages/StrategyTrack";
 import FirstPropertyExplainer from "./pages/FirstPropertyExplainer";
 import FirstPropertyBuilder from "./pages/FirstPropertyBuilder";
-import SimulationLab from "./pages/SimulationLab";
+import SimulationLab from "./pages/SimulationLab/SimulationLab";
 import PropertySimulation from "./pages/PropertySimulation";
 import BankingDNA from "./pages/BankingDNA";
 import Profile from "./pages/Profile";

@@ -3,22 +3,34 @@
   padding: 60px 40px;
   max-width: 1000px;
   margin: 0 auto;
+  
+}
+.heroContent{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 50px;
+  margin-bottom: 60px;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-family: var(--font-main);
+  font-size: clamp(3.5rem, 6vw, 4.2rem);
   font-weight: 700;
-  color: #1e1a2f;
-  margin-bottom: 16px;
-  letter-spacing: -0.5px;
+  line-height: 1.08;
+  color: var(--clr-text);
+  letter-spacing: -0.02em;
 }
 
 .intro {
-  font-size: 1.125rem;
-  line-height: 1.5;
-  color: #3c3456;
-  max-width: 720px;
-  margin-bottom: 48px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--clr-text-muted);
+  line-height: 1.75;
+  max-width: 580px;
+  text-align: center;
 }
 
 /* Vertical layout: single column, cards stacked */
@@ -48,22 +60,13 @@ h1 {
   gap: 24px;
  
 }
-
-
-
-/* fix this */
+ /*fix this*/
 .cardImage {
-  
   width: 160px;
   height: 160px;
-  background: linear-gradient(135deg, #e8e0ff 0%, #d4c8ff 100%);
-  
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 30px;
 }
-
-
-
 
 
 /* Content section - right side */
@@ -96,32 +99,35 @@ font-family: var(--font-display);
   color: #180016;
   border: none;
   border-radius: 40px;
-  padding: 12px 24px;
+  padding: 8px 24px;
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
   align-self: flex-start;
-  margin-top: 8px;
+  margin-top: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-left: 490px;
 }
 
 .button:hover {
   background: #5535a0;
   transform: scale(0.98);
+  color: var(--clr-text);
 }
 
 .status {
-  background: #f1eef9;
-  color: #6a46b4;
-  padding: 10px 20px;
+  background: var(--clr-bg-card);
+  color: var(--clr-gold);
+  padding: 8px 20px;
   border-radius: 40px;
   font-size: 0.85rem;
   font-weight: 600;
   display: inline-block;
   align-self: flex-start;
-  margin-top: 8px;
-  border: 1px solid #ddd6f0;
+  margin-top: 2px;
+  margin-left: 490px;
+  border: 1px solid var(--clr-gold);
 }
 
 

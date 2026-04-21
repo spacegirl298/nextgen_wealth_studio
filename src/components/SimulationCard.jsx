@@ -1,22 +1,15 @@
 // SimulationCard.jsx
 import React from "react";
-import styles from "../pages/Simulation.module.css";
+import styles from "../pages/SimulationLab/Simulation.module.css";
 
-export default function SimulationCard({ title, description, buttonText, status, imageSrc, imageEmoji }) {
+
+export default function SimulationCard({ title, description, buttonText, status, imageSrc }) {
   return (
     <div className={styles.card}>
-      {/* Image section */}
       <div className={styles.cardImage}>
-        {imageSrc ? (
-          <img src={imageSrc} alt={title} />
-        ) : (
-          <div className={styles.imagePlaceholder}>
-            {imageEmoji || "🏠"}
-          </div>
-        )}
+        <img src={imageSrc} alt={title} />
       </div>
-      
-      {/* Content section */}
+
       <div className={styles.cardContent}>
         <h2>{title}</h2>
         <p>{description}</p>
@@ -26,7 +19,7 @@ export default function SimulationCard({ title, description, buttonText, status,
         )}
 
         {status === "construction" && (
-          <div className={styles.status}>Under Construction</div>
+          <div className={styles.status}>🔒︎ Under Construction</div>
         )}
       </div>
     </div>

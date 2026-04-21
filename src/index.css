@@ -13,6 +13,7 @@
   --clr-gold-soft: rgba(232, 184, 75, 0.15);
   --clr-text: #f0e8ff;
   --clr-text-muted: rgba(240, 232, 255, 0.792);
+  --clr-text-unhighlighted: rgba(240, 232, 255, 0.547);
   --clr-text-dim: rgba(240, 232, 255, 0.3);
   --font-display: "Syne", sans-serif;
   --font-main: 'Anek Latin', sans-serif;

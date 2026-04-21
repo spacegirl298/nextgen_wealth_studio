@@ -2,8 +2,7 @@
 import React from "react";
 import styles from "../pages/SimulationLab/Simulation.module.css";
 
-
-export default function SimulationCard({ title, description, buttonText, status, imageSrc }) {
+export default function SimulationCard({ title, description, buttonText, status, imageSrc, onButtonClick }) {
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
@@ -15,7 +14,9 @@ export default function SimulationCard({ title, description, buttonText, status,
         <p>{description}</p>
 
         {status === "ready" && (
-          <button className={styles.button}>{buttonText}</button>
+          <button className={styles.button} onClick={onButtonClick}>
+            {buttonText}
+          </button>
         )}
 
         {status === "construction" && (

@@ -2,11 +2,10 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 
-import MoneyImg from "../../assets/MoneyImg.png";
-import SimImg from "../../assets/SimImg.png";
-import StatImg from "../../assets/StatImg.png";
-import DNAImg from "../../assets/DNAImg.png"
-
+import MoneyImg from "../../assets/Home/MoneyImg.png";
+import SimImg from "../../assets/Home/SimImg.png";
+import StatImg from "../../assets/Home/StatImg.png";
+import DNAImg from "../../assets/Home/DNAImg.png"
 
 // ── Stat Card ──────────────────────────────────────────────────────────────
 function StatCard({ label, value, to, delay = 0 }) {

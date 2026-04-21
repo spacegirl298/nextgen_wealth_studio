@@ -25,7 +25,7 @@ export default function App() {
         <Route path = "/explainer" element = {<FirstPropertyExplainer/>}/>
         <Route path = "/builder" element = {<FirstPropertyBuilder/>}/>
         <Route path = "/simulation" element = {<SimulationLab/>}/>
-        <Route path = "/property-sim" element = {<PropertySimulation/>}/>
+        <Route path = "/propertySim" element = {<PropertySimulation/>}/>
         <Route path = "/DNA" element = {<BankingDNA/>}/>
         <Route path = "/profile" element = {<Profile/>}/>
       </Routes>

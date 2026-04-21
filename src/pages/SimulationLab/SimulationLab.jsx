@@ -1,30 +1,41 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Simulation.module.css";
 import SimulationCard from "../../components/SimulationCard";
-import PropImg from "../../assets/PropImg.jpg"
-import CarImg from "../../assets/CarImg.jpg"
-import LocalImg from "../../assets/LocalImg.jpg"
+import PropImg from "../../assets/Simulation/PropImg.jpg";
+import CarImg from "../../assets/Simulation/CarImg.jpg";
+import LocalImg from "../../assets/Simulation/LocalImg.jpg";
 
 export default function SimulationLab() {
+  const navigate = useNavigate();
+
+  const handlePropertyClick = () => {
+    navigate("/propertySim");
+  };
+
+ 
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <div className = {styles.heroContent}>
-        <h1>Simulation Lab</h1>
-        <p className={styles.intro}>
-          The Simulation Lab helps you test out your financial decisions before
-          making them in real life. Adjust your information and instantly see
-          how these choices could affect your finances.
-        </p>
+        <div className={styles.heroContent}>
+          <h1>Simulation Lab</h1>
+          <p className={styles.intro}>
+            The Simulation Lab helps you test out your financial decisions before
+            making them in real life. Adjust your information and instantly see
+            how these choices could affect your finances.
+          </p>
         </div>
 
-        <div className={styles.grid}>
+         <div className={styles.grid}>
           <SimulationCard
             title="Property vs Renting in Joburg"
             description="This simulation lab allows you to explore and compare the financial outcomes of renting versus buying property in Johannesburg. By inputting personal financial details - such as income, savings, expenses, and expected property costs - you can generate tailored projections that illustrate the long-term impact of each option.This simulation provides a clear, data-driven comparison, helping you understand factors like monthly affordability, interest rates, and overall investment value. "
             buttonText="Launch Simulation"
             status="ready"
             imageSrc = {PropImg}
+              onButtonClick={handlePropertyClick} 
+            
           />
 
           <SimulationCard

@@ -1,11 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Track.module.css";
-import TrackCard from "../../components/TrackCard"
-import BuildImg from "../../assets/BuildImg.jpg";
-import BalanceImg from "../../assets/BalanceImg.jpg";
-import GlobalImg from "../../assets/GlobalImg.jpg";
+import SimulationCard from "../../components/TrackCard";
+import BuildImg from "../../assets/Track/BuildImg.jpg";
+import BalanceImg from "../../assets/Track/BalanceImg.jpg";
+import GlobalImg from "../../assets/Track/GlobalImg.jpg";
+import TrackCard from "../../components/TrackCard";
 
-export default function StrategyTrack() {
+export default function SimulationLab() {
+  const navigate = useNavigate();
+
+  const handlePropertyClick = () => {
+    navigate("/explainer");
+  };
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -24,9 +32,10 @@ export default function StrategyTrack() {
           <TrackCard
             title="First Property Builder"
             description="The First Property Builder track is designed for young professionals who are working toward the milestone of home ownership. It focuses on helping you build a solid financial foundation through disciplined saving for a deposit, maintaining a strong credit profile, and ensuring that your future home remains affordable in the long term. This track encourages stability and consistency, guiding you away from high-risk investments and frequent job changes, so you can confidently move toward owning your first property."
-            buttonText="Launch Simulation"
+            buttonText="Launch Strategy Track"
             status="ready"
             imageSrc={BuildImg}
+            onButtonClick={handlePropertyClick}
           />
 
           <TrackCard

@@ -113,7 +113,7 @@ font-family: var(--font-display);
   align-self: flex-start;
   margin-top: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  margin-left: 490px;
+  margin-left: 470px;
 }
 
 .button:hover {

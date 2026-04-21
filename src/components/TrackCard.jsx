@@ -1,8 +1,8 @@
+
 import React from "react";
 import styles from "../pages/StrategyTrack/Track.module.css";
 
-
-export default function TrackCard({ title, description, buttonText, status, imageSrc }) {
+export default function TrackCard({ title, description, buttonText, status, imageSrc, onButtonClick }) {
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
@@ -14,7 +14,9 @@ export default function TrackCard({ title, description, buttonText, status, imag
         <p>{description}</p>
 
         {status === "ready" && (
-          <button className={styles.button}>{buttonText}</button>
+          <button className={styles.button} onClick={onButtonClick}>
+            {buttonText}
+          </button>
         )}
 
         {status === "construction" && (

@@ -1,0 +1,194 @@
+/* ProfilePage.module.css */
+
+.pageWrapper {
+  min-height: 100vh;
+  background: transparent;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 60px 20px 40px;
+}
+
+/* ── HERO HEADING ── */
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+.hero p {
+  font-size: 0.95rem;
+  color: #c9b8d8;
+  margin: 0;
+}
+
+/* ── PROFILE CARD ── */
+.profileCard {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  max-width: 520px;
+  margin: 0 auto 56px;
+  padding: 32px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  backdrop-filter: blur(8px);
+}
+
+.avatarWrapper {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+
+.avatarIcon {
+  width: 44px;
+  height: 44px;
+  color: #888;
+}
+
+.profileInfo {
+  text-align: center;
+}
+
+.profileInfo h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.profileMeta {
+  font-size: 0.82rem;
+  color: #c9b8d8;
+  line-height: 1.7;
+}
+
+.profileMeta span {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* ── STATISTICS ── */
+.section {
+  max-width: 680px;
+  margin: 0 auto 52px;
+}
+
+.sectionTitle {
+  font-size: 1.85rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 28px;
+  color: #ffffff;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 22px 18px 18px;
+  position: relative;
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+}
+
+.statLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #b8a8cc;
+  margin-bottom: 14px;
+}
+
+.statValue {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.statArrow {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 22px;
+  height: 22px;
+  color: #c9a84c;
+  opacity: 0.85;
+}
+
+/* ── GOAL PROGRESS ── */
+.goalSection {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.progressBarTrack {
+  width: 100%;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBarFill {
+  height: 100%;
+  width: 68%;
+  background: linear-gradient(90deg, #e8d5a3 0%, #c9a84c 100%);
+  border-radius: 100px;
+  position: relative;
+  transition: width 1s ease;
+}
+
+.progressLabel {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 12px;
+  text-align: right;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 500px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .statValue {
+    font-size: 1.3rem;
+  }
+}

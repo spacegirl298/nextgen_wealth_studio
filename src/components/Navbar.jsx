@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Navbar.module.css'
 
 const NAV_LINKS = [
@@ -48,12 +48,13 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className={styles.actions}>
-          <button className={styles.profileBtn} aria-label="Profile">
+          {/* Wrap profile button with NavLink */}
+          <NavLink to="/profile" className={styles.profileBtn} aria-label="Profile">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
-          </button>
+          </NavLink>
 
           {/* Mobile hamburger */}
           <button

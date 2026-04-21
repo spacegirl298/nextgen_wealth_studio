@@ -3,14 +3,14 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer"
 
 import Home from "./pages/Home/Home";
-import MoneySnapshot from "./pages/MoneySnapshot";
-import StrategyTrack from "./pages/StrategyTrack";
-import FirstPropertyExplainer from "./pages/FirstPropertyExplainer";
-import FirstPropertyBuilder from "./pages/FirstPropertyBuilder";
+import MoneySnapshot from "./pages/MoneySnapshot/MoneySnapshot";
+import StrategyTrack from "./pages/StrategyTrack/StrategyTrack";
+import FirstPropertyExplainer from "./pages/FirstProperty/FirstPropertyExplainer";
+import FirstPropertyBuilder from "./pages/FirstProperty/FirstPropertyBuilder";
 import SimulationLab from "./pages/SimulationLab/SimulationLab";
-import PropertySimulation from "./pages/PropertySimulation";
-import BankingDNA from "./pages/BankingDNA";
-import Profile from "./pages/Profile";
+import PropertySimulation from "./pages/PropertySim/PropertySimulation";
+import BankingDNA from "./pages/BankingDNA/BankingDNA";
+import Profile from "./pages/Profile/Profile";
 
 export default function App() {
 

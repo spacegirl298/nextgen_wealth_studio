@@ -60,9 +60,7 @@ h1 {
   gap: 24px;
  
 }
- /*fix this*/
 .cardImage {
-  object-fit: cover;
   width: 160px;
   height: 160px;
   margin-top: 8px;

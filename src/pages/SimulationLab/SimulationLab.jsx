@@ -9,7 +9,7 @@ export default function SimulationLab() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <div class = {styles.heroContent}>
+        <div className = {styles.heroContent}>
         <h1>Simulation Lab</h1>
         <p className={styles.intro}>
           The Simulation Lab helps you test out your financial decisions before

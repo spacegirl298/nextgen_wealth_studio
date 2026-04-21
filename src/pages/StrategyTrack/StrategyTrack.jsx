@@ -1,167 +1,49 @@
-import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import styles from "./Track.module.css";
+import TrackCard from "../../components/TrackCard"
+import BuildImg from "../../assets/BuildImg.jpg";
+import BalanceImg from "../../assets/BalanceImg.jpg";
+import GlobalImg from "../../assets/GlobalImg.jpg";
 
-
-import MoneyImg from "../../assets/MoneyImg.png";
-import SimImg from "../../assets/SimImg.png";
-import StatImg from "../../assets/StatImg.png";
-import DNAImg from "../../assets/DNAImg.png"
-
-
-// ── Stat Card ──────────────────────────────────────────────────────────────
-function StatCard({ label, value, to, delay = 0 }) {
+export default function StrategyTrack() {
   return (
-    <Link to={to} className={styles.statCard} style={{ animationDelay: `${delay}ms` }}>
-      <span className={styles.statLabel}>{label}</span>
-      <span className={styles.statValue}>{value}</span>
-      <span className={styles.statArrow}>↗</span>
-    </Link>
-  )
-}
-
-// Goal Progress Card 
-function GoalCard({ percent = 44, delay = 0 }) {
-  const r = 42
-  const circumference = 2 * Math.PI * r
-  const offset = circumference - (percent / 100) * circumference
-
-  return (
-    <Link to="/money-snapshot" className={`${styles.statCard} ${styles.goalCard}`} style={{ animationDelay: `${delay}ms` }}>
-      <span className={styles.statLabel}>GOAL PROGRESS</span>
-      <div className={styles.ringWrap}>
-        <svg width="100" height="100" viewBox="0 0 100 100" className={styles.ring}>
-          <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(200,75,255,0.12)" strokeWidth="8"/>
-          <circle
-            cx="50" cy="50" r={r}
-            fill="none"
-            stroke="url(#ringGrad)"
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            transform="rotate(-90 50 50)"
-            className={styles.ringProgress}
-          />
-          <defs>
-            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#c84bff"/>
-              <stop offset="100%" stopColor="#e8b84b"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <span className={styles.ringPct}>{percent}%</span>
-      </div>
-      <span className={styles.statArrow}>↗</span>
-    </Link>
-  )
-}
-
-// ── Feature Card ───────────────────────────────────────────────────────────
-function FeatureCard({ title, to, pattern, delay = 0 }) {
-  return (
-    <Link to={to} className={styles.featureCard} style={{ animationDelay: `${delay}ms` }}>
-      <div className={styles.featurePattern}>{pattern}</div>
-      <span className={styles.featureTitle}>{title}</span>
-      <span className={styles.featureArrow}>↗</span>
-    </Link>
-  )
-}
-
-// ── Sparkline SVG patterns ─────────────────────────────────────────────────
-const MoneyPattern = () => (
-  <div 
-    className={styles.patternBg}
-  >
-    <img src = {MoneyImg}/>
-  </div>
-)
-
-const StrategyPattern = () => (
-   <div 
-    className={styles.patternBg}
-  >
-    <img src = {StatImg}/>
-  </div>
-)
-
-const SimPattern = () => (
-   <div 
-    className={styles.patternBg}
-  >
-    <img src = {SimImg}/>
-  </div>
-)
-
-const DNAPattern = () => (
-   <div 
-    className={styles.patternBg}
-  >
-    <img src = {DNAImg}/>
-  </div>
-);
-
-// ── Home Page ──────────────────────────────────────────────────────────────
-export default function Home() {
-  const heroRef = useRef(null)
-
-  return (
-    <main className={styles.main}>
-      
-
-      {/* ── HERO ── */}
-      <section className={styles.hero} ref={heroRef}>
+    <div className={styles.container}>
+      <main className={styles.main}>
         <div className={styles.heroContent}>
-          <p className={styles.heroPre}>ABSA NEXT GEN WEALTH</p>
-          <h1 className={styles.heroHeading}>
-            Take Control of Your<br />
-            <em>FINANCES</em>
-          </h1>
-          <p className={styles.heroCopy}>
-            You're not just banking. You're building wealth from day one. Absa Next Gen
-            Wealth gives you a real-time cockpit for your money — designed for the critical
-            first five years of your financial journey.
+          <h1>Strategy Track</h1>
+          <p className={styles.intro}>
+            The Strategy Tracks are predefined financial journeys designed to
+            help you make clearer long-term decisions. This dashboard presents a
+            structured 5-year roadmaps that show where you’re heading
+            financially, the milestones you can expect along the way, and the
+            behavioural adjustments needed to stay on course.
           </p>
-          <Link to="/profile" className={styles.ctaBtn}>
-            Start my 5-year plan
-            <span className={styles.ctaArrow}>→</span>
-          </Link>
         </div>
-      </section>
 
-      {/* ── STAT CARDS ── */}
-      <section className={styles.statsSection}>
-        <div className={styles.statsGrid}>
-          <StatCard label="TOTAL INCOME"  value="R46 000"   to="/money-snapshot"    delay={0}   />
-          <StatCard label="FIXED COSTS"   value="R41 150"   to="/money-snapshot"  delay={80}  />
-          <StatCard label="DEBT BALANCE"  value="R160 000"  to="/money-snapshot"    delay={160} />
-          <GoalCard percent={44} delay={240} />
-        </div>
-      </section>
+        <div className={styles.grid}>
+          <TrackCard
+            title="First Property Builder"
+            description="The First Property Builder track is designed for young professionals who are working toward the milestone of home ownership. It focuses on helping you build a solid financial foundation through disciplined saving for a deposit, maintaining a strong credit profile, and ensuring that your future home remains affordable in the long term. This track encourages stability and consistency, guiding you away from high-risk investments and frequent job changes, so you can confidently move toward owning your first property."
+            buttonText="Launch Simulation"
+            status="ready"
+            imageSrc={BuildImg}
+          />
 
-      {/* ── WHY FIVE YEARS ── */}
-      <section className={styles.whySection}>
-        <div className={styles.whyCard}>
-          <div className={styles.whyTopLine} />
-          <h2 className={styles.whyHeading}>Why Five Years?</h2>
-          <p className={styles.whyCopy}>
-            Most people drift through their early earning years. We don't think you should.
-            The gap between your first real paycheck and year five is where small habits
-            become massive wealth. Absa Next Gen Wealth is your co-pilot for that exact
-            window — tracking, teaching, and automating your progress.
-          </p>
-          <div className={styles.whyBottomLine} />
-        </div>
-      </section>
+          <TrackCard
+            title="Balanced Lifestyle & Investing"
+            description="The Balanced Lifestyle and Investing track is designed for professionals who want to enjoy their money now while still building long-term financial security. It helps you develop sustainable habits such as investing consistently, staying flexible with your finances, and intentionally budgeting for lifestyle experiences. This track encourages a healthy balance, guiding you away from financial burnout and helping you avoid making decisions driven purely by fear, so you can build wealth while still enjoying the present."
+            status="construction"
+            imageSrc={BalanceImg}
+          />
 
-      {/* ── FEATURE CARDS ── */}
-      <section className={styles.featuresSection}>
-        <div className={styles.featuresGrid}>
-          <FeatureCard title="MONEY SNAPSHOT"   to="/money"   pattern={<MoneyPattern />}   delay={0}   />
-          <FeatureCard title="STRATEGY TRACKER" to="/track" pattern={<StrategyPattern />} delay={80}  />
-          <FeatureCard title="SIMULATION LAB"   to="/simulation"   pattern={<SimPattern />}      delay={160} />
-          <FeatureCard title="BANKING DNA"       to="/DNA"       pattern={<DNAPattern />}      delay={240} />
+          <TrackCard
+            title="Aggressive Global Investor"
+            description="The Aggressive Global Investor track is designed for ambitious high earners who are comfortable taking on higher levels of risk in pursuit of faster wealth growth. It focuses on helping you maintain a high savings and investment rate, expand your exposure to global markets, and actively engage with emerging financial opportunities. This track encourages a proactive and growth-driven mindset, guiding you toward building significant wealth through strategic, globally diversified investing."
+            status="construction"
+            imageSrc={GlobalImg}
+          />
         </div>
-      </section>
-    </main>
-  )
+      </main>
+    </div>
+  );
 }

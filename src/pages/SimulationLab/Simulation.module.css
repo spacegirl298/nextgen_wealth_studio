@@ -45,7 +45,7 @@ h1 {
 .card {
    position: relative;
   background: var(--clr-bg-card);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(px);
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
   padding: 1.5rem 1.5rem 1.25rem;
@@ -96,7 +96,7 @@ font-family: var(--font-display);
 
 .cardContent p {
  font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 300;
   color: var(--clr-text-muted);
   line-height: 1.8;

@@ -4,18 +4,7 @@
   overflow: hidden;
 }
 
-/* ── Background ── */
 
-.grid {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(200, 75, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 75, 255, 0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  z-index: 0;
-}
 
 /* ── HERO ── */
 .hero {

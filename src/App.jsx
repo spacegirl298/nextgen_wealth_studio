@@ -8,7 +8,7 @@ import StrategyTrack from "./pages/StrategyTrack/StrategyTrack";
 import FirstPropertyExplainer from "./pages/FirstProperty/FirstPropertyExplainer";
 import FirstPropertyBuilder from "./pages/FirstProperty/FirstPropertyBuilder";
 import SimulationLab from "./pages/SimulationLab/SimulationLab";
-import PropertySimulation from "./pages/PropertySim/PropertySimulation";
+import PropertySimulation from "./pages/PropertySim/PropertySim";
 import BankingDNA from "./pages/BankingDNA/BankingDNA";
 import Profile from "./pages/Profile/Profile";
 

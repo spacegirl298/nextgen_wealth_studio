@@ -1,0 +1,87 @@
+import { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
+import styles from './Navbar.module.css'
+
+const NAV_LINKS = [
+  { label: 'Home', to: '/' },
+  { label: 'Money Snapshot', to: '/money' },
+  { label: 'Strategy Tracker', to: '/track' },
+  { label: 'Simulation Lab', to: '/simulation' },
+  { label: 'Banking DNA', to: '/DNA' },
+]
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handler)
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
+
+  return (
+    <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={styles.inner}>
+        {/* Logo */}
+        <NavLink to="/" className={styles.logo}>
+          <div className={styles.logoMark}>
+            <span>absa</span>
+          </div>
+        </NavLink>
+
+        {/* Desktop nav */}
+        <nav className={styles.nav}>
+          {NAV_LINKS.map(link => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === '/'}
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive ? styles.active : ''}`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Actions */}
+        <div className={styles.actions}>
+          <button className={styles.profileBtn} aria-label="Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </button>
+
+          {/* Mobile hamburger */}
+          <button
+            className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span/><span/><span/>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
+        {NAV_LINKS.map(link => (
+          <NavLink
+            key={link.to}
+            to={link.to}
+            end={link.to === '/'}
+            className={({ isActive }) =>
+              `${styles.mobileLink} ${isActive ? styles.active : ''}`
+            }
+            onClick={() => setMenuOpen(false)}
+          >
+            {link.label}
+          </NavLink>
+        ))}
+      </div>
+    </header>
+  )
+}

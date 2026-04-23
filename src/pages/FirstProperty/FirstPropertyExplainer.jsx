@@ -7,7 +7,6 @@ import SimImg from "../../assets/Home/SimImg.png";
 import StatImg from "../../assets/Home/StatImg.png";
 import DNAImg from "../../assets/Home/DNAImg.png"
 
-
 // ── Stat Card ──────────────────────────────────────────────────────────────
 function StatCard({ label, value, to, delay = 0 }) {
   return (
@@ -100,6 +99,68 @@ const DNAPattern = () => (
   </div>
 );
 
+// ── Home Page ──────────────────────────────────────────────────────────────
+export default function Home() {
+  const heroRef = useRef(null)
 
-  
+  return (
+    <main className={styles.main}>
+      
 
+      {/* ── HERO ── */}
+      <section className={styles.hero} ref={heroRef}>
+        <div className={styles.heroContent}>
+          <p className={styles.heroPre}>ABSA NEXT GEN WEALTH</p>
+          <h1 className={styles.heroHeading}>
+            Take Control of Your<br />
+            <em>FINANCES</em>
+          </h1>
+          <p className={styles.heroCopy}>
+            You're not just banking. You're building wealth from day one. Absa Next Gen
+            Wealth gives you a real-time cockpit for your money — designed for the critical
+            first five years of your financial journey.
+          </p>
+          <Link to="/profile" className={styles.ctaBtn}>
+            Start my 5-year plan
+            <span className={styles.ctaArrow}>→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── STAT CARDS ── */}
+      <section className={styles.statsSection}>
+        <div className={styles.statsGrid}>
+          <StatCard label="TOTAL INCOME"  value="R46 000"   to="/money-snapshot"    delay={0}   />
+          <StatCard label="FIXED COSTS"   value="R41 150"   to="/money-snapshot"  delay={80}  />
+          <StatCard label="DEBT BALANCE"  value="R160 000"  to="/money-snapshot"    delay={160} />
+          <GoalCard percent={44} delay={240} />
+        </div>
+      </section>
+
+      {/* ── WHY FIVE YEARS ── */}
+      <section className={styles.whySection}>
+        <div className={styles.whyCard}>
+          <div className={styles.whyTopLine} />
+          <h2 className={styles.whyHeading}>Why Five Years?</h2>
+          <p className={styles.whyCopy}>
+            Most people drift through their early earning years. We don't think you should.
+            The gap between your first real paycheck and year five is where small habits
+            become massive wealth. Absa Next Gen Wealth is your co-pilot for that exact
+            window — tracking, teaching, and automating your progress.
+          </p>
+          <div className={styles.whyBottomLine} />
+        </div>
+      </section>
+
+      {/* ── FEATURE CARDS ── */}
+      <section className={styles.featuresSection}>
+        <div className={styles.featuresGrid}>
+          <FeatureCard title="MONEY SNAPSHOT"   to="/money"   pattern={<MoneyPattern />}   delay={0}   />
+          <FeatureCard title="STRATEGY TRACKER" to="/track" pattern={<StrategyPattern />} delay={80}  />
+          <FeatureCard title="SIMULATION LAB"   to="/simulation"   pattern={<SimPattern />}      delay={160} />
+          <FeatureCard title="BANKING DNA"       to="/DNA"       pattern={<DNAPattern />}      delay={240} />
+        </div>
+      </section>
+    </main>
+  )
+}

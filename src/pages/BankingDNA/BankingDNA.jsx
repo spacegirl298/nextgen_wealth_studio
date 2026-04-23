@@ -9,8 +9,8 @@ const PERSONALITY_TYPES = {
     tagline: "Strong earner. Lifestyle-first.",
     description:
       "You have strong earning potential but tend to prioritise immediate lifestyle gratification and frequent purchases. Savings and investments are inconsistent, which may slow progress toward financial goals — unless spending habits become more intentional.",
-    color: "#e879a0",
-    glow: "rgba(232, 121, 160, 0.25)",
+    color: "#c84bff",
+    glow: "rgba(200, 75, 255, 0.35)",
     icon: "◈",
     traits: ["Lifestyle-first", "Impulsive buys", "High earner", "Inconsistent saver"],
     levelPath: "Improve budgeting behaviours and reduce impulsive purchases to level up.",
@@ -22,8 +22,8 @@ const PERSONALITY_TYPES = {
     tagline: "Disciplined. Long-term focused.",
     description:
       "You are focused on long-term milestones. You save aggressively and are comfortable delaying lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in the foundation of tomorrow.",
-    color: "#34d399",
-    glow: "rgba(52, 211, 153, 0.25)",
+    color: "#ff4bba",
+    glow: "rgba(255, 75, 183, 0.35)",
     icon: "◆",
     traits: ["Goal-driven", "Disciplined saver", "Milestone tracker", "Delayed gratification"],
     levelPath: "Gain levels through disciplined saving, milestone completion, and consistent goal tracking.",
@@ -35,8 +35,8 @@ const PERSONALITY_TYPES = {
     tagline: "Life is for living. Balance is key.",
     description:
       "You utilise income for the enjoyment of life — travel, dining, experiences. Financial progress still happens, but major asset goals may take longer. The key is finding a sustainable balance.",
-    color: "#fb923c",
-    glow: "rgba(251, 146, 60, 0.25)",
+    color: "#4bbdff",
+    glow: "rgba(75, 96, 255, 0.35)",
     icon: "◉",
     traits: ["Experience-seeker", "Social spender", "Moderate saver", "Travel-focused"],
     levelPath: "Level up through improved balance between spending and savings.",
@@ -48,24 +48,23 @@ const PERSONALITY_TYPES = {
     tagline: "Steady. Intentional. Resilient.",
     description:
       "You maintain a middle ground between saving, investing, and living well. Progress feels steady and manageable. You are the rarest profile — the one most likely to win over time.",
-    color: "#f8d299",
-    glow: "rgba(248, 210, 153, 0.3)",
+    color: "#4bffab",
+    glow: "rgba(75, 255, 165, 0.35)",
     icon: "◇",
     traits: ["Balanced approach", "Consistent investor", "Risk-aware", "Sustainable habits"],
     levelPath: "Move through levels by maintaining sustainable financial habits across saving, investing, and lifestyle.",
     startLevel: 4,
   },
 };
-
 // ─── Levels ───────────────────────────────────────────────────────────────
 const LEVELS = [
-  { level: 1, name: "Seedling", xpRequired: 0, color: "#94a3b8", desc: "Just getting started. Every journey begins here." },
-  { level: 2, name: "Sprout", xpRequired: 200, color: "#6ee7b7", desc: "Awareness is growing. First habits are forming." },
-  { level: 3, name: "Sapling", xpRequired: 500, color: "#34d399", desc: "Consistent effort is showing real results." },
-  { level: 4, name: "Grove", xpRequired: 900, color: "#f8d299", desc: "A balanced portfolio and steady growth trajectory." },
-  { level: 5, name: "Canopy", xpRequired: 1400, color: "#fbbf24", desc: "Financial habits are strong and diversified." },
-  { level: 6, name: "Summit", xpRequired: 2000, color: "#f59e0b", desc: "Wealth-building is systematic and intentional." },
-  { level: 7, name: "Apex", xpRequired: 2800, color: "#e0a526", desc: "You operate like a seasoned wealth builder." },
+  { level: 1, name: "Seedling", xpRequired: 0, color: "rgba(240, 232, 255, 0.3)", desc: "Just getting started. Every journey begins here." },
+  { level: 2, name: "Sprout", xpRequired: 200, color: "rgba(180, 100, 255, 0.45)", desc: "Awareness is growing. First habits are forming." },
+  { level: 3, name: "Sapling", xpRequired: 500, color: "rgba(240, 232, 255, 0.547)", desc: "Consistent effort is showing real results." },
+  { level: 4, name: "Grove", xpRequired: 900, color: "#f0e8ff", desc: "A balanced portfolio and steady growth trajectory." },
+  { level: 5, name: "Canopy", xpRequired: 1400, color: "#c84bff", desc: "Financial habits are strong and diversified." },
+  { level: 6, name: "Summit", xpRequired: 2000, color: "#f8d299", desc: "Wealth-building is systematic and intentional." },
+  { level: 7, name: "Apex", xpRequired: 2800, color: "#f1b862", desc: "You operate like a seasoned wealth builder." },
 ];
 
 // ─── Quiz Questions ────────────────────────────────────────────────────────
@@ -334,7 +333,6 @@ export default function BankingDNA() {
 
       {/* Hero */}
       <div className={styles.hero}>
-        <div className={styles.heroBadge}>FINANCIAL PERSONALITY SYSTEM</div>
         <h1 className={styles.heroTitle}>Banking DNA</h1>
         <p className={styles.heroSub}>
           Your financial behaviour leaves a fingerprint. This system analyses your spending habits, savings patterns, and goal consistency to reveal your money personality — and chart your path to the next level.
@@ -533,7 +531,7 @@ export default function BankingDNA() {
                 </>
               ) : (
                 <div className={styles.maxLevelWrap}>
-                  <div className={styles.maxLevelBadge} style={{ color: "#f8d299", borderColor: "#f8d29940" }}>◆ APEX ACHIEVED</div>
+                  <div className={styles.maxLevelBadge} style={{ color: "#f8d299", borderColor: "rgba(180, 100, 255, 0.325)" }}>◆ APEX ACHIEVED</div>
                   <p className={styles.cardSub}>You have reached the highest level. Your financial habits are exemplary.</p>
                 </div>
               )}

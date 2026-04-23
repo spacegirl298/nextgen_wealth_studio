@@ -15,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin-top: 50px;
+  margin-top: 80px;
   margin-bottom: 40px;
 }
 
@@ -57,7 +57,7 @@
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
   background: var(--clr-bg-card);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   margin-bottom: 1.5rem;
   overflow: hidden;
 }
@@ -101,7 +101,7 @@
 .sectionCard {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-bg-card);
   backdrop-filter: blur(10px);
   padding: 1.5rem;
   margin-bottom: 1.25rem;
@@ -144,15 +144,15 @@
 
 /* ─── Persona Cards (Intro) ─────────────────────────────────────────────── */
 .personaCard {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--clr-border);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  background: var(--clr-bg-card);
   padding: 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   cursor: default;
-  transition: border-color 0.2s, box-shadow 0.2s;
   margin-bottom: 0;
 }
 
@@ -179,7 +179,6 @@
   font-size: 0.78rem;
   color: var(--clr-text-muted);
   font-weight: 300;
-  font-style: italic;
 }
 
 .personaTraits {
@@ -281,7 +280,7 @@
 .retakeBtn {
   background: transparent;
   color: var(--clr-text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--clr-border);
   border-radius: 40px;
   padding: 0.75rem 2.5rem;
   font-size: 0.88rem;
@@ -310,7 +309,7 @@
 
 .quizProgressTrack {
   height: 3px;
-  background: rgba(255,255,255,0.08);
+  background: var(--clr-bg-card);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -360,8 +359,8 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
   border-radius: 10px;
   color: var(--clr-text);
   font-family: var(--font-body);
@@ -376,7 +375,7 @@
 
 .quizOption:hover {
   border-color: rgba(248, 210, 153, 0.4);
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--clr-bg-card);
 }
 
 .quizOptionSelected {
@@ -436,9 +435,9 @@
 
 /* ─── DNA Hero Card ──────────────────────────────────────────────────────── */
 .dnaHero {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--clr-border);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-bg-card);
   padding: 2.5rem 2rem;
   margin-bottom: 1.25rem;
   display: flex;
@@ -527,7 +526,7 @@
   left: 50%;
   width: 100%;
   height: 2px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--clr-bg-card);
   z-index: 0;
 }
 
@@ -539,8 +538,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid var(--clr-border);
+  background: var(--clr-bg-card);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -554,7 +553,7 @@
 }
 
 .levelNodeCurrent {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--clr-bg-card);
 }
 
 .levelNum {
@@ -584,7 +583,7 @@
 
 .xpBarTrack {
   height: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--clr-bg-card);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -611,7 +610,7 @@
   font-size: 0.8rem;
   color: var(--clr-text-muted);
   line-height: 1.6;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-bg-card);
 }
 
 /* ─── Radar ──────────────────────────────────────────────────────────────── */
@@ -642,7 +641,7 @@
 .signalBarTrack {
   flex: 1;
   height: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--clr-bg-card);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -680,7 +679,7 @@
   color: var(--clr-text);
   line-height: 1.6;
   padding: 0.55rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--clr-border);
 }
 
 .nudgeItem:last-child { border-bottom: none; }
@@ -696,7 +695,7 @@
   border: 1px solid;
   border-radius: 12px;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-bg-card);
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -762,7 +761,7 @@
   font-weight: 300;
   color: var(--clr-text-muted);
   padding: 0.45rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--clr-border);
   gap: 0.5rem;
 }
 

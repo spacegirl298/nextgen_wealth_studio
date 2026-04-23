@@ -1,4 +1,3 @@
-// contexts/FinancialContext.jsx
 import React, { createContext, useState, useContext, useMemo } from 'react';
 
 const FinancialContext = createContext();
@@ -149,7 +148,13 @@ export const FinancialProvider = ({ children }) => {
     grossMonthly,
     totalMonthlyExpenses,
     totalDebt,
-    healthScore
+    healthScore,
+    paye,
+    takeHome,
+    fixedCosts,
+    variableSpending,
+    totalSavings,
+    disposable
   };
 
   return (

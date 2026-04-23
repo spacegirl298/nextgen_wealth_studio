@@ -1,6 +1,7 @@
 // ProfilePage.jsx
 import React, { useState } from "react";
 import styles from "./Profile.module.css";
+import { useFinancial } from "../../components/FinancialContext";
 
 /* ── tiny inline SVG icons (no external dep needed) ── */
 const ImagePlaceholderIcon = () => (
@@ -52,15 +53,6 @@ const CloseIcon = () => (
   </svg>
 );
 
-/* ── data ── */
-const stats = [
-  { label: "Total Income",  value: "R46 000" },
-  { label: "Fixed Costs",   value: "R41 150" },
-  { label: "Debt Balance",  value: "R160 000" },
-];
-
-const GOAL_PERCENT = 68;
-
 /* ── component ── */
 export default function ProfilePage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -71,6 +63,15 @@ export default function ProfilePage() {
     email: "NameSurname@gmail.com",
   });
   const [draft, setDraft] = useState({ ...profile });
+  
+  // Get financial data from context
+  const { 
+    grossMonthly, 
+    fixedCosts, 
+    variableSpending, 
+    totalDebt, 
+    healthScore 
+  } = useFinancial();
 
   const openModal = () => {
     setDraft({ ...profile });
@@ -87,6 +88,21 @@ export default function ProfilePage() {
     setProfile({ ...draft });
     setModalOpen(false);
   };
+
+  // Format currency
+  const formatCurrency = (value) => {
+    return `R${Math.round(value).toLocaleString()}`;
+  };
+
+  // Calculate total monthly expenses
+  const totalExpenses = fixedCosts + variableSpending;
+
+  // Stats data from context
+  const stats = [
+    { label: "Total Income", value: formatCurrency(grossMonthly) },
+    { label: "Total Expenses", value: formatCurrency(totalExpenses) },
+    { label: "Debt Balance", value: formatCurrency(totalDebt) },
+  ];
 
   return (
     <div className={styles.pageWrapper}>
@@ -130,20 +146,25 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Goal Progress */}
+      {/* Goal Progress / Health Score */}
       <div className={styles.goalSection}>
-        <h2 className={styles.sectionTitle}>Goal Progress</h2>
+        <h2 className={styles.sectionTitle}>Financial Health Score</h2>
         <div className={styles.progressBarTrack}>
           <div
             className={styles.progressBarFill}
-            style={{ width: `${GOAL_PERCENT}%` }}
+            style={{ width: `${healthScore}%` }}
             role="progressbar"
-            aria-valuenow={GOAL_PERCENT}
+            aria-valuenow={healthScore}
             aria-valuemin={0}
             aria-valuemax={100}
           />
         </div>
-        <div className={styles.progressLabel}>{GOAL_PERCENT}%</div>
+        <div className={styles.progressLabel}>{healthScore}%</div>
+        <p className={styles.healthDescription}>
+          {healthScore >= 75 ? "Excellent — you're on track!" : 
+           healthScore >= 50 ? "Good — a few areas to improve" : 
+           "Needs attention — review your budget"}
+        </p>
       </div>
 
       {/* Edit Profile Modal */}

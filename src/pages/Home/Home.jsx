@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Home.module.css'
+import { useFinancial } from '../../components/FinancialContext'
 
 import MoneyImg from "../../assets/Home/MoneyImg.png";
 import SimImg from "../../assets/Home/SimImg.png";
 import StatImg from "../../assets/Home/StatImg.png";
 import DNAImg from "../../assets/Home/DNAImg.png"
-
 
 // ── Stat Card ──────────────────────────────────────────────────────────────
 function StatCard({ label, value, to, delay = 0 }) {
@@ -27,7 +27,7 @@ function GoalCard({ percent = 44, delay = 0 }) {
 
   return (
     <Link to="/money" className={`${styles.statCard} ${styles.goalCard}`} style={{ animationDelay: `${delay}ms` }}>
-      <span className={styles.statLabel}>GOAL PROGRESS</span>
+      <span className={styles.statLabel}>HEALTH SCORE</span>
       <div className={styles.ringWrap}>
         <svg width="100" height="100" viewBox="0 0 100 100" className={styles.ring}>
           <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(200,75,255,0.12)" strokeWidth="8"/>
@@ -69,45 +69,40 @@ function FeatureCard({ title, to, pattern, delay = 0 }) {
 
 // ── Sparkline SVG patterns ─────────────────────────────────────────────────
 const MoneyPattern = () => (
-  <div 
-    className={styles.patternBg}
-  >
-    <img src = {MoneyImg}/>
+  <div className={styles.patternBg}>
+    <img src={MoneyImg} alt="Money" />
   </div>
 )
 
 const StrategyPattern = () => (
-   <div 
-    className={styles.patternBg}
-  >
-    <img src = {StatImg}/>
+  <div className={styles.patternBg}>
+    <img src={StatImg} alt="Strategy" />
   </div>
 )
 
 const SimPattern = () => (
-   <div 
-    className={styles.patternBg}
-  >
-    <img src = {SimImg}/>
+  <div className={styles.patternBg}>
+    <img src={SimImg} alt="Simulation" />
   </div>
 )
 
 const DNAPattern = () => (
-   <div 
-    className={styles.patternBg}
-  >
-    <img src = {DNAImg}/>
+  <div className={styles.patternBg}>
+    <img src={DNAImg} alt="DNA" />
   </div>
 );
 
 // ── Home Page ──────────────────────────────────────────────────────────────
 export default function Home() {
   const heroRef = useRef(null)
+  const { grossMonthly, totalMonthlyExpenses, totalDebt, healthScore } = useFinancial();
+
+  const formatCurrency = (value) => {
+    return `R${Math.round(value).toLocaleString()}`;
+  };
 
   return (
     <main className={styles.main}>
-      
-
       {/* ── HERO ── */}
       <section className={styles.hero} ref={heroRef}>
         <div className={styles.heroContent}>
@@ -131,10 +126,10 @@ export default function Home() {
       {/* ── STAT CARDS ── */}
       <section className={styles.statsSection}>
         <div className={styles.statsGrid}>
-          <StatCard label="TOTAL INCOME"  value="R46 000"   to="/money"    delay={0}   />
-          <StatCard label="FIXED COSTS"   value="R41 150"   to="/money"  delay={80}  />
-          <StatCard label="DEBT BALANCE"  value="R160 000"  to="/money"    delay={160} />
-          <GoalCard percent={44} delay={240} />
+          <StatCard label="TOTAL INCOME" value={formatCurrency(grossMonthly)} to="/money" delay={0} />
+          <StatCard label="TOTAL EXPENSES" value={formatCurrency(totalMonthlyExpenses)} to="/money" delay={80} />
+          <StatCard label="DEBT BALANCE" value={formatCurrency(totalDebt)} to="/money" delay={160} />
+          <GoalCard percent={healthScore} delay={240} />
         </div>
       </section>
 
@@ -156,10 +151,10 @@ export default function Home() {
       {/* ── FEATURE CARDS ── */}
       <section className={styles.featuresSection}>
         <div className={styles.featuresGrid}>
-          <FeatureCard title="MONEY SNAPSHOT"   to="/money"   pattern={<MoneyPattern />}   delay={0}   />
-          <FeatureCard title="STRATEGY TRACKER" to="/track" pattern={<StrategyPattern />} delay={80}  />
-          <FeatureCard title="SIMULATION LAB"   to="/simulation"   pattern={<SimPattern />}      delay={160} />
-          <FeatureCard title="BANKING DNA"       to="/DNA"       pattern={<DNAPattern />}      delay={240} />
+          <FeatureCard title="MONEY SNAPSHOT" to="/money" pattern={<MoneyPattern />} delay={0} />
+          <FeatureCard title="STRATEGY TRACKER" to="/track" pattern={<StrategyPattern />} delay={80} />
+          <FeatureCard title="SIMULATION LAB" to="/simulation" pattern={<SimPattern />} delay={160} />
+          <FeatureCard title="BANKING DNA" to="/DNA" pattern={<DNAPattern />} delay={240} />
         </div>
       </section>
     </main>

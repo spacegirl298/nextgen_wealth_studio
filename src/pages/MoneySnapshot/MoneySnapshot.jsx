@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Snapshot.module.css";
+import { useFinancial } from "../../components/FinancialContext";
 
 // ─── Info Content ───────────────────────────────────────────────────────────
 const INFO_CONTENT = {
@@ -37,29 +38,6 @@ const INFO_CONTENT = {
   "Retirement Annuity": { title: "Retirement Annuity Goal", body: "Your retirement savings goal. South Africa's National Treasury recommends saving at least 15% of income for retirement throughout your working life." },
   "House Savings": { title: "House Savings Goal", body: "Your target for a property deposit or house purchase fund. Most banks require a minimum 10% deposit for bond approval." },
 };
-
-// ─── SARS 2025/26 Tax Tables ──────────────────────────────────────────────
-function calcPAYE(annualIncome) {
-  const brackets = [
-    { limit: 237100, rate: 0.18, base: 0 },
-    { limit: 370500, rate: 0.26, base: 42678 },
-    { limit: 512800, rate: 0.31, base: 77362 },
-    { limit: 673000, rate: 0.36, base: 121475 },
-    { limit: 857900, rate: 0.39, base: 179147 },
-    { limit: 1817000, rate: 0.41, base: 251258 },
-    { limit: Infinity, rate: 0.45, base: 644489 },
-  ];
-  const rebate = 17235;
-  let tax = 0;
-  for (let i = 0; i < brackets.length; i++) {
-    const prev = i === 0 ? 0 : brackets[i - 1].limit;
-    if (annualIncome <= brackets[i].limit) {
-      tax = brackets[i].base + (annualIncome - prev) * brackets[i].rate;
-      break;
-    }
-  }
-  return Math.max(0, tax - rebate) / 12;
-}
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 const InfoTooltip = ({ field }) => {
@@ -194,76 +172,54 @@ export default function MoneySnapshot() {
   const [activeTab, setActiveTab] = useState("Overview");
   const tabs = ["Overview", "Income", "Expenses", "Savings", "Progress"];
 
-  // ── Income State ──
-  const [salary, setSalary] = useState(46000);
-  const [offshoreIncome, setOffshoreIncome] = useState(0);
-  const [investIncome, setInvestIncome] = useState(0);
-  const [rentalIncome, setRentalIncome] = useState(0);
-  const [bonuses, setBonuses] = useState(0);
-  const [sideIncome, setSideIncome] = useState(0);
+  // Get all state and setters from context
+  const {
+    salary, setSalary,
+    offshoreIncome, setOffshoreIncome,
+    investIncome, setInvestIncome,
+    rentalIncome, setRentalIncome,
+    bonuses, setBonuses,
+    sideIncome, setSideIncome,
+    rentBond, setRentBond,
+    medicalAid, setMedicalAid,
+    insurance, setInsurance,
+    studentLoan, setStudentLoan,
+    personalLoan, setPersonalLoan,
+    subscriptions, setSubscriptions,
+    retailAccounts, setRetailAccounts,
+    debtRepayments, setDebtRepayments,
+    groceries, setGroceries,
+    dining, setDining,
+    transport, setTransport,
+    entertainment, setEntertainment,
+    shopping, setShopping,
+    totalDebt, setTotalDebt,
+    minPayments, setMinPayments,
+    avgInterest, setAvgInterest,
+    emergencyFund, setEmergencyFund,
+    tfsa, setTfsa,
+    preAnnuity, setPreAnnuity,
+    offshoreInv, setOffshoreInv,
+    localInv, setLocalInv,
+    goals, setGoals,
+    grossMonthly,
+    paye,
+    takeHome,
+    fixedCosts,
+    variableSpending,
+    totalSavings,
+    disposable,
+    healthScore
+  } = useFinancial();
 
-  // ── Expenses State ──
-  const [rentBond, setRentBond] = useState(12500);
-  const [medicalAid, setMedicalAid] = useState(3000);
-  const [insurance, setInsurance] = useState(1500);
-  const [studentLoan, setStudentLoan] = useState(0);
-  const [personalLoan, setPersonalLoan] = useState(0);
-  const [subscriptions, setSubscriptions] = useState(500);
-  const [retailAccounts, setRetailAccounts] = useState(0);
-  const [debtRepayments, setDebtRepayments] = useState(0);
-  const [groceries, setGroceries] = useState(5000);
-  const [dining, setDining] = useState(2000);
-  const [transport, setTransport] = useState(3000);
-  const [entertainment, setEntertainment] = useState(2000);
-  const [shopping, setShopping] = useState(2000);
-  const [totalDebt, setTotalDebt] = useState(50000);
-  const [minPayments, setMinPayments] = useState(2000);
-  const [avgInterest, setAvgInterest] = useState(12);
-
-  // ── Savings State ──
-  const [emergencyFund, setEmergencyFund] = useState(20000);
-  const [tfsa, setTfsa] = useState(15000);
-  const [preAnnuity, setPreAnnuity] = useState(80000);
-  const [offshoreInv, setOffshoreInv] = useState(10000);
-  const [localInv, setLocalInv] = useState(25000);
-
-  // ── Goals State ──
-  const [goals, setGoals] = useState([
-    { name: "Debt Free", target: 50000, saved: 10000, monthly: 2000 },
-    { name: "Emergency Fund", target: 30000, saved: 20000, monthly: 1000 },
-    { name: "Travel Savings", target: 20000, saved: 5000, monthly: 500 },
-    { name: "Retirement Annuity", target: 500000, saved: 80000, monthly: 3000 },
-  ]);
-
-  // ── Derived Calculations ──
-  const grossMonthly = useMemo(() => salary + offshoreIncome + investIncome + rentalIncome + bonuses + sideIncome, [salary, offshoreIncome, investIncome, rentalIncome, bonuses, sideIncome]);
-  const paye = useMemo(() => Math.round(calcPAYE(salary * 12)), [salary]);
-  const takeHome = useMemo(() => Math.round(grossMonthly - paye), [grossMonthly, paye]);
-  const fixedCosts = useMemo(() => rentBond + medicalAid + insurance + studentLoan + personalLoan + subscriptions + retailAccounts + debtRepayments, [rentBond, medicalAid, insurance, studentLoan, personalLoan, subscriptions, retailAccounts, debtRepayments]);
-  const variableSpending = useMemo(() => groceries + dining + transport + entertainment + shopping, [groceries, dining, transport, entertainment, shopping]);
-  const totalSavings = useMemo(() => emergencyFund + tfsa + preAnnuity + offshoreInv + localInv, [emergencyFund, tfsa, preAnnuity, offshoreInv, localInv]);
-  const disposable = useMemo(() => Math.max(0, takeHome - fixedCosts - variableSpending), [takeHome, fixedCosts, variableSpending]);
   const tfsaLimit = useMemo(() => Math.min((tfsa / 500000) * 100, 100), [tfsa]);
-
-  // Health Score
-  const healthScore = useMemo(() => {
-    let score = 0;
-    if (emergencyFund >= takeHome * 3) score += 25;
-    else score += (emergencyFund / (takeHome * 3)) * 25;
-    const debtToIncome = totalDebt / (grossMonthly * 12);
-    if (debtToIncome < 0.2) score += 25;
-    else if (debtToIncome < 0.4) score += 15;
-    else score += 5;
-    const savingsRate = totalSavings / Math.max(grossMonthly, 1);
-    if (savingsRate >= 0.15) score += 25;
-    else score += (savingsRate / 0.15) * 25;
-    if (fixedCosts / takeHome < 0.5) score += 25;
-    else score += Math.max(0, 25 - ((fixedCosts / takeHome - 0.5) * 100));
-    return Math.round(Math.min(score, 100));
-  }, [emergencyFund, takeHome, totalDebt, grossMonthly, totalSavings, fixedCosts]);
-
   const fmt = (n) => `R${Math.round(n).toLocaleString()}`;
   const pct = (v, total) => total > 0 ? Math.round((v / total) * 100) : 0;
+
+  // Update goal helper
+  const updateGoal = (i, field, value) => {
+    setGoals((prev) => prev.map((g, idx) => idx === i ? { ...g, [field]: value } : g));
+  };
 
   // ── Tab renderers ──────────────────────────────────────────────────────────
   const renderOverview = () => (
@@ -282,7 +238,7 @@ export default function MoneySnapshot() {
           { label: "Investment Income", value: investIncome, color: "#f8d299" },
           { label: "Rental Income", value: rentalIncome, color: "rgba(180, 100, 255, 0.45)" },
           { label: "Bonuses", value: bonuses, color: "rgba(200, 75, 255, 0.35)" },
-           { label: "Side Business Income", value: sideIncome, color: "#f0e8ff" },
+          { label: "Side Business Income", value: sideIncome, color: "#f0e8ff" },
         ]} />
         <div className={styles.barLegend}>
           {[
@@ -375,15 +331,15 @@ export default function MoneySnapshot() {
       <div className={styles.sectionCard}>
         <h3 className={styles.cardTitle}>Monthly Income Breakdown</h3>
         <MultiSegmentBar segments={[
-           { label: "Gross Monthly Salary", value: salary, color: "#c84bff" },
+          { label: "Gross Monthly Salary", value: salary, color: "#c84bff" },
           { label: "Investment Income", value: investIncome, color: "#f8d299" },
           { label: "Rental Income", value: rentalIncome, color: "rgba(180, 100, 255, 0.45)" },
           { label: "Bonuses", value: bonuses, color: "rgba(200, 75, 255, 0.35)" },
-           { label: "Side Business Income", value: sideIncome, color: "#f0e8ff" },
+          { label: "Side Business Income", value: sideIncome, color: "#f0e8ff" },
         ]} />
         <div className={styles.barLegend}>
           {[
-             { label: "Gross Monthly Salary", val: fmt(salary), pctVal: pct(salary, takeHome + paye), color: "#c84bff" },
+            { label: "Gross Monthly Salary", val: fmt(salary), pctVal: pct(salary, takeHome + paye), color: "#c84bff" },
             { label: "Investment Income", val: fmt(investIncome), pctVal: pct(investIncome, takeHome + paye), color: "#f8d299" },
             { label: "Rental Income", val: fmt(rentalIncome), pctVal: pct(rentalIncome, takeHome + paye), color: "rgba(180, 100, 255, 0.45)" },
             { label: "Bonuses", val: fmt(bonuses), pctVal: pct(bonuses, takeHome + paye), color: "rgba(200, 75, 255, 0.35)" },
@@ -444,12 +400,12 @@ export default function MoneySnapshot() {
       <div className={styles.sectionCard}>
         <h3 className={styles.cardTitle}>Monthly Expense Breakdown</h3>
         <MultiSegmentBar segments={[
-          { label: "Fixed Monthly Costs", value: fixedCosts, color: "#4f46e5" },
+          { label: "Fixed Monthly Costs", value: fixedCosts, color: "#c84bff" },
           { label: "Variable Spending", value: variableSpending, color: "#f8d299" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Fixed Monthly Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, fixedCosts + variableSpending), color: "#4f46e5" },
+            { label: "Fixed Monthly Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, fixedCosts + variableSpending), color: "#c84bff" },
             { label: "Variable Spending", val: fmt(variableSpending), pctVal: pct(variableSpending, fixedCosts + variableSpending), color: "#f8d299" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
@@ -464,7 +420,7 @@ export default function MoneySnapshot() {
       </div>
 
       <div className={styles.sectionCard}>
-        <h3 className={styles.cardTitle}>Fixed Monthly Cost</h3>
+        <h3 className={styles.cardTitle}>Fixed Monthly Cost Breakdown</h3>
         <MultiSegmentBar segments={[
           { label: "Rent/Bond", value: rentBond, color: "#c84bff" },
           { label: "Medical Aid", value: medicalAid, color: "#f8d299" },
@@ -477,14 +433,14 @@ export default function MoneySnapshot() {
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Rent/Bond", val: fmt(rentBond), pctVal: pct(rentBond, fixedCosts + variableSpending), color: "#4f46e5" },
-            { label: "Medical Aid", val: fmt(medicalAid), pctVal: pct(medicalAid, fixedCosts + variableSpending), color: "#f8d299" },
-             { label: "Insurance", val: fmt(insurance), pctVal: pct(insurance, fixedCosts + variableSpending), color: "#4f46e5" },
-            { label: "Student Loan", val: fmt(studentLoan), pctVal: pct(studentLoan, fixedCosts + variableSpending), color: "#f8d299" },
-             { label: "Personal Loan", val: fmt(personalLoan), pctVal: pct(personalLoan, fixedCosts + variableSpending), color: "#4f46e5" },
-            { label: "Subscriptions", val: fmt(subscriptions), pctVal: pct(subscriptions, fixedCosts + variableSpending), color: "#f8d299" },
-             { label: "Retail Accounts", val: fmt(retailAccounts), pctVal: pct(retailAccounts, fixedCosts + variableSpending), color: "#4f46e5" },
-            { label: "Debt Repayments", val: fmt(debtRepayments), pctVal: pct(debtRepayments, fixedCosts + variableSpending), color: "#f8d299" },
+            { label: "Rent/Bond", val: fmt(rentBond), pctVal: pct(rentBond, fixedCosts), color: "#c84bff" },
+            { label: "Medical Aid", val: fmt(medicalAid), pctVal: pct(medicalAid, fixedCosts), color: "#f8d299" },
+            { label: "Insurance", val: fmt(insurance), pctVal: pct(insurance, fixedCosts), color: "rgba(180, 100, 255, 0.45)" },
+            { label: "Student Loan", val: fmt(studentLoan), pctVal: pct(studentLoan, fixedCosts), color: "rgba(200, 75, 255, 0.35)" },
+            { label: "Personal Loan", val: fmt(personalLoan), pctVal: pct(personalLoan, fixedCosts), color: "#f0e8ff" },
+            { label: "Subscriptions", val: fmt(subscriptions), pctVal: pct(subscriptions, fixedCosts), color: "rgba(240, 232, 255, 0.3)" },
+            { label: "Retail Accounts", val: fmt(retailAccounts), pctVal: pct(retailAccounts, fixedCosts), color: "#f1b862" },
+            { label: "Debt Repayments", val: fmt(debtRepayments), pctVal: pct(debtRepayments, fixedCosts), color: "rgba(180, 100, 255, 0.325)" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />
@@ -498,21 +454,21 @@ export default function MoneySnapshot() {
       </div>
 
       <div className={styles.sectionCard}>
-        <h3 className={styles.cardTitle}>Variable Month Spending</h3>
+        <h3 className={styles.cardTitle}>Variable Month Spending Breakdown</h3>
         <MultiSegmentBar segments={[
           { label: "Groceries", value: groceries, color: "#c84bff" },
           { label: "Dining Out", value: dining, color: "#f8d299" },
-           { label: "Transport", value: transport, color: "rgba(180, 100, 255, 0.45)" },
+          { label: "Transport", value: transport, color: "rgba(180, 100, 255, 0.45)" },
           { label: "Entertainment", value: entertainment, color: "rgba(200, 75, 255, 0.35)" },
-            { label: "Shopping", value: shopping, color: "#f0e8ff" },
+          { label: "Shopping", value: shopping, color: "#f0e8ff" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Groceries", val: fmt(groceries), pctVal: pct(groceries, fixedCosts + variableSpending), color: "#c84bff" },
-            { label: "Dining Out", val: fmt(dining), pctVal: pct(dining, fixedCosts + variableSpending), color: "#f8d299" },
-            { label: "Transport", val: fmt(transport), pctVal: pct(transport, fixedCosts + variableSpending), color: "rgba(180, 100, 255, 0.45)" },
-            { label: "Entertainment", val: fmt(entertainment), pctVal: pct(entertainment, fixedCosts + variableSpending), color: "rgba(200, 75, 255, 0.35)" },
-            { label: "Shopping", val: fmt(shopping), pctVal: pct(shopping, fixedCosts + variableSpending), color: "#f0e8ff" },
+            { label: "Groceries", val: fmt(groceries), pctVal: pct(groceries, variableSpending), color: "#c84bff" },
+            { label: "Dining Out", val: fmt(dining), pctVal: pct(dining, variableSpending), color: "#f8d299" },
+            { label: "Transport", val: fmt(transport), pctVal: pct(transport, variableSpending), color: "rgba(180, 100, 255, 0.45)" },
+            { label: "Entertainment", val: fmt(entertainment), pctVal: pct(entertainment, variableSpending), color: "rgba(200, 75, 255, 0.35)" },
+            { label: "Shopping", val: fmt(shopping), pctVal: pct(shopping, variableSpending), color: "#f0e8ff" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />
@@ -588,10 +544,6 @@ export default function MoneySnapshot() {
       </div>
     </>
   );
-
-  const updateGoal = (i, field, value) => {
-    setGoals((prev) => prev.map((g, idx) => idx === i ? { ...g, [field]: value } : g));
-  };
 
   const renderProgress = () => (
     <>

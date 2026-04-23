@@ -1,5 +1,3 @@
-/* ProfilePage.module.css */
-
 .pageWrapper {
   width: 100%;
   max-width: 900px;
@@ -9,9 +7,9 @@
   position: relative;
 }
 
-/* ── HERO HEADING ── */
+/* hero */
 .hero {
-   display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
@@ -20,7 +18,7 @@
 }
 
 .hero h1 {
-    font-family: var(--font-main);
+  font-family: var(--font-main);
   font-size: clamp(3.5rem, 6vw, 4.2rem);
   font-weight: 700;
   line-height: 1.08;
@@ -38,7 +36,7 @@
   text-align: center;
 }
 
-/* ── PROFILE CARD ── */
+/* profile card */
 .profileCard {
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
@@ -62,7 +60,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
 }
 
@@ -77,7 +75,6 @@
 }
 
 .profileInfo h2 {
-  
   margin: 0 0 8px;
   font-family: var(--font-display);
   font-size: 0.75rem;
@@ -98,7 +95,7 @@
   font-weight: 500;
 }
 
-/* ── STATISTICS ── */
+/*statistics */
 .section {
   max-width: 680px;
   margin: 0 auto 52px;
@@ -119,7 +116,7 @@
 }
 
 .statCard {
-   position: relative;
+  position: relative;
   background: var(--clr-bg-card);
   backdrop-filter: blur(10px);
   border: 1px solid var(--clr-border);
@@ -132,7 +129,8 @@
   transition: all var(--transition);
   animation: cardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
   overflow: hidden;
-}@keyframes cardIn {
+}
+@keyframes cardIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -169,7 +167,7 @@
 
 .statCard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 .statLabel {
@@ -182,7 +180,7 @@
 }
 
 .statValue {
-   font-family: var(--font-display);
+  font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--clr-text);
@@ -199,7 +197,7 @@
   width: 18px;
   height: 18px;
   color: var(--clr-gold);
-  opacity:  0.7;
+  opacity: 0.7;
   transition: all var(--transition);
 }
 
@@ -208,7 +206,7 @@
   transform: translate(2px, -2px);
 }
 
-/* ── GOAL PROGRESS ── */
+/* gial progres */
 .goalSection {
   max-width: 680px;
   margin: 0 auto;
@@ -218,7 +216,7 @@
   width: 100%;
   height: 32px;
   background: var(--clr-bg-card);
-   border: 1px solid var(--clr-border);
+  border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
   border-radius: 100px;
   overflow: hidden;
@@ -228,21 +226,25 @@
 .progressBarFill {
   height: 100%;
   width: 68%;
-  background: linear-gradient(90deg, var(--clr-gold) 0%, var(--clr-gold-highlight) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--clr-gold) 0%,
+    var(--clr-gold-highlight) 100%
+  );
   border-radius: 100px;
   position: relative;
   transition: width 1s ease;
 }
 
 .progressLabel {
-font-size: 1.4rem;
+  font-size: 1.4rem;
   font-weight: 800;
   text-align: center;
   margin: 0 0 28px;
   color: var(--clr-text);
 }
 
-/* ── RESPONSIVE ── */
+/* resoposinve */
 @media (max-width: 500px) {
   .statsGrid {
     grid-template-columns: 1fr;
@@ -257,7 +259,7 @@ font-size: 1.4rem;
   }
 }
 
-/* ── EDIT BUTTON ── */
+/* edit button*/
 .editBtn {
   display: inline-flex;
   align-items: center;
@@ -272,7 +274,7 @@ font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   cursor: pointer;
-   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
 }
 
@@ -282,7 +284,7 @@ font-size: 1.4rem;
   color: var(--clr-text);
 }
 
-/* ── MODAL OVERLAY ── */
+/* modal overlay */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -296,13 +298,17 @@ font-size: 1.4rem;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* ── MODAL CARD ── */
+/* modal card*/
 .modalCard {
- background: var(--clr-bg-card);
+  background: var(--clr-bg-card);
   backdrop-filter: blur(10px);
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
@@ -312,8 +318,14 @@ font-size: 1.4rem;
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modalHeader {
@@ -349,7 +361,7 @@ font-size: 1.4rem;
   color: var(--clr-gold-highlight);
 }
 
-/* ── FORM ── */
+/* form */
 .modalBody {
   padding: 24px;
   display: flex;
@@ -370,7 +382,7 @@ font-size: 1.4rem;
 }
 
 .formLabel {
- font-family: var(--font-body);
+  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 300;
   color: var(--clr-text-muted);
@@ -386,13 +398,15 @@ font-size: 1.4rem;
   color: var(--clr-text);
   font-size: 0.9rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   width: 100%;
   box-sizing: border-box;
 }
 
 .formInput::placeholder {
-  color: rgba(255,255,255,0.25);
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .formInput:focus {
@@ -400,7 +414,7 @@ font-size: 1.4rem;
   box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
 }
 
-/* ── MODAL FOOTER ── */
+/* footer */
 .modalFooter {
   display: flex;
   justify-content: flex-end;
@@ -410,7 +424,7 @@ font-size: 1.4rem;
 }
 
 .cancelBtn {
-    font-family: var(--font-body);
+  font-family: var(--font-body);
   padding: 9px 22px;
   background: transparent;
   border: 1px solid var(--clr-border);
@@ -429,7 +443,7 @@ font-size: 1.4rem;
 }
 
 .saveBtn {
-    font-family: var(--font-body);
+  font-family: var(--font-body);
   padding: 9px 22px;
   background: var(--clr-gold);
   border: 1px solid var(--clr-gold);
@@ -445,7 +459,7 @@ font-size: 1.4rem;
 .saveBtn:hover {
   background: var(--clr-gold-highlight);
   border-color: var(--clr-gold-highlight);
-  box-shadow: 0 4px 16px rgba(201,168,76,0.35);
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
 }
 
 @media (max-width: 420px) {

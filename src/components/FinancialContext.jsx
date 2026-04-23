@@ -1,17 +1,17 @@
-import React, { createContext, useState, useContext, useMemo } from 'react';
+import React, { createContext, useState, useContext, useMemo } from "react";
 
 const FinancialContext = createContext();
 
 export const useFinancial = () => {
   const context = useContext(FinancialContext);
   if (!context) {
-    throw new Error('useFinancial must be used within FinancialProvider');
+    throw new Error("useFinancial must be used within FinancialProvider");
   }
   return context;
 };
 
 export const FinancialProvider = ({ children }) => {
-  // Income State
+  // Income
   const [salary, setSalary] = useState(46000);
   const [offshoreIncome, setOffshoreIncome] = useState(0);
   const [investIncome, setInvestIncome] = useState(0);
@@ -19,7 +19,7 @@ export const FinancialProvider = ({ children }) => {
   const [bonuses, setBonuses] = useState(0);
   const [sideIncome, setSideIncome] = useState(0);
 
-  // Expenses State
+  // Expenses
   const [rentBond, setRentBond] = useState(12500);
   const [medicalAid, setMedicalAid] = useState(3000);
   const [insurance, setInsurance] = useState(1500);
@@ -37,14 +37,14 @@ export const FinancialProvider = ({ children }) => {
   const [minPayments, setMinPayments] = useState(2000);
   const [avgInterest, setAvgInterest] = useState(12);
 
-  // Savings State
+  // Savings
   const [emergencyFund, setEmergencyFund] = useState(20000);
   const [tfsa, setTfsa] = useState(15000);
   const [preAnnuity, setPreAnnuity] = useState(80000);
   const [offshoreInv, setOffshoreInv] = useState(10000);
   const [localInv, setLocalInv] = useState(25000);
 
-  // Goals State
+  // Goals
   const [goals, setGoals] = useState([
     { name: "Debt Free", target: 50000, saved: 10000, monthly: 2000 },
     { name: "Emergency Fund", target: 30000, saved: 20000, monthly: 1000 },
@@ -52,7 +52,7 @@ export const FinancialProvider = ({ children }) => {
     { name: "Retirement Annuity", target: 500000, saved: 80000, monthly: 3000 },
   ]);
 
-  // SARS 2025/26 Tax Tables
+  // SARS Tax Tables
   function calcPAYE(annualIncome) {
     const brackets = [
       { limit: 237100, rate: 0.18, base: 0 },
@@ -75,26 +75,65 @@ export const FinancialProvider = ({ children }) => {
     return Math.max(0, tax - rebate) / 12;
   }
 
-  // Derived Calculations
-  const grossMonthly = useMemo(() => salary + offshoreIncome + investIncome + rentalIncome + bonuses + sideIncome, 
-    [salary, offshoreIncome, investIncome, rentalIncome, bonuses, sideIncome]);
-  
+  // Calculations
+  const grossMonthly = useMemo(
+    () =>
+      salary +
+      offshoreIncome +
+      investIncome +
+      rentalIncome +
+      bonuses +
+      sideIncome,
+    [salary, offshoreIncome, investIncome, rentalIncome, bonuses, sideIncome],
+  );
+
   const paye = useMemo(() => Math.round(calcPAYE(salary * 12)), [salary]);
-  const takeHome = useMemo(() => Math.round(grossMonthly - paye), [grossMonthly, paye]);
-  
-  const fixedCosts = useMemo(() => rentBond + medicalAid + insurance + studentLoan + personalLoan + subscriptions + retailAccounts + debtRepayments, 
-    [rentBond, medicalAid, insurance, studentLoan, personalLoan, subscriptions, retailAccounts, debtRepayments]);
-  
-  const variableSpending = useMemo(() => groceries + dining + transport + entertainment + shopping, 
-    [groceries, dining, transport, entertainment, shopping]);
-  
-  const totalMonthlyExpenses = useMemo(() => fixedCosts + variableSpending, [fixedCosts, variableSpending]);
-  
-  const totalSavings = useMemo(() => emergencyFund + tfsa + preAnnuity + offshoreInv + localInv, 
-    [emergencyFund, tfsa, preAnnuity, offshoreInv, localInv]);
-  
-  const disposable = useMemo(() => Math.max(0, takeHome - fixedCosts - variableSpending), 
-    [takeHome, fixedCosts, variableSpending]);
+  const takeHome = useMemo(
+    () => Math.round(grossMonthly - paye),
+    [grossMonthly, paye],
+  );
+
+  const fixedCosts = useMemo(
+    () =>
+      rentBond +
+      medicalAid +
+      insurance +
+      studentLoan +
+      personalLoan +
+      subscriptions +
+      retailAccounts +
+      debtRepayments,
+    [
+      rentBond,
+      medicalAid,
+      insurance,
+      studentLoan,
+      personalLoan,
+      subscriptions,
+      retailAccounts,
+      debtRepayments,
+    ],
+  );
+
+  const variableSpending = useMemo(
+    () => groceries + dining + transport + entertainment + shopping,
+    [groceries, dining, transport, entertainment, shopping],
+  );
+
+  const totalMonthlyExpenses = useMemo(
+    () => fixedCosts + variableSpending,
+    [fixedCosts, variableSpending],
+  );
+
+  const totalSavings = useMemo(
+    () => emergencyFund + tfsa + preAnnuity + offshoreInv + localInv,
+    [emergencyFund, tfsa, preAnnuity, offshoreInv, localInv],
+  );
+
+  const disposable = useMemo(
+    () => Math.max(0, takeHome - fixedCosts - variableSpending),
+    [takeHome, fixedCosts, variableSpending],
+  );
 
   // Health Score
   const healthScore = useMemo(() => {
@@ -109,42 +148,76 @@ export const FinancialProvider = ({ children }) => {
     if (savingsRate >= 0.15) score += 25;
     else score += (savingsRate / 0.15) * 25;
     if (fixedCosts / takeHome < 0.5) score += 25;
-    else score += Math.max(0, 25 - ((fixedCosts / takeHome - 0.5) * 100));
+    else score += Math.max(0, 25 - (fixedCosts / takeHome - 0.5) * 100);
     return Math.round(Math.min(score, 100));
-  }, [emergencyFund, takeHome, totalDebt, grossMonthly, totalSavings, fixedCosts]);
+  }, [
+    emergencyFund,
+    takeHome,
+    totalDebt,
+    grossMonthly,
+    totalSavings,
+    fixedCosts,
+  ]);
 
   const value = {
-    // State getters and setters
-    salary, setSalary,
-    offshoreIncome, setOffshoreIncome,
-    investIncome, setInvestIncome,
-    rentalIncome, setRentalIncome,
-    bonuses, setBonuses,
-    sideIncome, setSideIncome,
-    rentBond, setRentBond,
-    medicalAid, setMedicalAid,
-    insurance, setInsurance,
-    studentLoan, setStudentLoan,
-    personalLoan, setPersonalLoan,
-    subscriptions, setSubscriptions,
-    retailAccounts, setRetailAccounts,
-    debtRepayments, setDebtRepayments,
-    groceries, setGroceries,
-    dining, setDining,
-    transport, setTransport,
-    entertainment, setEntertainment,
-    shopping, setShopping,
-    totalDebt, setTotalDebt,
-    minPayments, setMinPayments,
-    avgInterest, setAvgInterest,
-    emergencyFund, setEmergencyFund,
-    tfsa, setTfsa,
-    preAnnuity, setPreAnnuity,
-    offshoreInv, setOffshoreInv,
-    localInv, setLocalInv,
-    goals, setGoals,
-    
-    // Derived values for Home page
+    // States
+    salary,
+    setSalary,
+    offshoreIncome,
+    setOffshoreIncome,
+    investIncome,
+    setInvestIncome,
+    rentalIncome,
+    setRentalIncome,
+    bonuses,
+    setBonuses,
+    sideIncome,
+    setSideIncome,
+    rentBond,
+    setRentBond,
+    medicalAid,
+    setMedicalAid,
+    insurance,
+    setInsurance,
+    studentLoan,
+    setStudentLoan,
+    personalLoan,
+    setPersonalLoan,
+    subscriptions,
+    setSubscriptions,
+    retailAccounts,
+    setRetailAccounts,
+    debtRepayments,
+    setDebtRepayments,
+    groceries,
+    setGroceries,
+    dining,
+    setDining,
+    transport,
+    setTransport,
+    entertainment,
+    setEntertainment,
+    shopping,
+    setShopping,
+    totalDebt,
+    setTotalDebt,
+    minPayments,
+    setMinPayments,
+    avgInterest,
+    setAvgInterest,
+    emergencyFund,
+    setEmergencyFund,
+    tfsa,
+    setTfsa,
+    preAnnuity,
+    setPreAnnuity,
+    offshoreInv,
+    setOffshoreInv,
+    localInv,
+    setLocalInv,
+    goals,
+    setGoals,
+
     grossMonthly,
     totalMonthlyExpenses,
     totalDebt,
@@ -154,7 +227,7 @@ export const FinancialProvider = ({ children }) => {
     fixedCosts,
     variableSpending,
     totalSavings,
-    disposable
+    disposable,
   };
 
   return (

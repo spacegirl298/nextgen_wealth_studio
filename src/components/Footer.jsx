@@ -1,11 +1,20 @@
-import styles from './Footer.module.css'
+import styles from "./Footer.module.css";
 
 const FOOTER_LINKS = [
-  { label: 'Term & Conditions', href: 'https://www.absa.co.za/legal-and-compliance/terms-of-use/' },
-  { label: 'Privacy Policy', href: 'https://www.absa.co.za/legal-and-compliance/privacy-statement/' },
-  { label: 'Legal & Compliance', href: 'https://www.absa.co.za/legal-and-compliance/' },
-  { label: 'Contact Us', href: 'https://www.absa.co.za/talk-to-us/' },
-]
+  {
+    label: "Term & Conditions",
+    href: "https://www.absa.co.za/legal-and-compliance/terms-of-use/",
+  },
+  {
+    label: "Privacy Policy",
+    href: "https://www.absa.co.za/legal-and-compliance/privacy-statement/",
+  },
+  {
+    label: "Legal & Compliance",
+    href: "https://www.absa.co.za/legal-and-compliance/",
+  },
+  { label: "Contact Us", href: "https://www.absa.co.za/talk-to-us/" },
+];
 
 export default function Footer() {
   return (
@@ -15,11 +24,11 @@ export default function Footer() {
         <nav className={styles.links}>
           {FOOTER_LINKS.map((link, i) => (
             <span key={link.href} className={styles.linkGroup}>
-              <a 
-                href={link.href} 
+              <a
+                href={link.href}
                 className={styles.link}
-                target="_blank"  // Opens in new tab
-                rel="noopener noreferrer"  // Security best practice
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {link.label}
               </a>
@@ -34,5 +43,5 @@ export default function Footer() {
         </p>
       </div>
     </footer>
-  )
+  );
 }

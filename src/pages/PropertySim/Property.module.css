@@ -21,13 +21,15 @@
   font-weight: 400;
   padding: 0.4rem 0.9rem 0.4rem 0.65rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
   margin-top: 2rem;
-  
 }
 
 .backBtn:hover {
-border-color: var(--clr-accent);
+  border-color: var(--clr-accent);
   box-shadow: 0 0 24px var(--clr-accent-glow);
   transform: translateY(-1px);
 }
@@ -148,7 +150,7 @@ border-color: var(--clr-accent);
   margin-bottom: 0.85rem;
   overflow: visible;
   position: relative;
-   width: 100%;
+  width: 100%;
 }
 
 .fieldLabel {
@@ -159,7 +161,7 @@ border-color: var(--clr-accent);
   line-height: 1.8;
   min-width: 180px;
   flex-shrink: 0;
-   width: 200px;
+  width: 200px;
 }
 
 .sliderWrap {
@@ -169,12 +171,12 @@ border-color: var(--clr-accent);
   flex: 1;
   overflow: visible;
   position: relative;
-   min-width: 0; 
+  min-width: 0;
 }
 
 .sliderTrackWrap {
   flex: 1;
-   min-width: 0; 
+  min-width: 0;
 }
 
 .slider {
@@ -265,8 +267,14 @@ border-color: var(--clr-accent);
 }
 
 @keyframes tooltipIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tooltipHeader {
@@ -346,7 +354,9 @@ border-color: var(--clr-accent);
   letter-spacing: 0.04em;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
 }
 
 .ctaBtn:hover {

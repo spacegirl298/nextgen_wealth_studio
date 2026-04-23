@@ -1,8 +1,14 @@
-// SimulationCard.jsx
 import React from "react";
 import styles from "../pages/SimulationLab/Simulation.module.css";
 
-export default function SimulationCard({ title, description, buttonText, status, imageSrc, onButtonClick }) {
+export default function SimulationCard({
+  title,
+  description,
+  buttonText,
+  status,
+  imageSrc,
+  onButtonClick,
+}) {
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>

@@ -1,12 +1,10 @@
-
 .main {
   padding: 60px 40px;
   max-width: 1000px;
   margin: 0 auto;
-  
 }
-.heroContent{
-    display: flex;
+.heroContent {
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
@@ -33,7 +31,7 @@ h1 {
   text-align: center;
 }
 
-/* Vertical layout: single column, cards stacked */
+
 .grid {
   display: flex;
   flex-direction: column;
@@ -41,9 +39,9 @@ h1 {
   margin-top: 20px;
 }
 
-/* Card now uses horizontal flex layout: image on left, content on right */
+/* Card */
 .card {
-   position: relative;
+  position: relative;
   background: var(--clr-bg-card);
   backdrop-filter: blur(10px);
   border: 1px solid var(--clr-border);
@@ -58,7 +56,6 @@ h1 {
   overflow: hidden;
   flex-direction: row;
   gap: 24px;
- 
 }
 .cardImage {
   width: 160px;
@@ -71,11 +68,11 @@ h1 {
 .cardImage img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  border-radius: inherit; 
+  object-fit: cover;
+  border-radius: inherit;
 }
 
-/* Content section - right side */
+/* Content section  */
 .cardContent {
   flex: 1;
   padding: px 15px 15px 0;
@@ -84,7 +81,7 @@ h1 {
 }
 
 .cardContent h2 {
-font-family: var(--font-display);
+  font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -93,7 +90,7 @@ font-family: var(--font-display);
 }
 
 .cardContent p {
- font-family: var(--font-body);
+  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 300;
   color: var(--clr-text-muted);
@@ -109,7 +106,9 @@ font-family: var(--font-display);
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
   align-self: flex-start;
   margin-top: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -136,34 +135,31 @@ font-family: var(--font-display);
   border: 1px solid var(--clr-gold);
 }
 
-
-/* Responsive adjustments - on mobile, stack image above content */
 @media (max-width: 640px) {
   .main {
     padding: 40px 24px;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   .card {
     flex-direction: column;
   }
-  
+
   .cardImage {
     width: 100%;
     height: 140px;
   }
-  
+
   .cardContent {
     padding: 0 24px 24px 24px;
   }
-  
+
   .header {
     padding: 16px 24px;
     flex-direction: column;
     align-items: flex-start;
   }
-  
 }

@@ -95,8 +95,21 @@ const InfoTooltip = ({ field }) => {
         aria-expanded={open}
       >
         <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="6" stroke="var(--clr-gold)" strokeWidth="1" />
-          <text x="7" y="7" textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="var(--clr-gold)">
+          <circle
+            cx="7"
+            cy="7"
+            r="6"
+            stroke="var(--clr-gold)"
+            strokeWidth="1"
+          />
+          <text
+            x="7"
+            y="7"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="var(--clr-gold)"
+          >
             i
           </text>
         </svg>
@@ -115,21 +128,40 @@ const InfoTooltip = ({ field }) => {
           >
             <div className={styles.tooltipHeader}>
               <span className={styles.tooltipTitle}>{info.title}</span>
-              <button className={styles.tooltipClose} onClick={() => setOpen(false)} aria-label="Close">
+              <button
+                className={styles.tooltipClose}
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+              >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  <path
+                    d="M1 1l10 10M11 1L1 11"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </button>
             </div>
             <p className={styles.tooltipBody}>{info.body}</p>
           </div>,
-          document.body
+          document.body,
         )}
     </>
   );
 };
 
-const SliderField = ({ label, min, max, step, value, onChange, prefix, suffix, info }) => (
+const SliderField = ({
+  label,
+  min,
+  max,
+  step,
+  value,
+  onChange,
+  prefix,
+  suffix,
+  info,
+}) => (
   <div className={styles.fieldRow}>
     <label className={styles.fieldLabel}>{label}</label>
     <div className={styles.sliderWrap}>
@@ -182,17 +214,19 @@ export default function PropertyLab() {
         : 0;
     const transferCosts = purchasePrice * 0.04;
     const totalBuyCashOutlay = deposit + transferCosts;
-    const finalPropertyValue = purchasePrice * Math.pow(1 + priceGrowth / 100, years);
+    const finalPropertyValue =
+      purchasePrice * Math.pow(1 + priceGrowth / 100, years);
     const bondBalance =
       (loanAmount *
-        (Math.pow(1 + monthlyRate, numPayments) - Math.pow(1 + monthlyRate, years * 12))) /
+        (Math.pow(1 + monthlyRate, numPayments) -
+          Math.pow(1 + monthlyRate, years * 12))) /
       (Math.pow(1 + monthlyRate, numPayments) - 1);
     const buyNetworth = finalPropertyValue - bondBalance;
     const monthlyBuyCost = bondPayment + (purchasePrice * 0.01) / 12;
     const rentInfRate = rentalInflation / 100;
     let rentCashOutlay = 0;
     let investmentValue = deposit;
-    const monthlyInvestReturn = 0.10 / 12;
+    const monthlyInvestReturn = 0.1 / 12;
 
     for (let m = 0; m < years * 12; m++) {
       const yr = Math.floor(m / 12);
@@ -203,7 +237,8 @@ export default function PropertyLab() {
     }
 
     const rentNetworth = investmentValue;
-    const avgRentCost = monthlyRent * (1 + (rentalInflation / 100) * years / 2);
+    const avgRentCost =
+      monthlyRent * (1 + ((rentalInflation / 100) * years) / 2);
 
     setResults({
       renting: {
@@ -235,9 +270,19 @@ export default function PropertyLab() {
   return (
     <div className={styles.page}>
       {/* Back Button */}
-      <button className={styles.backBtn} onClick={() => window.history.back()} aria-label="Go back">
+      <button
+        className={styles.backBtn}
+        onClick={() => window.history.back()}
+        aria-label="Go back"
+      >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M10 3L5 8l5 5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         Back
       </button>
@@ -246,14 +291,17 @@ export default function PropertyLab() {
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>Property vs Renting in Joburg</h1>
         <p className={styles.heroSub}>
-          This simulation lab allows you to explore and compare the financial outcomes of renting versus buying in
-          Johannesburg.
+          This simulation lab allows you to explore and compare the financial
+          outcomes of renting versus buying in Johannesburg.
         </p>
       </div>
 
       {/* Learn More */}
       <div className={styles.learnCard}>
-        <button className={styles.learnToggle} onClick={() => setLearnOpen(!learnOpen)}>
+        <button
+          className={styles.learnToggle}
+          onClick={() => setLearnOpen(!learnOpen)}
+        >
           Learn More
           <svg
             className={`${styles.chevron} ${learnOpen ? styles.chevronOpen : ""}`}
@@ -262,19 +310,28 @@ export default function PropertyLab() {
             viewBox="0 0 12 12"
             fill="none"
           >
-            <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path
+              d="M2 4l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
         {learnOpen && (
           <div className={styles.learnBody}>
             <p>
-              When deciding whether to rent or buy in Joburg, the right answer depends entirely on your time horizon,
-              savings, and knowledge of surprise costs. Buying a property builds long-term wealth through equity and
-              capital growth, but requires a large upfront deposit and leaves you fully responsible for every repair,
-              bond, levy, security upgrade, and municipal rate issue. Renting, on the other hand, offers flexibility,
-              predictable monthly costs, and no maintenance costs, but your monthly payment builds no equity. In
-              Johannesburg specifically, area decline can happen quickly due to crime, potholes, or businesses moving,
-              so renters can leave easily while owners may take a financial hit.
+              When deciding whether to rent or buy in Joburg, the right answer
+              depends entirely on your time horizon, savings, and knowledge of
+              surprise costs. Buying a property builds long-term wealth through
+              equity and capital growth, but requires a large upfront deposit
+              and leaves you fully responsible for every repair, bond, levy,
+              security upgrade, and municipal rate issue. Renting, on the other
+              hand, offers flexibility, predictable monthly costs, and no
+              maintenance costs, but your monthly payment builds no equity. In
+              Johannesburg specifically, area decline can happen quickly due to
+              crime, potholes, or businesses moving, so renters can leave easily
+              while owners may take a financial hit.
             </p>
           </div>
         )}
@@ -330,8 +387,9 @@ export default function PropertyLab() {
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Buying</h2>
           <p className={styles.cardSub}>
-            Buying includes bond repayment, property rates, maintenance and opportunity cost of deposit. You hold equity
-            but have less liquidity.
+            Buying includes bond repayment, property rates, maintenance and
+            opportunity cost of deposit. You hold equity but have less
+            liquidity.
           </p>
           <SliderField
             label="Purchase Price"
@@ -378,7 +436,8 @@ export default function PropertyLab() {
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Renting</h2>
           <p className={styles.cardSub}>
-            Renting has no maintenance costs or bond risks, but you don't build rental value over time.
+            Renting has no maintenance costs or bond risks, but you don't build
+            rental value over time.
           </p>
           <SliderField
             label="Monthly Rent"
@@ -427,13 +486,48 @@ export default function PropertyLab() {
               </thead>
               <tbody>
                 {[
-                  ["Total Cash Outlay", results.renting.cashOutlay, results.buying.cashOutlay, "R"],
-                  ["Asset Value", results.renting.assetValue, results.buying.assetValue, "R"],
-                  ["Investment/Savings Value", results.renting.investmentValue, results.buying.investmentValue, "R"],
-                  ["Networth", results.renting.networth, results.buying.networth, "R"],
-                  ["Monthly Average Cost", results.renting.avgMonthlyCost, results.buying.avgMonthlyCost, "R"],
-                  ["Flexibility", results.renting.flexibility, results.buying.flexibility, ""],
-                  ["Maintenance Risk", results.renting.maintenanceRisk, results.buying.maintenanceRisk, ""],
+                  [
+                    "Total Cash Outlay",
+                    results.renting.cashOutlay,
+                    results.buying.cashOutlay,
+                    "R",
+                  ],
+                  [
+                    "Asset Value",
+                    results.renting.assetValue,
+                    results.buying.assetValue,
+                    "R",
+                  ],
+                  [
+                    "Investment/Savings Value",
+                    results.renting.investmentValue,
+                    results.buying.investmentValue,
+                    "R",
+                  ],
+                  [
+                    "Networth",
+                    results.renting.networth,
+                    results.buying.networth,
+                    "R",
+                  ],
+                  [
+                    "Monthly Average Cost",
+                    results.renting.avgMonthlyCost,
+                    results.buying.avgMonthlyCost,
+                    "R",
+                  ],
+                  [
+                    "Flexibility",
+                    results.renting.flexibility,
+                    results.buying.flexibility,
+                    "",
+                  ],
+                  [
+                    "Maintenance Risk",
+                    results.renting.maintenanceRisk,
+                    results.buying.maintenanceRisk,
+                    "",
+                  ],
                 ].map(([label, rent, buy, prefix]) => (
                   <tr key={label}>
                     <td className={styles.rowLabel}>{label}</td>
@@ -509,7 +603,9 @@ export default function PropertyLab() {
           <div className={styles.verdictCol}>
             <div className={styles.sectionCard}>
               <h2 className={styles.cardTitle}>Studio Verdict</h2>
-              <p className={styles.emptyVerdict}>Run the simulation to see results</p>
+              <p className={styles.emptyVerdict}>
+                Run the simulation to see results
+              </p>
             </div>
 
             <div className={styles.sectionCard}>

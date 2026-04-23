@@ -7,7 +7,7 @@
   position: relative;
 }
 
-/* ── Back Button ── */
+/* Back Button */
 .backBtn {
   display: inline-flex;
   align-items: center;
@@ -21,7 +21,11 @@
   font-weight: 400;
   padding: 0.4rem 0.9rem 0.4rem 0.65rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
   margin-top: 2rem;
 }
 
@@ -31,7 +35,7 @@
   transform: translateY(-1px);
 }
 
-/* ── Hero ── */
+/*Hero */
 .hero {
   display: flex;
   flex-direction: column;
@@ -104,7 +108,7 @@
   font-family: var(--font-body);
 }
 
-/* ── Learn More (matches Property.module.css exactly) ── */
+/* Learn More  */
 .learnCard {
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
@@ -177,7 +181,7 @@
   margin: 0;
 }
 
-/* ── Section Label Dividers ── */
+/* Section Label */
 .sectionLabel {
   display: flex;
   align-items: center;
@@ -202,7 +206,7 @@
   background: var(--clr-bg-card);
 }
 
-/* ── Cards (matches Property.module.css .sectionCard) ── */
+/*  Cards*/
 .sectionCard {
   border: 1px solid var(--clr-border);
   border-radius: 12px;
@@ -235,7 +239,7 @@
   line-height: 1.7;
 }
 
-/* ── Fields / Sliders (identical to Property.module.css) ── */
+/*  Fields  */
 .fieldRow {
   display: flex;
   align-items: center;
@@ -321,7 +325,7 @@
   font-family: var(--font-body);
 }
 
-/* ── Tooltip (matches Property.module.css) ── */
+/*Tooltip  */
 .tooltipWrap {
   position: relative;
   display: inline-flex;
@@ -361,8 +365,14 @@
 }
 
 @keyframes tooltipIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tooltipHeader {
@@ -405,7 +415,7 @@
   margin: 0;
 }
 
-/* ── Two Column Layout (matches Property.module.css) ── */
+/*Two Column Layout*/
 .twoCol {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -430,14 +440,19 @@
   }
 }
 
-/* ── Divider ── */
+/* Divider  */
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--clr-bg-card), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--clr-bg-card),
+    transparent
+  );
   margin: 0.85rem 0;
 }
 
-/* ── Donut Chart ── */
+/*  Donut Chart  */
 .donutWrap {
   display: flex;
   flex-direction: column;
@@ -477,7 +492,7 @@
   margin-top: 0.1rem;
 }
 
-/* ── Savings Summary Rows ── */
+/* avings Summary Rows  */
 .summaryRow {
   display: flex;
   justify-content: space-between;
@@ -510,7 +525,7 @@
   color: var(--clr-amber, #fbbf24);
 }
 
-/* ── Goal Estimate ── */
+/* Goal Estimate  */
 .goalEstimate {
   text-align: center;
   margin-top: 0.75rem;
@@ -539,7 +554,7 @@
   color: var(--clr-text-muted);
 }
 
-/* ── Credit Score ── */
+/*Credit Score */
 .creditScoreBig {
   font-family: var(--font-main);
   font-size: 2.4rem;
@@ -618,7 +633,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Overall Progress Bar ── */
+/*  Overall Progress Bar  */
 .progressRow {
   display: flex;
   flex-direction: column;
@@ -655,7 +670,7 @@
 }
 
 .progressFill::after {
-  content: '';
+  content: "";
   position: absolute;
   right: -1px;
   top: 50%;
@@ -667,7 +682,7 @@
   box-shadow: 0 0 8px rgba(248, 210, 153, 0.7);
 }
 
-/* ── Milestones ── */
+/*  Milestones  */
 .milestones {
   display: flex;
   flex-direction: column;
@@ -748,9 +763,15 @@
   font-family: var(--font-body);
 }
 
-.msStatusDone { color: var(--clr-green, #4ade80); }
-.msStatusActive { color: var(--clr-accent); }
-.msStatusLocked { color: var(--clr-text-muted); }
+.msStatusDone {
+  color: var(--clr-green, #4ade80);
+}
+.msStatusActive {
+  color: var(--clr-accent);
+}
+.msStatusLocked {
+  color: var(--clr-text-muted);
+}
 
 .msTitle {
   font-size: 0.92rem;
@@ -778,11 +799,20 @@
   font-family: var(--font-body);
 }
 
-.msBadgeDone  { background: rgba(74, 222, 128, 0.12); color: var(--clr-green, #4ade80); }
-.msBadgeActive { background: rgba(155, 109, 255, 0.15); color: var(--clr-accent); }
-.msBadgeLocked { background: rgba(255, 255, 255, 0.05); color: var(--clr-text-muted); }
+.msBadgeDone {
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--clr-green, #4ade80);
+}
+.msBadgeActive {
+  background: rgba(155, 109, 255, 0.15);
+  color: var(--clr-accent);
+}
+.msBadgeLocked {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--clr-text-muted);
+}
 
-/* ── Smart Alerts ── */
+/*  Smart Alerts */
 .alerts {
   display: flex;
   flex-direction: column;
@@ -801,9 +831,21 @@
   font-family: var(--font-body);
 }
 
-.alertWarn { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.25); color: #fbbf24; }
-.alertGood { background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.25); color: #4ade80; }
-.alertInfo { background: rgba(155, 109, 255, 0.1); border: 1px solid rgba(155, 109, 255, 0.25); color: var(--clr-accent); }
+.alertWarn {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  color: #fbbf24;
+}
+.alertGood {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  color: #4ade80;
+}
+.alertInfo {
+  background: rgba(155, 109, 255, 0.1);
+  border: 1px solid rgba(155, 109, 255, 0.25);
+  color: var(--clr-accent);
+}
 
 .alertIcon {
   flex-shrink: 0;
@@ -811,7 +853,7 @@
   font-size: 0.85rem;
 }
 
-/* ── Monthly Actions ── */
+/* Monthly Actions */
 .actionsList {
   list-style: none;
   padding: 0;
@@ -843,7 +885,7 @@
   margin-top: 6px;
 }
 
-/* ── Summary Table (matches Property.module.css .table) ── */
+/*Summary Table */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -892,7 +934,7 @@
   color: var(--clr-text-muted);
 }
 
-/* ── Recommendation highlight box ── */
+/*Recommendation highlight box  */
 .recHighlight {
   background: rgba(155, 109, 255, 0.07);
   border-left: 2px solid var(--clr-accent);
@@ -909,7 +951,7 @@
   color: var(--clr-accent);
 }
 
-/* ── CTA (matches Property.module.css exactly) ── */
+/* CTA */
 .ctaWrap {
   display: flex;
   justify-content: center;
@@ -927,7 +969,10 @@
   letter-spacing: 0.04em;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition: background 0.2s ease, transform 0.1s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease,
+    color 0.2s ease;
   font-family: var(--font-body);
 }
 

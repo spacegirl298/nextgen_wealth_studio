@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&display=swap");
 
 :root {
   --clr-bg: #0a0010;
@@ -10,14 +10,14 @@
   --clr-accent-glow: rgba(200, 75, 255, 0.35);
   --clr-accent-soft: rgba(200, 75, 255, 0.12);
   --clr-gold: #f8d299;
-  --clr-gold-highlight:#f1b862;
+  --clr-gold-highlight: #f1b862;
   --clr-gold-soft: rgba(232, 184, 75, 0.15);
   --clr-text: #f0e8ff;
   --clr-text-muted: rgba(240, 232, 255, 0.792);
   --clr-text-unhighlighted: rgba(240, 232, 255, 0.547);
   --clr-text-dim: rgba(240, 232, 255, 0.3);
   --font-display: "Syne", sans-serif;
-  --font-main: 'Anek Latin', sans-serif;
+  --font-main: "Anek Latin", sans-serif;
 
   --font-body: "DM Sans", sans-serif;
   --radius: 12px;

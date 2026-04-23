@@ -4,9 +4,7 @@
   overflow: hidden;
 }
 
-
-
-/* ── HERO ── */
+/* hero  */
 .hero {
   position: relative;
   z-index: 1;
@@ -120,7 +118,7 @@
   transform: translateX(4px);
 }
 
-/* ── STATS ── */
+/* stats */
 .statsSection {
   position: relative;
   z-index: 1;
@@ -251,7 +249,7 @@
   z-index: 1;
 }
 
-/* ── WHY SECTION ── */
+/* why question */
 .whySection {
   position: relative;
   z-index: 1;
@@ -310,7 +308,7 @@
   line-height: 1.8;
 }
 
-/* ── FEATURES ── */
+/* fetaures */
 .featuresSection {
   position: relative;
   z-index: 1;
@@ -357,7 +355,6 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 32px rgba(200, 75, 255, 0.15);
 }
-
 
 .featureCard:hover {
   border-color: var(--clr-border-hover);
@@ -411,7 +408,7 @@
   transform: translate(2px, -2px);
 }
 
-/* ── RESPONSIVE ── */
+/* rsposnieve─ */
 @media (max-width: 900px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);

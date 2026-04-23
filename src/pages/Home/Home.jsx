@@ -26,7 +26,7 @@ function GoalCard({ percent = 44, delay = 0 }) {
   const offset = circumference - (percent / 100) * circumference
 
   return (
-    <Link to="/money-snapshot" className={`${styles.statCard} ${styles.goalCard}`} style={{ animationDelay: `${delay}ms` }}>
+    <Link to="/money" className={`${styles.statCard} ${styles.goalCard}`} style={{ animationDelay: `${delay}ms` }}>
       <span className={styles.statLabel}>GOAL PROGRESS</span>
       <div className={styles.ringWrap}>
         <svg width="100" height="100" viewBox="0 0 100 100" className={styles.ring}>
@@ -131,9 +131,9 @@ export default function Home() {
       {/* ── STAT CARDS ── */}
       <section className={styles.statsSection}>
         <div className={styles.statsGrid}>
-          <StatCard label="TOTAL INCOME"  value="R46 000"   to="/money-snapshot"    delay={0}   />
-          <StatCard label="FIXED COSTS"   value="R41 150"   to="/money-snapshot"  delay={80}  />
-          <StatCard label="DEBT BALANCE"  value="R160 000"  to="/money-snapshot"    delay={160} />
+          <StatCard label="TOTAL INCOME"  value="R46 000"   to="/money"    delay={0}   />
+          <StatCard label="FIXED COSTS"   value="R41 150"   to="/money"  delay={80}  />
+          <StatCard label="DEBT BALANCE"  value="R160 000"  to="/money"    delay={160} />
           <GoalCard percent={44} delay={240} />
         </div>
       </section>

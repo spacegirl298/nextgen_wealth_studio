@@ -5,7 +5,6 @@ import Footer from "./components/Footer"
 import Home from "./pages/Home/Home";
 import MoneySnapshot from "./pages/MoneySnapshot/MoneySnapshot";
 import StrategyTrack from "./pages/StrategyTrack/StrategyTrack";
-import FirstPropertyExplainer from "./pages/FirstProperty/FirstPropertyExplainer";
 import FirstPropertyBuilder from "./pages/FirstProperty/FirstPropertyBuilder";
 import SimulationLab from "./pages/SimulationLab/SimulationLab";
 import PropertySimulation from "./pages/PropertySim/PropertySim";
@@ -22,7 +21,6 @@ export default function App() {
         <Route path = "/" element = {<Home/>}/>
         <Route path = "/money" element = {<MoneySnapshot/>}/>
         <Route path = "/track" element = {<StrategyTrack/>}/>
-        <Route path = "/explainer" element = {<FirstPropertyExplainer/>}/>
         <Route path = "/builder" element = {<FirstPropertyBuilder/>}/>
         <Route path = "/simulation" element = {<SimulationLab/>}/>
         <Route path = "/propertySim" element = {<PropertySimulation/>}/>

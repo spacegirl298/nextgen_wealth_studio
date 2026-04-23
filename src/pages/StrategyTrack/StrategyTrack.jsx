@@ -11,7 +11,7 @@ export default function SimulationLab() {
   const navigate = useNavigate();
 
   const handlePropertyClick = () => {
-    navigate("/explainer");
+    navigate("/builder");
   };
 
   return (

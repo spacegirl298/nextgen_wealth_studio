@@ -278,17 +278,19 @@ export default function MoneySnapshot() {
       <div className={styles.sectionCard}>
         <h3 className={styles.cardTitle}>Monthly Income Breakdown</h3>
         <MultiSegmentBar segments={[
-          { label: "Tax", value: paye, color: "#7c3aed" },
-          { label: "Fixed Costs", value: fixedCosts, color: "#4f46e5" },
-          { label: "Variable Spending", value: variableSpending, color: "#c084fc" },
-          { label: "Disposable", value: disposable, color: "#f8d299" },
+          { label: "Gross Monthly Salary", value: salary, color: "#c84bff" },
+          { label: "Investment Income", value: investIncome, color: "#f8d299" },
+          { label: "Rental Income", value: rentalIncome, color: "rgba(180, 100, 255, 0.45)" },
+          { label: "Bonuses", value: bonuses, color: "rgba(200, 75, 255, 0.35)" },
+           { label: "Side Business Income", value: sideIncome, color: "#f0e8ff" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Tax", val: fmt(paye), pctVal: pct(paye, takeHome + paye), color: "#7c3aed" },
-            { label: "Fixed Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, takeHome + paye), color: "#4f46e5" },
-            { label: "Variable Spending", val: fmt(variableSpending), pctVal: pct(variableSpending, takeHome + paye), color: "#c084fc" },
-            { label: "Disposable", val: fmt(disposable), pctVal: pct(disposable, takeHome + paye), color: "#f8d299" },
+            { label: "Gross Monthly Salary", val: fmt(salary), pctVal: pct(salary, takeHome + paye), color: "#c84bff" },
+            { label: "Investment Income", val: fmt(investIncome), pctVal: pct(investIncome, takeHome + paye), color: "#f8d299" },
+            { label: "Rental Income", val: fmt(rentalIncome), pctVal: pct(rentalIncome, takeHome + paye), color: "rgba(180, 100, 255, 0.45)" },
+            { label: "Bonuses", val: fmt(bonuses), pctVal: pct(bonuses, takeHome + paye), color: "rgba(200, 75, 255, 0.35)" },
+            { label: "Side Business Income", val: fmt(sideIncome), pctVal: pct(sideIncome, takeHome + paye), color: "#f0e8ff" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />
@@ -304,12 +306,12 @@ export default function MoneySnapshot() {
       <div className={styles.sectionCard}>
         <h3 className={styles.cardTitle}>Monthly Expense Breakdown</h3>
         <MultiSegmentBar segments={[
-          { label: "Fixed Monthly Costs", value: fixedCosts, color: "#4f46e5" },
+          { label: "Fixed Monthly Costs", value: fixedCosts, color: "#c84bff" },
           { label: "Variable Spending", value: variableSpending, color: "#f8d299" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Fixed Monthly Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, fixedCosts + variableSpending), color: "#4f46e5" },
+            { label: "Fixed Monthly Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, fixedCosts + variableSpending), color: "#c84bff" },
             { label: "Variable Spending", val: fmt(variableSpending), pctVal: pct(variableSpending, fixedCosts + variableSpending), color: "#f8d299" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
@@ -373,17 +375,19 @@ export default function MoneySnapshot() {
       <div className={styles.sectionCard}>
         <h3 className={styles.cardTitle}>Monthly Income Breakdown</h3>
         <MultiSegmentBar segments={[
-          { label: "Tax", value: paye, color: "#7c3aed" },
-          { label: "Fixed Costs", value: fixedCosts, color: "#4f46e5" },
-          { label: "Variable Spending", value: variableSpending, color: "#c084fc" },
-          { label: "Disposable", value: disposable, color: "#f8d299" },
+           { label: "Gross Monthly Salary", value: salary, color: "#c84bff" },
+          { label: "Investment Income", value: investIncome, color: "#f8d299" },
+          { label: "Rental Income", value: rentalIncome, color: "rgba(180, 100, 255, 0.45)" },
+          { label: "Bonuses", value: bonuses, color: "rgba(200, 75, 255, 0.35)" },
+           { label: "Side Business Income", value: sideIncome, color: "#f0e8ff" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Tax", val: fmt(paye), pctVal: pct(paye, grossMonthly), color: "#7c3aed" },
-            { label: "Fixed Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, grossMonthly), color: "#4f46e5" },
-            { label: "Variable Spending", val: fmt(variableSpending), pctVal: pct(variableSpending, grossMonthly), color: "#c084fc" },
-            { label: "Disposable", val: fmt(disposable), pctVal: pct(disposable, grossMonthly), color: "#f8d299" },
+             { label: "Gross Monthly Salary", val: fmt(salary), pctVal: pct(salary, takeHome + paye), color: "#c84bff" },
+            { label: "Investment Income", val: fmt(investIncome), pctVal: pct(investIncome, takeHome + paye), color: "#f8d299" },
+            { label: "Rental Income", val: fmt(rentalIncome), pctVal: pct(rentalIncome, takeHome + paye), color: "rgba(180, 100, 255, 0.45)" },
+            { label: "Bonuses", val: fmt(bonuses), pctVal: pct(bonuses, takeHome + paye), color: "rgba(200, 75, 255, 0.35)" },
+            { label: "Side Business Income", val: fmt(sideIncome), pctVal: pct(sideIncome, takeHome + paye), color: "#f0e8ff" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />
@@ -447,6 +451,68 @@ export default function MoneySnapshot() {
           {[
             { label: "Fixed Monthly Costs", val: fmt(fixedCosts), pctVal: pct(fixedCosts, fixedCosts + variableSpending), color: "#4f46e5" },
             { label: "Variable Spending", val: fmt(variableSpending), pctVal: pct(variableSpending, fixedCosts + variableSpending), color: "#f8d299" },
+          ].map((item) => (
+            <div key={item.label} className={styles.legendItem}>
+              <span className={styles.legendDot} style={{ background: item.color }} />
+              <div>
+                <div className={styles.legendLabel}>{item.label}</div>
+                <div className={styles.legendVal}>{item.val} · {item.pctVal}%</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.sectionCard}>
+        <h3 className={styles.cardTitle}>Fixed Monthly Cost</h3>
+        <MultiSegmentBar segments={[
+          { label: "Rent/Bond", value: rentBond, color: "#c84bff" },
+          { label: "Medical Aid", value: medicalAid, color: "#f8d299" },
+          { label: "Insurance", value: insurance, color: "rgba(180, 100, 255, 0.45)" },
+          { label: "Student Loan", value: studentLoan, color: "rgba(200, 75, 255, 0.35)" },
+          { label: "Personal Loan", value: personalLoan, color: "#f0e8ff" },
+          { label: "Subscriptions", value: subscriptions, color: "rgba(240, 232, 255, 0.3)" },
+          { label: "Retail Accounts", value: retailAccounts, color: "#f1b862" },
+          { label: "Debt Repayments", value: debtRepayments, color: "rgba(180, 100, 255, 0.325)" },
+        ]} />
+        <div className={styles.barLegend}>
+          {[
+            { label: "Rent/Bond", val: fmt(rentBond), pctVal: pct(rentBond, fixedCosts + variableSpending), color: "#4f46e5" },
+            { label: "Medical Aid", val: fmt(medicalAid), pctVal: pct(medicalAid, fixedCosts + variableSpending), color: "#f8d299" },
+             { label: "Insurance", val: fmt(insurance), pctVal: pct(insurance, fixedCosts + variableSpending), color: "#4f46e5" },
+            { label: "Student Loan", val: fmt(studentLoan), pctVal: pct(studentLoan, fixedCosts + variableSpending), color: "#f8d299" },
+             { label: "Personal Loan", val: fmt(personalLoan), pctVal: pct(personalLoan, fixedCosts + variableSpending), color: "#4f46e5" },
+            { label: "Subscriptions", val: fmt(subscriptions), pctVal: pct(subscriptions, fixedCosts + variableSpending), color: "#f8d299" },
+             { label: "Retail Accounts", val: fmt(retailAccounts), pctVal: pct(retailAccounts, fixedCosts + variableSpending), color: "#4f46e5" },
+            { label: "Debt Repayments", val: fmt(debtRepayments), pctVal: pct(debtRepayments, fixedCosts + variableSpending), color: "#f8d299" },
+          ].map((item) => (
+            <div key={item.label} className={styles.legendItem}>
+              <span className={styles.legendDot} style={{ background: item.color }} />
+              <div>
+                <div className={styles.legendLabel}>{item.label}</div>
+                <div className={styles.legendVal}>{item.val} · {item.pctVal}%</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.sectionCard}>
+        <h3 className={styles.cardTitle}>Variable Month Spending</h3>
+        <MultiSegmentBar segments={[
+          { label: "Groceries", value: groceries, color: "#c84bff" },
+          { label: "Dining Out", value: dining, color: "#f8d299" },
+           { label: "Transport", value: transport, color: "rgba(180, 100, 255, 0.45)" },
+          { label: "Entertainment", value: entertainment, color: "rgba(200, 75, 255, 0.35)" },
+            { label: "Shopping", value: shopping, color: "#f0e8ff" },
+        ]} />
+        <div className={styles.barLegend}>
+          {[
+            { label: "Groceries", val: fmt(groceries), pctVal: pct(groceries, fixedCosts + variableSpending), color: "#c84bff" },
+            { label: "Dining Out", val: fmt(dining), pctVal: pct(dining, fixedCosts + variableSpending), color: "#f8d299" },
+            { label: "Transport", val: fmt(transport), pctVal: pct(transport, fixedCosts + variableSpending), color: "rgba(180, 100, 255, 0.45)" },
+            { label: "Entertainment", val: fmt(entertainment), pctVal: pct(entertainment, fixedCosts + variableSpending), color: "rgba(200, 75, 255, 0.35)" },
+            { label: "Shopping", val: fmt(shopping), pctVal: pct(shopping, fixedCosts + variableSpending), color: "#f0e8ff" },
           ].map((item) => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />

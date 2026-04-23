@@ -88,7 +88,7 @@
 .tabs {
   display: flex;
   gap: 0;
-  border-bottom: 1px solid rgba(248, 210, 153, 0.2);
+  border-bottom: 0.1px solid rgba(248, 210, 153, 0.3);
   margin-bottom: 1.75rem;
   overflow-x: auto;
   scrollbar-width: none;
@@ -465,7 +465,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(248, 210, 153, 0.2);
+   border-top: 0.1px solid rgba(248, 210, 153, 0.3);
   margin-top: 0.75rem;
   padding-top: 0.65rem;
   font-family: var(--font-body);
@@ -491,7 +491,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0.55rem 0;
-  border-bottom: 1px solid rgba(248, 210, 153, 0.1);
+ border-bottom: 0.1px solid rgba(248, 210, 153, 0.3);
   font-family: var(--font-body);
   font-size: 0.82rem;
 }
@@ -623,7 +623,7 @@
   flex-direction: column;
   gap: 0.15rem;
   padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(248, 210, 153, 0.1);
+   border-bottom: 0.1px solid rgba(248, 210, 153, 0.3);
 }
 
 .healthRow:last-child { border-bottom: none; }

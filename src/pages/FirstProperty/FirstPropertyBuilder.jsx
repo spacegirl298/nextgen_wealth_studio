@@ -382,21 +382,15 @@ export default function FirstPropertyBuilder() {
     <div className={styles.page}>
 
       {/* ── Back button ── */}
-      <button className={styles.backBtn}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        All Tracks
-      </button>
+     <button className={styles.backBtn} onClick={() => window.history.back()} aria-label="Go back">
+             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+               <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+             </svg>
+             Back
+           </button>
 
       {/* ── Hero ── */}
       <div className={styles.hero}>
-        <div className={styles.trackPill}>
-          <svg width="7" height="7" viewBox="0 0 8 8">
-            <circle cx="4" cy="4" r="4" fill="currentColor" />
-          </svg>
-          Young Professionals Track
-        </div>
 
         <h1 className={styles.heroTitle}>
           First Property<br />Builder
@@ -408,28 +402,13 @@ export default function FirstPropertyBuilder() {
           as you adjust your inputs.
         </p>
 
-        <div className={styles.heroStats}>
-          <div className={styles.stat}>
-            <span className={styles.statVal}>5</span>
-            <span className={styles.statLabel}>Milestones</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statValSmall}>R1.1M+</span>
-            <span className={styles.statLabel}>Avg First Home</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statVal}>10%</span>
-            <span className={styles.statLabel}>Min Deposit</span>
-          </div>
-        </div>
+     
       </div>
 
       {/* ── Learn More ── */}
       <div className={styles.learnCard}>
         <button className={styles.learnToggle} onClick={() => setLearnOpen((v) => !v)}>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM8 5v4M8 11v.5" stroke="var(--clr-gold)" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
+         
           Track Philosophy &amp; How This Works
           <svg
             className={`${styles.chevron} ${learnOpen ? styles.chevronOpen : ""}`}
@@ -689,11 +668,6 @@ export default function FirstPropertyBuilder() {
             ? ` Increasing monthly contributions by R${Math.round(takeHome * 0.05).toLocaleString()} could shave approximately ${Math.round(computed.months * 0.15)} months off your timeline.`
             : " You're ahead of the 20% savings benchmark — stay consistent and review your credit score next."}
         </div>
-      </div>
-
-      {/* ── CTA ── */}
-      <div className={styles.ctaWrap}>
-        <button className={styles.ctaBtn}>Book a Free Home Loan Consultation →</button>
       </div>
 
     </div>

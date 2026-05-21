@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../pages/StrategyTrack/Track.module.css";
+import styles from "../features/StrategyTrack/Track.module.css";
 
 export default function TrackCard({
   title,

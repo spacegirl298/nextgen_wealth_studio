@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../pages/SimulationLab/Simulation.module.css";
+import styles from "../features/SimulationLab/Simulation.module.css";
 
 export default function SimulationCard({
   title,

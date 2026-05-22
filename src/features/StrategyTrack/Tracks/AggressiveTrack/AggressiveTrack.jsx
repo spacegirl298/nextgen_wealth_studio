@@ -5,3 +5,6 @@
 –	Progress persisted in localStorage
 
 */
+import { useState, useRef, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
+import styles from "../../Tracks.module.css";

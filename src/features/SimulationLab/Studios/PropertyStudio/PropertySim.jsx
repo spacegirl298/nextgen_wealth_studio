@@ -9,7 +9,7 @@ Buy vs Rent studio container.
 */
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import styles from "./Property.module.css";
+import styles from "../../Studios.module.css";
 
 const INFO_CONTENT = {
   "Gross Monthly Income": {

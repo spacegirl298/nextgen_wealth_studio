@@ -7,7 +7,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Snapshot.module.css";
-import { useFinancial } from "../../components/FinancialContext";
+import { useFinancial } from "../../context/FinancialContext";
 
 //Info Content
 const INFO_CONTENT = {

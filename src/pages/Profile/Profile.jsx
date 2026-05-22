@@ -9,7 +9,7 @@
 */
 import React, { useState } from "react";
 import styles from "./Profile.module.css";
-import { useFinancial } from "../../components/FinancialContext";
+import { useFinancial } from "../../context/FinancialContext";
 
 const ImagePlaceholderIcon = () => (
   <svg

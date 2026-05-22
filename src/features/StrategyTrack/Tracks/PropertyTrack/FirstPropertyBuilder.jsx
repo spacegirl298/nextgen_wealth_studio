@@ -8,7 +8,7 @@
 */
 import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
-import styles from "./FirstProperty.module.css";
+import styles from "../../Tracks.module.css";
 
 /* Tolltip Info*/
 const INFO_CONTENT = {

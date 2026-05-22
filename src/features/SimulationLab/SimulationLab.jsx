@@ -7,8 +7,8 @@
 */
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Simulation.module.css";
-import SimulationCard from "../../components/SimulationCard";
+import styles from "../../styles/SelectionLayout.module.css";
+import SimulationCard from "../../components/UI/Card";
 import PropImg from "../../assets/Simulation/PropImg.jpg";
 import CarImg from "../../assets/Simulation/CarImg.jpg";
 import LocalImg from "../../assets/Simulation/LocalImg.jpg";

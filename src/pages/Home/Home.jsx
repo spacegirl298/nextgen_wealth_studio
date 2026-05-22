@@ -9,7 +9,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
-import { useFinancial } from "../../components/FinancialContext";
+import { useFinancial } from "../../context/FinancialContext";
 
 import MoneyImg from "../../assets/Home/MoneyImg.png";
 import SimImg from "../../assets/Home/SimImg.png";
@@ -201,7 +201,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*feature careds*/}
+      {/*feature cards*/}
       <section className={styles.featuresSection}>
         <div className={styles.featuresGrid}>
           <FeatureCard
@@ -224,7 +224,7 @@ export default function Home() {
           />
           <FeatureCard
             title="BANKING DNA"
-            to="/DNA"
+            to="/dna"
             pattern={<DNAPattern />}
             delay={240}
           />

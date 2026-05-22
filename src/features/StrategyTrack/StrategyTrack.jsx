@@ -7,8 +7,8 @@
 */
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Track.module.css";
-import SimulationCard from "../../components/TrackCard";
+import styles from "../../styles/SelectionLayout.module.css";
+import SimulationCard from "../../components/UI/Card";
 import BuildImg from "../../assets/Track/BuildImg.jpg";
 import BalanceImg from "../../assets/Track/BalanceImg.jpg";
 import GlobalImg from "../../assets/Track/GlobalImg.jpg";

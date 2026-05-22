@@ -1,3 +1,9 @@
+/*Main Snapshot page with tabbed subsections.
+–	Tab navigation: Overview | Income | Expenses | Savings & Progress
+–	Reads and writes to FinancialContext
+–	Passes relevant data slices down to sub-components
+–	NudgeBanner triggers if metrics are unhealthy
+*/
 import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Snapshot.module.css";

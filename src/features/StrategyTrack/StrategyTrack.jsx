@@ -1,3 +1,10 @@
+/*Strategy Track overview/selection page.
+–	Intro section explaining what Strategy Tracks are
+–	Reads user's Banking DNA profile from UserContext — highlights recommended track
+–	Renders a TrackCard for each of the 3 tracks
+–	If user has started a track: shows their progress on that card
+–	Button per card: 'Start Track' or 'Continue Track'
+*/
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Track.module.css";

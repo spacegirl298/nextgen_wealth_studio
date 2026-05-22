@@ -1,3 +1,12 @@
+/*User profile and summary page.
+–	User info: name, email, edit button
+–	Banking DNA profile: profile name, description, Badge
+–	Money Snapshot summary (read-only): key metrics from FinancialContext
+–	Strategy Track progress: active track, stages completed, 'Continue' link
+–	Settings section: clear all data (with confirmation modal), logout
+–	Links back to each feature to update data
+
+*/
 import React, { useState } from "react";
 import styles from "./Profile.module.css";
 import { useFinancial } from "../../components/FinancialContext";

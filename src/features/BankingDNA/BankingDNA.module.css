@@ -1,3 +1,10 @@
+/*Styles for Banking DNA page.
+–	Quiz card with step transition animations
+–	Question text and answer option buttons
+–	Selected state for answer options
+–	Results card with profile badge and coloured accent
+–	Responsive layout
+*/
 .page {
   width: 100%;
   max-width: 900px;

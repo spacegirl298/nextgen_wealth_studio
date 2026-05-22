@@ -1,3 +1,11 @@
+/*First Property Builder full track page.
+–	Reads track data from tracksData.js by id
+–	TrackTimeline at the top showing all stages
+–	TrackProgress component
+–	Renders a MilestoneStep for each stage
+–	Reads user income from FinancialContext to personalise milestone content (e.g. 'Based on your income, your target deposit is R X')
+–	Progress saved to localStorage via useLocalStorage
+*/
 import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import styles from "./FirstProperty.module.css";

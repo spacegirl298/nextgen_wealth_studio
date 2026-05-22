@@ -1,3 +1,10 @@
+/*Simulation Lab overview/selection page.
+–	Intro header explaining what the Simulation Lab is
+–	Three studio cards: Property, Luxury, Local vs Offshore
+–	Each card: title, description, what it helps you decide, 'Enter Studio' button
+–	Cards read from FinancialContext to show a personalised teaser (e.g. 'Based on your income, you could afford a bond of R X')
+–	Navigation to each studio route
+*/
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Simulation.module.css";

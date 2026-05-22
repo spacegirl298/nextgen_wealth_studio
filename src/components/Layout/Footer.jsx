@@ -1,3 +1,9 @@
+/*Bottom footer rendered on all pages.
+–	App name and tagline
+–	Links: About, Privacy, Terms
+–	Disclaimer: 'Not financial advice'
+–	South African context note
+*/
 import styles from "./Footer.module.css";
 
 const FOOTER_LINKS = [

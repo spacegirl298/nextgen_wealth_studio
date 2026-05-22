@@ -1,3 +1,13 @@
+/*Central store for all user financial data.
+–	Stores: grossIncome, netIncome, expensesByCategory (object)
+–	Stores: savingsAmount, emergencyFund, debtPayments
+–	Stores: computed metrics (debtToIncomeRatio, savingsRate, disposableIncome)
+–	Stores: snapshotHistory (array of past snapshots)
+–	Exposes: updateIncome(), updateExpenses(), updateSavings(), saveSnapshot()
+–	Recalculates all metrics whenever source data changes
+–	Persists entire state to localStorage
+
+*/
 import React, { createContext, useState, useContext, useMemo } from "react";
 
 const FinancialContext = createContext();

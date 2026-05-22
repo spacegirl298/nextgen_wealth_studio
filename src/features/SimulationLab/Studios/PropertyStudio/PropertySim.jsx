@@ -1,3 +1,12 @@
+/*
+Buy vs Rent studio container.
+–	Manages all input state for the studio
+–	Passes inputs to calculation functions from constants.js
+–	Computes: monthly bond repayment, total cost of buying over N years, total cost of renting over N years
+–	Passes computed data to ComparisonChart, StudioVerdict
+–	Reads user income from FinancialContext for affordability context
+–	Contains educational intro explaining the buy vs rent decision
+*/
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Property.module.css";

@@ -1,3 +1,12 @@
+/*Top navigation bar rendered on all pages.
+–	Logo / app name on the left
+–	Nav links: Home, Snapshot, Tracks, Simulation, Profile
+–	Active link highlighting based on current route
+–	Login/Signup buttons when unauthenticated
+–	User avatar/name + logout when authenticated
+–	Hamburger menu for mobile
+–	Reads from UserContext for auth state
+*/
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
@@ -7,7 +16,7 @@ const NAV_LINKS = [
   { label: "Money Snapshot", to: "/money" },
   { label: "Strategy Tracker", to: "/track" },
   { label: "Simulation Lab", to: "/simulation" },
-  { label: "Banking DNA", to: "/DNA" },
+  { label: "Banking DNA", to: "/dna" },
 ];
 
 export default function Navbar() {

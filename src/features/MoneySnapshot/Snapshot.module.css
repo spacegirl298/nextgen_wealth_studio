@@ -1,3 +1,10 @@
+/*Styles for the Snapshot page.
+–	Tab bar styles with active indicator
+–	Section content fade-in transition
+–	Metrics summary grid layout
+–	Responsive stacking on mobile
+
+*/
 .page {
   width: 100%;
   max-width: 900px;

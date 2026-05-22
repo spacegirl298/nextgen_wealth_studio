@@ -1,3 +1,11 @@
+/*Marketing landing page.
+–	Hero section: headline, subheadline, CTA buttons (Get Started / Log In)
+–	Feature highlights section: 3 cards for Snapshot, Tracks, Simulation
+–	How it works: 3-step explainer
+–	South African context callout (SA tax, SA rates, SA property market)
+–	Footer CTA
+–	If authenticated: redirects to /snapshot or shows 'Continue where you left off'
+*/
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";

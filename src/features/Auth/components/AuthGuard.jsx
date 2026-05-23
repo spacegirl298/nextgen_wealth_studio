@@ -1,7 +1,7 @@
 /*Redirects unauthenticated users to login, and if authenticated renders the children*/
 import { Navigate, useLocation } from "react-router-dom"
 import { useContext } from "react"
-import { UserContext } from "../../../context/UserContext"
+import { UserContext } from "../../../context/UserContext" // This will now work
 
 export default function AuthGuard({ children }) {
   const { isAuthenticated } = useContext(UserContext)

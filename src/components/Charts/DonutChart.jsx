@@ -5,3 +5,7 @@
 –	Used by: MoneySnapshot expense category split
 
 */
+
+export default function DonutChart() {
+  return <div>Patient Dashboard</div>
+}

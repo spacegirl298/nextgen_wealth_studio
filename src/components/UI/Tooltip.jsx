@@ -3,3 +3,7 @@
 –	Shows on hover and keyboard focus
 –	Used throughout for explaining financial terms inline
 */
+
+export default function Tooltip() {
+  return <div>Patient Dashboard</div>
+}

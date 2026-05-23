@@ -3,3 +3,7 @@
 –	Investment: assumed annual return rate (pre-filled from constants), time horizon
 –	Real-time controlled inputs
 */
+
+export default function LuxuryInputs() {
+  return <div>Patient Dashboard</div>
+}

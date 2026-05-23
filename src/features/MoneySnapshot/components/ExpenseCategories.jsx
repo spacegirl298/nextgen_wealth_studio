@@ -6,3 +6,7 @@
 –	Warning highlights if any category exceeds recommended percentage
 –	Saves to FinancialContext
 */
+
+export default function ExpenseCategories() {
+  return <div>Patient Dashboard</div>
+}

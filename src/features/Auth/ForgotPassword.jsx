@@ -7,3 +7,7 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./Auth.module.css";
 import {Login} from "./Login";
+
+export default function FrogotPassword() {
+  return <div>Patient Dashboard</div>
+}

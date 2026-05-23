@@ -1,10 +1,88 @@
-/*All CSS custom properties (design tokens).
-–	--color-primary, --color-secondary, --color-accent
-–	--color-bg, --color-surface, --color-border
-–	--color-text, --color-text-muted, --color-error, --color-success
-–	--spacing-xs through --spacing-xxl
-–	--radius-sm, --radius-md, --radius-lg
-–	--shadow-sm, --shadow-md, --shadow-lg
-–	--font-heading, --font-body
-–	--transition-fast, --transition-base
-*/
+:root {
+
+  /* ── Colours ─────────────────────────────────────────────── */
+  --clr-bg:               #0a0010;
+  --clr-bg-card:          rgba(255, 255, 255, 0.04);
+  --clr-bg-card-hover:    #18002e;
+
+  --clr-border:           rgba(180, 100, 255, 0.325);
+  --clr-border-hover:     rgba(180, 100, 255, 0.45);
+
+  --clr-accent:           #c84bff;
+  --clr-accent-glow:      rgba(200, 75, 255, 0.35);
+  --clr-accent-soft:      rgba(200, 75, 255, 0.12);
+
+  --clr-gold:             #f8d299;
+  --clr-gold-highlight:   #f1b862;
+  --clr-gold-soft:        rgba(232, 184, 75, 0.15);
+
+  --clr-green:            #4ade80;
+  --clr-warn:             #fbbf24;
+
+  --clr-text:             #f0e8ff;
+  --clr-text-muted:       rgba(240, 232, 255, 0.792);
+  --clr-text-unhighlighted: rgba(240, 232, 255, 0.547);
+  --clr-text-dim:         rgba(240, 232, 255, 0.3);
+
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-display: "Syne",       sans-serif;
+  --font-main:    "Anek Latin", sans-serif;
+  --font-body:    "DM Sans",    sans-serif;
+
+  --text-xs:   0.68rem;   /* labels, badges */
+  --text-sm:   0.8rem;    /* body small */
+  --text-base: 0.95rem;   /* body default */
+  --text-lg:   1.15rem;   /* card titles */
+  --text-xl:   1.5rem;    /* stat values */
+  --text-2xl:  2rem;      /* section headings */
+  --text-hero: clamp(3rem, 6vw, 4.2rem);
+
+  --weight-light:  300;
+  --weight-normal: 400;
+  --weight-semi:   600;
+  --weight-bold:   700;
+  --weight-black:  800;
+
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --space-xxs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-xxl: 3rem;
+
+
+  /* ── Borders & Radius ────────────────────────────────────── */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-round: 9999px;
+
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-accent: 0 8px 32px rgba(200, 75, 255, 0.15);
+  --shadow-gold:   0 4px 16px rgba(201, 168, 76, 0.35);
+
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --transition-fast:   0.15s ease;
+  --transition:        0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --page-max-width:   900px;
+  --content-max-width: 680px;
+  --page-padding-x:   1.5rem;
+  --page-padding-y:   2rem;
+
+
+  /* ── Breakpoints (for reference — use in @media directly) ── */
+  /* sm: 640px  |  md: 768px  |  lg: 1024px  |  xl: 1280px */
+}

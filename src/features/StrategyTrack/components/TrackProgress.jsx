@@ -5,3 +5,7 @@
 –	Nudge trigger: congratulations when a stage is completed
 
 */
+
+export default function TrackProgress() {
+  return <div>Patient Dashboard</div>
+}

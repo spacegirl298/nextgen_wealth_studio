@@ -5,3 +5,8 @@
 –	Exposes: login(user), logout(), updateProfile(data)
 –	Persists auth state to localStorage so session survives refresh
 */
+import React, { createContext, useState, useContext, useMemo } from "react";
+
+export default function UserContext() {
+  return <div>Patient Dashboard</div>
+}

@@ -12,7 +12,7 @@ import SimulationCard from "../../components/UI/Card";
 import BuildImg from "../../assets/Track/BuildImg.jpg";
 import BalanceImg from "../../assets/Track/BalanceImg.jpg";
 import GlobalImg from "../../assets/Track/GlobalImg.jpg";
-import TrackCard from "../../components/TrackCard";
+import Card from "../../components/UI/Card";
 
 export default function SimulationLab() {
   const navigate = useNavigate();

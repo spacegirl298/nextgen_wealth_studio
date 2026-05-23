@@ -1,3 +1,7 @@
+/* ============================================================
+   FOOTER  —  Footer.module.css
+   ============================================================ */
+
 .footer {
   position: relative;
   border-top: 1px solid var(--clr-border);
@@ -12,11 +16,7 @@
   transform: translateX(-50%);
   width: 400px;
   height: 120px;
-  background: radial-gradient(
-    ellipse at center bottom,
-    rgba(200, 75, 255, 0.12) 0%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at center bottom, rgba(200, 75, 255, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -37,31 +37,20 @@
   gap: 0.1rem;
 }
 
-.linkGroup {
-  display: flex;
-  align-items: center;
-  gap: 0.1rem;
-}
+.linkGroup { display: flex; align-items: center; gap: 0.1rem; }
 
 .link {
   font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: var(--weight-normal);
   color: var(--clr-text-muted);
   padding: 0.2rem 0.5rem;
   transition: color var(--transition);
 }
 
-.link:hover {
-  color: var(--clr-accent);
-}
+.link:hover { color: var(--clr-accent); }
 
-.divider {
-  color: var(--clr-text-dim);
-  font-size: 0.75rem;
-  padding: 0 0.1rem;
-  user-select: none;
-}
+.divider { color: var(--clr-text-dim); font-size: 0.75rem; padding: 0 0.1rem; user-select: none; }
 
 .copy {
   font-family: var(--font-body);
@@ -71,7 +60,5 @@
 }
 
 @media (max-width: 600px) {
-  .footer {
-    padding: 1.5rem 1.5rem;
-  }
+  .footer { padding: 1.5rem; }
 }

@@ -1,29 +1,24 @@
+/* ============================================================
+   HOME  —  Home.module.css
+   Unique to the landing page only.
+   Shared: .page .hero .heroTitle .heroSub .statCard .statLabel
+           .statValue .statArrow .sectionCard → globals.css
+   ============================================================ */
+
 .main {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
 }
 
-/* hero  */
+/* ── Hero ────────────────────────────────────────────────────── */
 .hero {
   position: relative;
   z-index: 1;
   padding: 10rem 2.5rem 5rem;
-  text-align: center;
   max-width: 800px;
   margin: 0 auto;
   animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .heroContent {
@@ -36,7 +31,7 @@
 .heroPre {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--clr-accent);
@@ -46,28 +41,24 @@
 .heroHeading {
   font-family: var(--font-main);
   font-size: clamp(4.5rem, 6vw, 4.2rem);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   line-height: 1.08;
   color: var(--clr-text);
   letter-spacing: -0.02em;
 }
 
-.heroHeading em {
-  font-style: normal;
-
-  background-clip: text;
-  display: block;
-}
+.heroHeading em { font-style: normal; background-clip: text; display: block; }
 
 .heroCopy {
   font-family: var(--font-body);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text-muted);
   line-height: 1.75;
   max-width: 580px;
 }
 
+/* Ghost outline CTA — unique to Home */
 .ctaBtn {
   display: inline-flex;
   align-items: center;
@@ -76,10 +67,10 @@
   padding: 0.85rem 2rem;
   background: transparent;
   border: 1.5px solid rgba(200, 75, 255, 0.6);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   color: var(--clr-text);
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -92,33 +83,23 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(200, 75, 255, 0.15),
-    rgba(232, 184, 75, 0.08)
-  );
+  background: linear-gradient(135deg, rgba(200, 75, 255, 0.15), rgba(232, 184, 75, 0.08));
   opacity: 0;
   transition: opacity var(--transition);
 }
 
-.ctaBtn:hover::before {
-  opacity: 1;
-}
+.ctaBtn:hover::before { opacity: 1; }
+
 .ctaBtn:hover {
   border-color: var(--clr-accent);
   box-shadow: 0 0 24px var(--clr-accent-glow);
   transform: translateY(-1px);
 }
 
-.ctaArrow {
-  transition: transform var(--transition);
-}
+.ctaArrow { transition: transform var(--transition); }
+.ctaBtn:hover .ctaArrow { transform: translateX(4px); }
 
-.ctaBtn:hover .ctaArrow {
-  transform: translateX(4px);
-}
-
-/* stats */
+/* ── Stats section ───────────────────────────────────────────── */
 .statsSection {
   position: relative;
   z-index: 1;
@@ -134,92 +115,7 @@
   gap: 1rem;
 }
 
-.statCard {
-  position: relative;
-  background: var(--clr-bg-card);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem 1.5rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  cursor: pointer;
-  transition: all var(--transition);
-  animation: cardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-  overflow: hidden;
-}
-
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.statCard::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at top left,
-    rgba(200, 75, 255, 0.08) 0%,
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.statCard:hover {
-  border-color: var(--clr-border-hover);
-  background: var(--clr-bg-card-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(200, 75, 255, 0.15);
-}
-
-.statCard:hover::before {
-  opacity: 1;
-}
-
-.statLabel {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--clr-text-muted);
-  text-transform: uppercase;
-}
-
-.statValue {
-  font-family: var(--font-display);
-  font-size: 2.1rem;
-  font-weight: 800;
-  color: var(--clr-text);
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin-top: 1.5rem;
-  align-items: center;
-}
-
-.statArrow {
-  position: absolute;
-  bottom: 0.5rem;
-  right: 1.25rem;
-  font-size: 1.5rem;
-  color: var(--clr-gold);
-  opacity: 0.7;
-  transition: all var(--transition);
-}
-
-.statCard:hover .statArrow {
-  opacity: 1;
-  transform: translate(2px, -2px);
-}
-
+/* Ring chart inside stat card */
 .ringWrap {
   position: relative;
   width: 100px;
@@ -230,26 +126,19 @@
   margin: 0.25rem auto;
 }
 
-.ring {
-  position: absolute;
-  inset: 0;
-  filter: drop-shadow(0 0 8px rgb(0, 0, 0));
-}
-
-.ringProgress {
-  transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
+.ring { position: absolute; inset: 0; filter: drop-shadow(0 0 8px rgb(0, 0, 0)); }
+.ringProgress { transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
 
 .ringPct {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 800;
+  font-weight: var(--weight-black);
   color: var(--clr-text);
   position: relative;
   z-index: 1;
 }
 
-/* why question */
+/* ── Why section ─────────────────────────────────────────────── */
 .whySection {
   position: relative;
   z-index: 1;
@@ -275,26 +164,17 @@
   transform: translateX(-50%);
   width: 80px;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--clr-accent),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--clr-accent), transparent);
   border-radius: 2px;
 }
 
-.whyTopLine {
-  top: 0;
-}
-.whyBottomLine {
-  bottom: 0;
-}
+.whyTopLine    { top: 0; }
+.whyBottomLine { bottom: 0; }
 
 .whyHeading {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.06em;
   color: var(--clr-text);
   margin-bottom: 1rem;
@@ -303,12 +183,12 @@
 .whyCopy {
   font-family: var(--font-body);
   font-size: 0.9rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text-muted);
   line-height: 1.8;
 }
 
-/* fetaures */
+/* ── Features section ────────────────────────────────────────── */
 .featuresSection {
   position: relative;
   z-index: 1;
@@ -329,7 +209,6 @@
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
-  padding: 0;
   aspect-ratio: 4/5;
   display: flex;
   flex-direction: column;
@@ -341,6 +220,12 @@
   text-decoration: none;
 }
 
+.featureCard:hover {
+  border-color: var(--clr-border-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(200, 75, 255, 0.18);
+}
+
 .patternBg {
   position: absolute;
   inset: 0;
@@ -348,31 +233,6 @@
   background-position: center;
   opacity: 0.9;
   z-index: 0;
-}
-.patternBg:hover {
-  border-color: var(--clr-border-hover);
-  background: var(--clr-bg-card-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(200, 75, 255, 0.15);
-}
-
-.featureCard:hover {
-  border-color: var(--clr-border-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(200, 75, 255, 0.18);
-}
-
-.featurePattern {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-}
-
-.featureCard:hover .patternSvg {
-  opacity: 1;
 }
 
 .featureTitle {
@@ -382,15 +242,10 @@
   padding: 1.25rem;
   font-family: var(--font-display);
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.14em;
-
   color: var(--clr-text);
-  background: linear-gradient(
-    to top,
-    rgba(10, 0, 16, 0.95) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(to top, rgba(10, 0, 16, 0.95) 0%, transparent 100%);
 }
 
 .featureArrow {
@@ -403,40 +258,20 @@
   transition: all var(--transition);
 }
 
-.featureCard:hover .featureArrow {
-  opacity: 1;
-  transform: translate(2px, -2px);
-}
+.featureCard:hover .featureArrow { opacity: 1; transform: translate(2px, -2px); }
 
-/* rsposnieve─ */
+/* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .statsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .featuresGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .statsGrid    { grid-template-columns: repeat(2, 1fr); }
+  .featuresGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 600px) {
-  .hero {
-    padding: 8rem 1.5rem 3rem;
-  }
+  .hero { padding: 8rem 1.5rem 3rem; }
   .statsSection,
   .whySection,
-  .featuresSection {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  .statsGrid {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-  .featuresGrid {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-  .whyCard {
-    padding: 2rem 1.5rem;
-  }
+  .featuresSection { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .statsGrid    { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .featuresGrid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .whyCard      { padding: 2rem 1.5rem; }
 }

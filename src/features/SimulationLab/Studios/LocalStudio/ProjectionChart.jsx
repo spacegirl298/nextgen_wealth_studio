@@ -3,3 +3,7 @@
 –	Uses LineChart component
 –	Tooltip showing both values at each year
 */
+
+export default function ProjectionChart() {
+  return <div>Patient Dashboard</div>
+}

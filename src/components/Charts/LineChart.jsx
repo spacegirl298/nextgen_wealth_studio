@@ -5,3 +5,7 @@
 –	Legend with line colour indicators
 –	Used by: LocalStudio ProjectionChart, PropertyStudio ComparisonChart
 */
+
+export default function LineChart() {
+  return <div>Patient Dashboard</div>
+}

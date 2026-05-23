@@ -5,3 +5,7 @@
 –	Slide-in/slide-out animation
 –	Positioned fixed at bottom-right or top of page
 */
+
+export default function NudgeBanner() {
+  return <div>Patient Dashboard</div>
+}

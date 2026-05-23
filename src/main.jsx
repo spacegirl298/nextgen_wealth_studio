@@ -1,19 +1,26 @@
-//Wraps the entire app in all context providers
-//Wraps UserContext, Financial Context, NudgeCOntext Providers
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+//Wraps everything in the context providers
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+
+import { UserProvider } from './context/UserContext'
+import { FinancialProvider } from './context/FinancialContext'
+import { NudgeProvider } from './context/NudgeContext'
+
 import './index.css'
-import './styles/globals.css'
-import './styles/variables.css'
 
+import App from './App'
 
-
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-   
-      <App />
-   
-  </React.StrictMode>
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <BrowserRouter>
+      <UserProvider>
+        <FinancialProvider>
+          <NudgeProvider>
+            <App />
+          </NudgeProvider>
+        </FinancialProvider>
+      </UserProvider>
+    </BrowserRouter>
+  </StrictMode>
 )

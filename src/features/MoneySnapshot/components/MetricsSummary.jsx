@@ -7,3 +7,7 @@
 –	Tooltip on each metric explaining what it means and what's considered healthy
 –	Reads computed metrics from FinancialContext
 */
+
+export default function MetricsSummary() {
+  return <div>Patient Dashboard</div>
+}

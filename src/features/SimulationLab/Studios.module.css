@@ -1,12 +1,3 @@
-/*Shared styles used across all three studios.
-–	Two-column layout: inputs (left) + outputs (right)
-–	Input panel styles: labels, number fields, range sliders
-–	Output panel: chart area, verdict card, considerations section
-–	Studio verdict card: coloured border by recommendation type
-–	Things to Consider accordion/expandable section
-–	Responsive: stacks to single column on mobile
-*/
-
 .page {
   width: 100%;
   max-width: 900px;

@@ -6,3 +6,7 @@
 –	Saves to FinancialContext on change/blur
 –	GlossaryTerm on 'UIF', 'effective tax rate', 'PAYE'
 */
+
+export default function IncomeForm() {
+  return <div>Patient Dashboard</div>
+}

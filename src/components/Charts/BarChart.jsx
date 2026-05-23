@@ -4,3 +4,7 @@
 –	Value labels on bars
 –	Used by: MoneySnapshot ExpenseCategories breakdown
 */
+
+export default function BarChart() {
+  return <div>Patient Dashboard</div>
+}

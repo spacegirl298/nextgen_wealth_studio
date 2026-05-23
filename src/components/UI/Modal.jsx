@@ -5,3 +5,7 @@
 –	Focus trap for accessibility
 –	Used by: glossary terms, confirmation dialogs, studio detail modals
 */
+
+export default function Modal() {
+  return <div>Patient Dashboard</div>
+}

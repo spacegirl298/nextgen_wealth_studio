@@ -6,3 +6,7 @@
 –	GlossaryTerm on opportunity cost, balloon payment, depreciation
 
 */
+
+export default function StudioVerdict() {
+  return <div>Patient Dashboard</div>
+}

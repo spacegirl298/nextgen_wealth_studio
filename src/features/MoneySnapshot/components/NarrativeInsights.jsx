@@ -5,3 +5,7 @@
 –	Colour-coded by sentiment (positive/neutral/warning)
 –	Recommendations section with actionable next steps
 */
+
+export default function NarrativeInsights() {
+  return <div>Patient Dashboard</div>
+}

@@ -6,3 +6,7 @@
 –	LineChart showing savings rate trend over time
 –	Empty state if no history yet
 */
+
+export default function SnapshotHistory() {
+  return <div>Patient Dashboard</div>
+}

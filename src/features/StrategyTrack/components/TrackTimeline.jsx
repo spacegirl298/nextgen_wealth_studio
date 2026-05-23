@@ -6,3 +6,7 @@
 –	Future stages: muted/outline
 –	Click on any stage scrolls to that milestone
 */
+
+export default function TrackTimeline() {
+  return <div>Patient Dashboard</div>
+}

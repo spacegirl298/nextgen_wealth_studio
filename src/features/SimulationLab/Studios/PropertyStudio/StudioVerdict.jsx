@@ -5,3 +5,7 @@
 –	Things to Consider: transfer duty, bond registration costs, maintenance (1-2% of value/year), liquidity trade-off
 –	GlossaryTerm on transfer duty, equity, bond registration
 */
+
+export default function StudioVerdict() {
+  return <div>Patient Dashboard</div>
+}

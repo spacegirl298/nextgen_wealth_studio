@@ -1,3 +1,9 @@
+/* ============================================================
+   NAVBAR  —  Navbar.module.css
+   Unique to Navbar only. Shared tokens come from variables.css,
+   shared components from globals.css.
+   ============================================================ */
+
 .navbar {
   position: fixed;
   top: 0;
@@ -29,11 +35,7 @@
 }
 
 /* Logo */
-.logo {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
+.logo { flex-shrink: 0; display: flex; align-items: center; }
 
 .logoMark {
   width: 44px;
@@ -48,14 +50,12 @@
   transition: box-shadow var(--transition);
 }
 
-.logoMark:hover {
-  box-shadow: 0 0 28px var(--clr-accent-glow);
-}
+.logoMark:hover { box-shadow: 0 0 28px var(--clr-accent-glow); }
 
 .logoMark span {
   font-family: var(--font-display);
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: var(--weight-black);
   letter-spacing: 0.08em;
   text-transform: lowercase;
   color: var(--clr-accent);
@@ -73,33 +73,19 @@
 .navLink {
   font-family: var(--font-body);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--weight-normal);
   color: var(--clr-text-unhighlighted);
   padding: 0.4rem 0.85rem;
-  border-radius: 6px;
-  transition:
-    color var(--transition),
-    background var(--transition);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
   white-space: nowrap;
 }
 
-.navLink:hover {
-  color: var(--clr-text);
-  background: var(--clr-accent-soft);
-}
-
-.navLink.active {
-  color: var(--clr-text);
-  font-weight: 500;
-}
+.navLink:hover { color: var(--clr-text); background: var(--clr-accent-soft); }
+.navLink.active { color: var(--clr-text); font-weight: var(--weight-semi); }
 
 /* Actions */
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 0;
-}
+.actions { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 
 .profileBtn {
   width: 38px;
@@ -138,16 +124,9 @@
   transform-origin: center;
 }
 
-.hamburger.open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.hamburger.open span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.hamburger.open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* Mobile menu */
 .mobileMenu {
@@ -163,9 +142,7 @@
   transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mobileMenu.mobileMenuOpen {
-  max-height: 400px;
-}
+.mobileMenu.mobileMenuOpen { max-height: 400px; }
 
 .mobileLink {
   font-family: var(--font-body);
@@ -176,22 +153,12 @@
   transition: color var(--transition);
 }
 
-.mobileLink:last-child {
-  border-bottom: none;
-}
+.mobileLink:last-child { border-bottom: none; }
 .mobileLink:hover,
-.mobileLink.active {
-  color: var(--clr-accent);
-}
+.mobileLink.active { color: var(--clr-accent); }
 
 @media (max-width: 800px) {
-  .nav {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
-  .mobileMenu {
-    display: flex;
-  }
+  .nav       { display: none; }
+  .hamburger { display: flex; }
+  .mobileMenu { display: flex; }
 }

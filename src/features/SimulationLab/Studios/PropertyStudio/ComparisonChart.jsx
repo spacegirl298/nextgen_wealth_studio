@@ -5,3 +5,7 @@
 –	Formatted Rand values in tooltip
 
 */
+
+export default function ComparisonChart() {
+  return <div>Patient Dashboard</div>
+}

@@ -8,3 +8,7 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "../../Studios.module.css";
+
+export default function LocalStudio() {
+  return <div>Patient Dashboard</div>
+}

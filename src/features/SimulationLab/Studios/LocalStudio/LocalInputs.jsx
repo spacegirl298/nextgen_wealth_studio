@@ -7,3 +7,7 @@
 –	Tax on investment returns (optional: withholding tax consideration)
 
 */
+
+export default function LocalInputs() {
+  return <div>Patient Dashboard</div>
+}

@@ -8,3 +8,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import styles from "../../Tracks.module.css";
+
+export default function AggressiveTrack() {
+  return <div>Patient Dashboard</div>
+}

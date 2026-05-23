@@ -9,3 +9,7 @@
 –	Mark as Complete button — updates progress in localStorage
 
 */
+
+export default function MilestoneStep() {
+  return <div>Patient Dashboard</div>
+}

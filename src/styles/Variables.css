@@ -44,6 +44,8 @@
   --weight-bold:   700;
   --weight-black:  800;
 
+  --line-height-xs: 1;
+
 
   /* ── Spacing ─────────────────────────────────────────────── */
   --space-xxs: 0.25rem;
@@ -56,6 +58,7 @@
 
 
   /* ── Borders & Radius ────────────────────────────────────── */
+  --border-xs: 1px solid;
   --radius-sm:    6px;
   --radius-md:    10px;
   --radius-lg:    16px;

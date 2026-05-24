@@ -33,11 +33,25 @@ export default function App() {
       <Routes>
         {/* Public routes*/}
         <Route path="/"               element={<Home />} />
+        {/*Temporaray*/}
+        <Route path="/money"          element={<MoneySnapshot />} />
+        <Route path="/simulation"     element={<SimulationOverview />} />
+        <Route path="/simulation/local"    element={<LocalStudio />} />
+        <Route path="/simulation/luxury"   element={<LuxuryStudio />} />
+        <Route path="/simulation/property" element={<PropertyStudio />} />
+        <Route path="/track"          element={<StrategyOverview />} />
+        <Route path="/track/property"    element={<PropertyTrack />} />
+        <Route path="/track/lifestyle"   element={<LifestyleTrack />} />
+        <Route path="/track/aggressive"  element={<AggressiveTrack />}/>
+        <Route path="/profile"        element={<Profile />} />
+        <Route path="/dna"            element={<BankingDNA />}/>
+
+        {/*Real Route - just for testing purposes
         <Route path="/login"          element={<Login />} />
         <Route path="/signup"         element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />*/}
 
-        {/* Protected routes*/}
+        {/* Protected routes*
         <Route path="/money"          element={<AuthGuard><MoneySnapshot /></AuthGuard>} />
         <Route path="/simulation"     element={<AuthGuard><SimulationOverview /></AuthGuard>} />
         <Route path="/simulation/local"    element={<AuthGuard><LocalStudio /></AuthGuard>} />
@@ -48,7 +62,7 @@ export default function App() {
         <Route path="/track/lifestyle"   element={<AuthGuard><LifestyleTrack /></AuthGuard>} />
         <Route path="/track/aggressive"  element={<AuthGuard><AggressiveTrack /></AuthGuard>} />
         <Route path="/profile"        element={<AuthGuard><Profile /></AuthGuard>} />
-        <Route path="/dna"            element={<AuthGuard><BankingDNA /></AuthGuard>} />
+        <Route path="/dna"            element={<AuthGuard><BankingDNA /></AuthGuard>} />*/}
       </Routes>
       <Footer />
     </FinancialProvider>

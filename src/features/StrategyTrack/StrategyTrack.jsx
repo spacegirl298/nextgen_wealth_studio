@@ -8,17 +8,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/SelectionLayout.module.css";
-import SimulationCard from "../../components/UI/Card";
+import OverviewCard from "../../components/UI/Card";
 import BuildImg from "../../assets/Track/BuildImg.jpg";
 import BalanceImg from "../../assets/Track/BalanceImg.jpg";
 import GlobalImg from "../../assets/Track/GlobalImg.jpg";
-import Card from "../../components/UI/Card";
 
-export default function SimulationLab() {
+
+export default function StrategyTrack() {
   const navigate = useNavigate();
 
   const handlePropertyClick = () => {
-    navigate("/builder");
+    navigate("/track/property");
   };
 
   return (
@@ -36,7 +36,7 @@ export default function SimulationLab() {
         </div>
 
         <div className={styles.grid}>
-          <TrackCard
+          <OverviewCard
             title="First Property Builder"
             description="The First Property Builder track is designed for young professionals who are working toward the milestone of home ownership. It focuses on helping you build a solid financial foundation through disciplined saving for a deposit, maintaining a strong credit profile, and ensuring that your future home remains affordable in the long term. This track encourages stability and consistency, guiding you away from high-risk investments and frequent job changes, so you can confidently move toward owning your first property."
             buttonText="Launch Strategy Track"
@@ -45,14 +45,14 @@ export default function SimulationLab() {
             onButtonClick={handlePropertyClick}
           />
 
-          <TrackCard
+          <OverviewCard
             title="Balanced Lifestyle & Investing"
             description="The Balanced Lifestyle and Investing track is designed for professionals who want to enjoy their money now while still building long-term financial security. It helps you develop sustainable habits such as investing consistently, staying flexible with your finances, and intentionally budgeting for lifestyle experiences. This track encourages a healthy balance, guiding you away from financial burnout and helping you avoid making decisions driven purely by fear, so you can build wealth while still enjoying the present."
             status="construction"
             imageSrc={BalanceImg}
           />
 
-          <TrackCard
+          <OverviewCard
             title="Aggressive Global Investor"
             description="The Aggressive Global Investor track is designed for ambitious high earners who are comfortable taking on higher levels of risk in pursuit of faster wealth growth. It focuses on helping you maintain a high savings and investment rate, expand your exposure to global markets, and actively engage with emerging financial opportunities. This track encourages a proactive and growth-driven mindset, guiding you toward building significant wealth through strategic, globally diversified investing."
             status="construction"

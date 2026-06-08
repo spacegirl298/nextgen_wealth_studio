@@ -689,3 +689,683 @@
   line-height: 1.6;
   margin: 0;
 }
+
+/* ─────────────────────────────────────────
+   NEW CLASSES — added in refactor
+   ───────────────────────────────────────── */
+
+/* Stat card sub-text */
+.statCardSub {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.2rem;
+}
+
+/* Tax disclaimer note */
+.taxDisclaimer {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+
+/* Highlight active tax bracket */
+.taxRowActive .taxLabel,
+.taxRowActive .taxVal {
+  color: var(--clr-gold);
+  font-weight: 700;
+}
+
+/* ── Category expense pills ── */
+.categoryPills {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.categoryPill {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+
+.categoryPill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--clr-text);
+}
+
+.categoryPillActive {
+  font-weight: 700;
+}
+
+.categoryPillWarning {
+  border-color: rgba(248, 113, 113, 0.4);
+  color: rgba(248, 113, 113, 0.85);
+}
+
+.categoryPillBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* ── Category overview rows ── */
+.categoryOverviewRow {
+  margin-bottom: 0.9rem;
+}
+
+.categoryOverviewHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  margin-bottom: 0.3rem;
+}
+
+.categoryOverviewLabel {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+
+.categoryOverviewAmt {
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-body);
+}
+
+.categoryOverviewTrack {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.categoryOverviewFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.categoryOverviewBenchmark {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.2rem;
+  font-family: var(--font-body);
+}
+
+/* ── Benchmark warning inline ── */
+.benchmarkWarning {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #fca5a5;
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+/* ── Insight cards ── */
+.insightCard {
+  padding: 0.75rem 1rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  font-family: var(--font-body);
+}
+
+.insightCard--positive {
+  border-left: 3px solid rgba(74, 222, 128, 0.8);
+  border-top: 1px solid rgba(74, 222, 128, 0.2);
+  border-right: 1px solid rgba(74, 222, 128, 0.2);
+  border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+  background: rgba(74, 222, 128, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.insightCard--neutral {
+  border-left: 3px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.insightCard--warning {
+  border-left: 3px solid rgba(245, 158, 11, 0.8);
+  border-top: 1px solid rgba(245, 158, 11, 0.2);
+  border-right: 1px solid rgba(245, 158, 11, 0.2);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.07);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Nudge banner ── */
+.nudgeBanner {
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+.nudgeBanner--danger {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.nudgeBanner--warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.nudgeBanner--info {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.nudgeMessage {
+  flex: 1;
+}
+
+.nudgeCount {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.nudgeDismiss {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0 0.25rem;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+.nudgeDismiss:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Learn More highlight ── */
+.learnHighlight {
+  color: var(--clr-gold);
+}
+
+/* ── Auto-save indicator ── */
+.autoSaveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: rgba(248, 210, 153, 0.55);
+  letter-spacing: 0.02em;
+}
+
+/* ── Metrics / Health ── */
+.metricsHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.healthBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.healthRowHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.healthTrack {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 0.2rem;
+}
+
+.healthFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.healthDetail {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Health score breakdown ── */
+.scoreBreakdown {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.scoreRowLabel {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.scoreRowTrack {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.scoreRowFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.scoreRowVal {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ── Insights ── */
+.insightScoreRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.insightScoreBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-main);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.insightScoreBadgeLabel {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+  margin-top: 0.25rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.emptyState {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 2.5rem 1rem;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.allGoodState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+}
+
+/* ── Recommendation cards ── */
+.recCard {
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.recCardHigh {
+  border-left: 3px solid #f87171;
+}
+
+.recCardMed {
+  border-left: 3px solid var(--clr-gold);
+}
+
+.recCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  gap: 0.75rem;
+}
+
+.recCardAction {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-body);
+}
+
+.recCardBadge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+}
+
+.recCardBadgeHigh {
+  background: rgba(248, 113, 113, 0.2);
+  color: #fca5a5;
+}
+
+.recCardBadgeMed {
+  background: rgba(248, 210, 153, 0.15);
+  color: var(--clr-gold);
+}
+
+.recCardDetail {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.65;
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+/* ── Snapshot History ── */
+.saveSnapshotRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--clr-gold);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s, background 0.2s;
+  font-family: var(--font-body);
+}
+
+.saveBtn:hover {
+  opacity: 0.88;
+}
+
+.saveBtnSuccess {
+  background: #4ade80;
+}
+
+.snapshotCount {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.snapshotList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.snapshotItem {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.snapshotItemLatest {
+  background: rgba(248, 210, 153, 0.06);
+  border-color: rgba(248, 210, 153, 0.2);
+}
+
+.snapshotItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.snapshotDate {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-body);
+}
+
+.snapshotItemLatest .snapshotDate {
+  color: var(--clr-gold);
+}
+
+.latestBadge {
+  font-size: 0.65rem;
+  background: rgba(248, 210, 153, 0.15);
+  color: var(--clr-gold);
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+.snapshotGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+@media (max-width: 500px) {
+  .snapshotGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.snapshotMetricLabel {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+}
+
+.snapshotMetricValue {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-main);
+}
+
+/* ── Trend cards ── */
+.trendRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.trendCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  min-width: 90px;
+  text-align: center;
+}
+
+.trendIcon {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.trendLabel {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.trendDirection {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* ── Glossary ── */
+.glossarySearch {
+  margin-bottom: 1rem;
+}
+
+.glossaryInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: var(--clr-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.9rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.glossaryInput:focus {
+  border-color: var(--clr-gold);
+}
+
+.glossaryItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 0;
+}
+
+.glossaryItem:last-child {
+  border-bottom: none;
+}
+
+.glossaryTerm {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--clr-gold);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+}
+
+.glossaryTerm::-webkit-details-marker {
+  display: none;
+}
+
+.glossaryDef {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+  font-family: var(--font-body);
+  font-weight: 300;
+}
+
+/* ── Benchmarks ── */
+.benchmarkItem {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.benchmarkItem:last-child {
+  border-bottom: none;
+}
+
+.benchmarkRule {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.2rem;
+  font-family: var(--font-body);
+}
+
+.benchmarkDetail {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+  font-family: var(--font-body);
+}
+
+/* ── Goal ETA ── */
+.goalEta {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 0.25rem;
+  font-family: var(--font-body);
+}

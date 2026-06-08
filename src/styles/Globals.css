@@ -1,10 +1,6 @@
-/* ============================================================
-   GLOBALS  —  globals.css
-   Base reset + every component pattern shared across 2+ pages.
-   Import order:  variables.css  →  globals.css  →  *.module.css
-   ============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap");
+
+
 
 
 /* ── Reset ───────────────────────────────────────────────────── */
@@ -22,7 +18,7 @@ html {
 
 body {
   background-color: var(--clr-bg);
-  background-image: url("./assets/BgImg.jpg");
+  background-image: url("../assets/BgImg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -217,8 +213,8 @@ button {
 }
 
 .statValue {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-family: var(--font-main);
+  font-size: var(--text-2xl);
   font-weight: var(--weight-black);
   color: var(--clr-text);
   letter-spacing: -0.02em;

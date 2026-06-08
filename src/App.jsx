@@ -3,7 +3,6 @@ import { FinancialProvider } from "./context/FinancialContext"
 import AuthGuard from "./features/Auth/components/AuthGuard"
 import Navbar from "./components/Layout/Navbar"
 import Footer from "./components/Layout/Footer"
-
 // Auth
 import Login from "./features/Auth/Login"
 import Signup from "./features/Auth/Signup"

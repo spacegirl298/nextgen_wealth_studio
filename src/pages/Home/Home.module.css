@@ -1,8 +1,8 @@
 /* ============================================================
    HOME  —  Home.module.css
-   Unique to the landing page only.
-   Shared: .page .hero .heroTitle .heroSub .statCard .statLabel
-           .statValue .statArrow .sectionCard → globals.css
+   Only styles UNIQUE to the landing page.
+   Shared styles (.statCard .statLabel .statValue .statArrow
+   .sectionCard .page .hero etc.) live in globals.css
    ============================================================ */
 
 .main {
@@ -45,9 +45,14 @@
   line-height: 1.08;
   color: var(--clr-text);
   letter-spacing: -0.02em;
+  text-align: center;
 }
 
-.heroHeading em { font-style: normal; background-clip: text; display: block; }
+.heroHeading em {
+  font-style: normal;
+  background-clip: text;
+  display: block;
+}
 
 .heroCopy {
   font-family: var(--font-body);
@@ -56,6 +61,7 @@
   color: var(--clr-text-muted);
   line-height: 1.75;
   max-width: 580px;
+  text-align: center;
 }
 
 /* Ghost outline CTA — unique to Home */
@@ -115,7 +121,11 @@
   gap: 1rem;
 }
 
-/* Ring chart inside stat card */
+/* GoalCard ring — only used on Home */
+.goalCard {
+  align-items: center;
+}
+
 .ringWrap {
   position: relative;
   width: 100px;
@@ -126,8 +136,15 @@
   margin: 0.25rem auto;
 }
 
-.ring { position: absolute; inset: 0; filter: drop-shadow(0 0 8px rgb(0, 0, 0)); }
-.ringProgress { transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+.ring {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 0 8px rgb(0, 0, 0));
+}
+
+.ringProgress {
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .ringPct {
   font-family: var(--font-display);
@@ -233,6 +250,15 @@
   background-position: center;
   opacity: 0.9;
   z-index: 0;
+}
+
+.featurePattern {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
 }
 
 .featureTitle {

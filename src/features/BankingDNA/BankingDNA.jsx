@@ -1,13 +1,3 @@
-/*Financial personality quiz and results page.
-–	Multi-step quiz (5-8 questions about spending habits, risk tolerance, goals)
-–	Progress bar showing quiz completion
-–	On completion: calculates DNA profile (e.g. 'Cautious Builder', 'Balanced Achiever', 'Aggressive Accumulator')
-–	Results section: profile name, description, strengths, watch-outs
-–	Badge showing profile type
-–	Recommended Strategy Track based on profile
-–	Saves profile to UserContext and localStorage
-–	GlossaryTerm components for financial terms used in questions
-*/
 import { useState, useEffect, useRef } from "react";
 import styles from "./BankingDNA.module.css";
 

@@ -1,0 +1,68 @@
+// utils/nudgeDefinitions.js
+
+export const nudgeDefinitions = [
+  {
+    id: "low_deposit",
+    title: "💡 Low Deposit Warning",
+    message: "Most SA banks require at least 10% deposit for bond approval. Consider saving more before buying.",
+    severity: "warning",
+    icon: "⚠️",
+    condition: (metrics) => metrics.depositPercent < 10 && metrics.loanToValue > 0.9,
+  },
+  {
+    id: "high_interest_rate",
+    title: "📈 High Interest Rate", 
+    message: (metrics) => `Your interest rate (${metrics.interestRate}%) is above prime (11.25%). Improving your credit score could secure a better rate.`,
+    severity: "info",
+    icon: "📊",
+    condition: (metrics) => metrics.interestRate > 11.5,
+  },
+  {
+    id: "short_horizon",
+    title: "⏰ Short Time Horizon",
+    message: "With only 3-5 years, buying may not be optimal due to high upfront costs. Renting often wins for short stays.",
+    severity: "info",
+    icon: "📅",
+    condition: (metrics) => metrics.timeHorizon <= 5 && !metrics.buyingBetter,
+  },
+  {
+    id: "affordability_buy",
+    title: "🏠 Buying May Be Stretching Budget",
+    message: "Your monthly bond payment exceeds 30% of gross income. Banks typically cap at this level.",
+    severity: "warning",
+    icon: "💰",
+    condition: (metrics) => metrics.monthlyBuyToIncome > 0.3 && metrics.buyingBetter === true,
+  },
+  {
+    id: "affordability_rent",
+    title: "🏢 Rent-to-Income Ratio High",
+    message: "Your rent exceeds 30% of gross income. Consider more affordable options to improve savings potential.",
+    severity: "warning",
+    icon: "💸",
+    condition: (metrics) => metrics.monthlyRentToIncome > 0.3 && metrics.buyingBetter === false,
+  },
+  {
+    id: "long_term_winner",
+    title: "🎯 Long-Term Winner",
+    message: (metrics) => `Buying becomes better after year ${metrics.crossoverYear}. Your ${metrics.timeHorizon}-year horizon suggests buying could be beneficial.`,
+    severity: "success",
+    icon: "✅",
+    condition: (metrics) => metrics.crossoverYear && metrics.crossoverYear <= metrics.timeHorizon && !metrics.buyingBetter,
+  },
+  {
+    id: "high_rental_inflation",
+    title: "📈 Rising Rent Costs",
+    message: (metrics) => `Your ${metrics.rentalIncrease}% annual rent increase will significantly impact long-term costs. Buying locks in your payment.`,
+    severity: "info",
+    icon: "🏃",
+    condition: (metrics) => metrics.rentalIncrease > 8 && metrics.timeHorizon > 5,
+  },
+  {
+    id: "property_growth_optimistic",
+    title: "📊 Property Growth Assumption",
+    message: (metrics) => `${metrics.propGrowthRate}% annual growth is above SA's 4-6% average. Consider a more conservative estimate.`,
+    severity: "warning",
+    icon: "🔮",
+    condition: (metrics) => metrics.propGrowthRate > 8,
+  },
+];

@@ -3,7 +3,7 @@
  * Progress summary bar for a strategy track.
  * Props: totalStages, completedStages, onCelebrate (optional callback)
  */
-import styles from "./Tracks.module.css";
+import styles from "../Tracks.module.css";
 
 export default function TrackProgress({ totalStages, completedStages }) {
   const pct = totalStages > 0 ? Math.round((completedStages / totalStages) * 100) : 0;

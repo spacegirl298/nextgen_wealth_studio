@@ -35,5 +35,12 @@ export function useNudges(nudgeDefs = [], metrics = {}, context = {}, storageKey
     [setDismissed],
   );
 
+  const getMessage = (nudge) => {
+  if (typeof nudge.message === 'function') {
+    return nudge.message(metrics);
+  }
+  return nudge.message;
+};
+
   return { activeNudges, dismissNudge };
 }

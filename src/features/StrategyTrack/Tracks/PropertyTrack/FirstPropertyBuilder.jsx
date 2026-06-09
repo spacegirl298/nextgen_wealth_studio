@@ -1,40 +1,16 @@
-/**
- * FirstPropertyBuilder.jsx
- * ─────────────────────────────────────────────────────────────
- * Strategy track page — fully driven by tracksData.js.
- * This page pattern is reusable for ANY track: swap getTrackById(id).
- *
- * Key wiring:
- *  - Reads from useSnapshotStore to seed input defaults (MoneySnapshot data)
- *  - User can override locally; overrides persist in localStorage per track
- *  - Stage statuses computed live against track requirement() functions
- *  - Completed stages persist in localStorage via TRACK_PROGRESS_KEY
- *  - Nudges driven by tracksData nudgeDefs + useNudges hook
- *  - MilestoneStep renders full tradeoffs, warnings, edu, glossary
- *  - TrackTimeline for visual progress
- *  - TrackProgress for summary bar
- * ─────────────────────────────────────────────────────────────
- */
-
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+/*First Property Builder full track page.
+–	Reads track data from tracksData.js by id
+–	TrackTimeline at the top showing all stages
+–	TrackProgress component
+–	Renders a MilestoneStep for each stage
+–	Reads user income from FinancialContext to personalise milestone content (e.g. 'Based on your income, your target deposit is R X')
+–	Progress saved to localStorage via useLocalStorage
+*/
+import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
-
-import { getTrackById, TRACK_PROGRESS_KEY } from "../../data/tracksData";
-import { useSnapshotStore, calcTaxBreakdown } from "../../../../hooks/usesSnapshotStore";
-import { useLocalStorage } from "../../../../hooks/userLocalStorage";
-import { useNudges } from "../../../../hooks/useNudges";
-
-import MilestoneStep  from "../../components/MilestoneStep";
-import TrackTimeline  from "../../components/TrackTimeline";
-import TrackProgress  from "../../components/TrackProgress";
-
 import styles from "../../Tracks.module.css";
 
-// ─── CONSTANTS ───────────────────────────────────────────────
-const TRACK_ID   = "property";
-const STORAGE_KEY_OVERRIDES = `track_overrides_${TRACK_ID}_v1`;
-
-// ─── INFO TOOLTIP ────────────────────────────────────────────
+/* Tolltip Info*/
 const INFO_CONTENT = {
   "Monthly Take-Home Pay": {
     title: "Monthly Take-Home Pay",
@@ -60,41 +36,83 @@ const INFO_CONTENT = {
     title: "Credit Score",
     body: "Your credit score is one of the most important factors in bond approval. South African scores range from 300–999. Most banks require 600+ for approval. Above 700 typically unlocks better interest rates.",
   },
-  "Emergency Fund (months)": {
-    title: "Emergency Fund",
-    body: "How many months of living expenses your emergency fund covers. Banks and financial advisors recommend at least 3 months before aggressively saving for a deposit.",
-  },
-  "Debt-to-Income Ratio": {
-    title: "Debt-to-Income Ratio",
-    body: "Your total monthly debt repayments as a percentage of your gross income. Banks require this below 35–40% for bond approval. The lower, the better.",
-  },
 };
 
+/* Milestones */
+const MILESTONES = [
+  {
+    id: 1,
+    icon: "🏁",
+    title: "Build Your Financial Foundation",
+    desc: "3-month emergency fund in place, budget tracked monthly, all short-term debt under control.",
+    requirement: (s) => s.creditScore >= 580 && s.savings >= 10000,
+    badge: "Foundation",
+  },
+  {
+    id: 2,
+    icon: "📈",
+    title: "Crack the Credit Score",
+    desc: "Achieve a credit score of 670+ for standard bond approval. Pay every account on time for 12+ consecutive months.",
+    requirement: (s) => s.creditScore >= 670,
+    badge: "Credit Ready",
+  },
+  {
+    id: 3,
+    icon: "💰",
+    title: "Reach 50% of Your Deposit",
+    desc: "Save at least half your target deposit — a meaningful milestone that shows consistent discipline and keeps you on track.",
+    requirement: (s) => s.savings >= s.targetDeposit * 0.5,
+    badge: "Halfway There",
+  },
+  {
+    id: 4,
+    icon: "🏆",
+    title: "Hit Your Full Deposit Target",
+    desc: "Reach your full deposit goal. A 20% deposit dramatically improves your bond rate and reduces total interest paid.",
+    requirement: (s) => s.savings >= s.targetDeposit,
+    badge: "Deposit Ready",
+  },
+  {
+    id: 5,
+    icon: "🔑",
+    title: "Bond Application Ready",
+    desc: "Credit score 700+, deposit in place, income verified, and all supporting documents prepared for pre-approval.",
+    requirement: (s) => s.savings >= s.targetDeposit && s.creditScore >= 700,
+    badge: "Apply Now",
+  },
+];
+
+/* Info tooltip*/
 const InfoTooltip = ({ field }) => {
-  const [open, setOpen]       = useState(false);
-  const [pos, setPos]         = useState({ top: 0, left: 0 });
-  const btnRef                = useRef(null);
-  const info                  = INFO_CONTENT[field];
+  const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const buttonRef = useRef(null);
+  const info = INFO_CONTENT[field];
 
   useEffect(() => {
     if (!open) return;
-    const update = () => {
-      if (btnRef.current) {
-        const r = btnRef.current.getBoundingClientRect();
-        setPos({ top: r.bottom + 8, left: r.left - 120 });
+
+    const updatePosition = () => {
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        setPosition({ top: rect.bottom + 8, left: rect.left - 120 });
       }
     };
-    update();
-    window.addEventListener("scroll", update);
-    window.addEventListener("resize", update);
-    const onOut = (e) => {
-      if (btnRef.current && !btnRef.current.contains(e.target)) setOpen(false);
+
+    updatePosition();
+    window.addEventListener("scroll", updatePosition);
+    window.addEventListener("resize", updatePosition);
+
+    const handleClickOutside = (e) => {
+      if (buttonRef.current && !buttonRef.current.contains(e.target))
+        setOpen(false);
     };
-    document.addEventListener("mousedown", onOut);
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      document.removeEventListener("mousedown", onOut);
+      window.removeEventListener("scroll", updatePosition);
+      window.removeEventListener("resize", updatePosition);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
 
@@ -103,15 +121,30 @@ const InfoTooltip = ({ field }) => {
   return (
     <>
       <button
-        ref={btnRef}
+        ref={buttonRef}
         className={styles.infoIcon}
         onClick={() => setOpen((v) => !v)}
         aria-label={`Info about ${field}`}
         aria-expanded={open}
       >
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <circle cx="7" cy="7" r="6" stroke="var(--clr-gold)" strokeWidth="1" />
-          <text x="7" y="7" textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="var(--clr-gold)">i</text>
+        <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
+          <circle
+            cx="7"
+            cy="7"
+            r="6"
+            stroke="var(--clr-gold)"
+            strokeWidth="1"
+          />
+          <text
+            x="7"
+            y="7"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="var(--clr-gold)"
+          >
+            i
+          </text>
         </svg>
       </button>
 
@@ -119,14 +152,28 @@ const InfoTooltip = ({ field }) => {
         createPortal(
           <div
             className={styles.tooltipBox}
-            style={{ position: "fixed", top: pos.top, left: pos.left, zIndex: 999999 }}
+            style={{
+              position: "fixed",
+              top: position.top,
+              left: position.left,
+              zIndex: 999999,
+            }}
             role="tooltip"
           >
             <div className={styles.tooltipHeader}>
               <span className={styles.tooltipTitle}>{info.title}</span>
-              <button className={styles.tooltipClose} onClick={() => setOpen(false)} aria-label="Close">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <button
+                className={styles.tooltipClose}
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path
+                    d="M1 1l10 10M11 1L1 11"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </button>
             </div>
@@ -138,110 +185,87 @@ const InfoTooltip = ({ field }) => {
   );
 };
 
-// ─── SLIDER FIELD ────────────────────────────────────────────
-const SliderField = ({ label, min, max, step, value, onChange, prefix = "", suffix = "", info, snapshotValue }) => {
-  const isDivergent = snapshotValue !== undefined && value !== snapshotValue;
-
-  return (
-    <div className={styles.fieldRow}>
-      <div className={styles.fieldLabelRow}>
-        <label className={styles.fieldLabel}>{label}</label>
-        {isDivergent && (
-          <button
-            className={styles.syncBtn}
-            onClick={() => onChange(snapshotValue)}
-            title={`Reset to Money Snapshot value: ${prefix}${snapshotValue?.toLocaleString()}${suffix}`}
-            aria-label={`Reset ${label} to your Money Snapshot value`}
-          >
-            ↩ Sync from Snapshot
-          </button>
-        )}
+/* Slider Field */
+const SliderField = ({
+  label,
+  min,
+  max,
+  step,
+  value,
+  onChange,
+  prefix = "",
+  suffix = "",
+  info,
+}) => (
+  <div className={styles.fieldRow}>
+    <label className={styles.fieldLabel}>{label}</label>
+    <div className={styles.sliderWrap}>
+      <div className={styles.sliderTrackWrap}>
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className={styles.slider}
+          style={{ "--pct": `${((value - min) / (max - min)) * 100}%` }}
+        />
       </div>
-      <div className={styles.sliderWrap}>
-        <div className={styles.sliderTrackWrap}>
-          <input
-            type="range"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={(e) => onChange(Number(e.target.value))}
-            className={styles.slider}
-            style={{ "--pct": `${((value - min) / (max - min)) * 100}%` }}
-            aria-valuemin={min}
-            aria-valuemax={max}
-            aria-valuenow={value}
-            aria-label={label}
-          />
-        </div>
-        <span className={styles.sliderValue}>
-          {prefix}{value.toLocaleString()}{suffix}
-        </span>
-        {info && <InfoTooltip field={label} />}
-      </div>
+      <span className={styles.sliderValue}>
+        {prefix}
+        {value.toLocaleString()}
+        {suffix}
+      </span>
+      {info && <InfoTooltip field={label} />}
     </div>
-  );
-};
+  </div>
+);
 
-// ─── NUDGE BANNER ────────────────────────────────────────────
-const NudgeBanner = ({ nudges, onDismiss }) => {
-  if (!nudges?.length) return null;
-
-  return (
-    <div className={styles.nudgeBannerStack} role="region" aria-label="Alerts and nudges">
-      {nudges.map((n) => (
-        <div
-          key={n.id}
-          className={`${styles.nudgeBanner} ${
-            n.severity === "danger"
-              ? styles.nudgeDanger
-              : n.severity === "warning"
-              ? styles.nudgeWarning
-              : styles.nudgeInfo
-          }`}
-          role="status"
-          aria-live="polite"
-        >
-          <span className={styles.nudgeText}>{n.message}</span>
-          <button
-            className={styles.nudgeDismiss}
-            onClick={() => onDismiss(n.id)}
-            aria-label={`Dismiss: ${n.message}`}
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// ─── DONUT CHART ─────────────────────────────────────────────
+/* donut chart*/
 const DonutChart = ({ pct }) => {
-  const r     = 68;
-  const circ  = 2 * Math.PI * r;
-  const dash  = Math.min(pct / 100, 1) * circ;
-  const done  = pct >= 100;
+  const r = 68;
+  const circ = 2 * Math.PI * r;
+  const dash = Math.min(pct / 100, 1) * circ;
+  const isComplete = pct >= 100;
 
   return (
     <div className={styles.donutWrap}>
       <div className={styles.donutContainer}>
-        <svg className={styles.donutSvg} width="160" height="160" viewBox="0 0 160 160" aria-hidden="true">
-          <circle cx="80" cy="80" r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="14" />
+        <svg
+          className={styles.donutSvg}
+          width="160"
+          height="160"
+          viewBox="0 0 160 160"
+        >
           <circle
-            cx="80" cy="80" r={r} fill="none"
-            stroke={done ? "#4ade80" : "var(--clr-gold)"}
+            cx="80"
+            cy="80"
+            r={r}
+            fill="none"
+            stroke="rgba(255,255,255,0.07)"
+            strokeWidth="14"
+          />
+          <circle
+            cx="80"
+            cy="80"
+            r={r}
+            fill="none"
+            stroke={isComplete ? "#4ade80" : "var(--clr-gold)"}
             strokeWidth="14"
             strokeDasharray={`${dash} ${circ}`}
             strokeDashoffset={circ * 0.25}
             strokeLinecap="round"
-            style={{ transition: "stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1)", filter: "drop-shadow(0 0 8px rgba(248,210,153,0.4))" }}
+            style={{
+              transition: "stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1)",
+              filter: "drop-shadow(0 0 8px rgba(248,210,153,0.4))",
+            }}
           />
         </svg>
         <div className={styles.donutInner}>
-          <span className={styles.donutPct}>{Math.min(Math.round(pct), 100)}%</span>
+          <span className={styles.donutPct}>
+            {Math.min(Math.round(pct), 100)}%
+          </span>
           <span className={styles.donutLbl}>of goal</span>
         </div>
       </div>
@@ -249,26 +273,35 @@ const DonutChart = ({ pct }) => {
   );
 };
 
-// ─── CREDIT SCORE BAR ────────────────────────────────────────
+/* credut score */
 const CreditScoreBar = ({ score }) => {
   const pct = Math.max(0, Math.min(100, ((score - 300) / 699) * 100));
+
   const gradeInfo =
-    score >= 750 ? { label: "Excellent", color: "#4ade80" }
-    : score >= 670 ? { label: "Good", color: "#86efac" }
-    : score >= 580 ? { label: "Fair", color: "#fbbf24" }
-    : { label: "Poor", color: "#f87171" };
+    score >= 750
+      ? { label: "Excellent", color: "#4ade80" }
+      : score >= 670
+        ? { label: "Good", color: "#86efac" }
+        : score >= 580
+          ? { label: "Fair", color: "#fbbf24" }
+          : { label: "Poor", color: "#f87171" };
 
   const TIERS = [
-    { label: "Minimum Approval",  score: 600 },
-    { label: "Competitive Rate",  score: 670 },
-    { label: "Best Rate Tier",    score: 750 },
+    { label: "Minimum Approval", score: 600 },
+    { label: "Competitive Rate", score: 670 },
+    { label: "Best Rate Tier", score: 750 },
   ];
 
   return (
     <>
-      <div className={styles.creditScoreBig} style={{ color: gradeInfo.color }}>{score}</div>
-      <div className={styles.creditGrade} style={{ color: gradeInfo.color }}>{gradeInfo.label}</div>
-      <div className={styles.creditTrack} role="progressbar" aria-valuenow={score} aria-valuemin={300} aria-valuemax={999} aria-label={`Credit score: ${score}`}>
+      <div className={styles.creditScoreBig} style={{ color: gradeInfo.color }}>
+        {score}
+      </div>
+      <div className={styles.creditGrade} style={{ color: gradeInfo.color }}>
+        {gradeInfo.label}
+      </div>
+
+      <div className={styles.creditTrack}>
         <div className={styles.creditMarker} style={{ left: `${pct}%` }} />
       </div>
       <div className={styles.creditScaleLabels}>
@@ -277,12 +310,18 @@ const CreditScoreBar = ({ score }) => {
         <span>670 · Good</span>
         <span>750+ · Excellent</span>
       </div>
+
       <div className={styles.divider} />
+
       <div className={styles.creditTiersHeading}>Bank Requirements</div>
       {TIERS.map((t) => (
         <div key={t.label} className={styles.creditTierRow}>
           <span className={styles.creditTierLabel}>{t.label}</span>
-          <span className={score >= t.score ? styles.creditTierMet : styles.creditTierUnmet}>
+          <span
+            className={
+              score >= t.score ? styles.creditTierMet : styles.creditTierUnmet
+            }
+          >
             {t.score}+ {score >= t.score ? "✓" : ""}
           </span>
         </div>
@@ -291,72 +330,23 @@ const CreditScoreBar = ({ score }) => {
   );
 };
 
-// ─── ALERT HELPERS ───────────────────────────────────────────
-const alertClass = (type, s) => {
-  if (type === "warn") return `${s.alert} ${s.alertWarn}`;
-  if (type === "good") return `${s.alert} ${s.alertGood}`;
-  return `${s.alert} ${s.alertInfo}`;
-};
-
-// ─── MAIN COMPONENT ──────────────────────────────────────────
+/* main page */
 export default function FirstPropertyBuilder() {
-  const track = getTrackById(TRACK_ID);
-  const { state: snapshotState, derived: snapshotDerived } = useSnapshotStore();
-
-  // ── Derive sensible defaults from MoneySnapshot ──────────
-  const snapshotDefaults = useMemo(() => {
-    const takeHome       = Math.round(snapshotDerived.takeHome);
-    const monthlySave    = snapshotState.monthlySavingsContrib ?? 2000;
-    const savings        = snapshotState.emergencyFund + snapshotState.tfsa + snapshotState.localInv;
-    const dti            = snapshotDerived.metrics?.dti ?? 0;
-    const emergencyMonths = snapshotDerived.metrics?.emergencyMonths ?? 0;
-    return { takeHome, monthlySave, savings, dti, emergencyMonths };
-  }, [snapshotState, snapshotDerived]);
-
-  // ── Local overrides — persist per track ──────────────────
-  const [overrides, setOverrides] = useLocalStorage(STORAGE_KEY_OVERRIDES, {});
-
-  const get = (key, fallback) =>
-    overrides[key] !== undefined ? overrides[key] : fallback;
-
-  const set = useCallback(
-    (key, val) => setOverrides((prev) => ({ ...prev, [key]: val })),
-    [setOverrides],
-  );
-
-  // ── Inputs — seeded from snapshot, overridable ────────────
-  const takeHome       = get("takeHome",       snapshotDefaults.takeHome);
-  const monthlySave    = get("monthlySave",    snapshotDefaults.monthlySave);
-  const savings        = get("savings",        snapshotDefaults.savings);
-  const targetDeposit  = get("targetDeposit",  200000);
-  const interestRate   = get("interestRate",   8.5);
-  const creditScore    = get("creditScore",    640);
-
   const [learnOpen, setLearnOpen] = useState(false);
 
-  // ── Stage progress persistence ────────────────────────────
-  const progressKey = TRACK_PROGRESS_KEY(TRACK_ID);
-  const [manuallyCompleted, setManuallyCompleted] = useLocalStorage(progressKey, []);
+  // Inputs
+  const [takeHome, setTakeHome] = useState(32000);
+  const [monthlySave, setMonthlySave] = useState(3500);
+  const [savings, setSavings] = useState(85000);
+  const [targetDeposit, setTargetDeposit] = useState(200000);
+  const [interestRate, setInterestRate] = useState(8.5);
+  const [creditScore, setCreditScore] = useState(640);
 
-  const markComplete = useCallback(
-    (stageId) => setManuallyCompleted((prev) => prev.includes(stageId) ? prev : [...prev, stageId]),
-    [setManuallyCompleted],
-  );
-
-  const markIncomplete = useCallback(
-    (stageId) => setManuallyCompleted((prev) => prev.filter((id) => id !== stageId)),
-    [setManuallyCompleted],
-  );
-
-  // ── Derived calculations ──────────────────────────────────
+  // Derived calculations
   const computed = useMemo(() => {
-    const pct          = (savings / targetDeposit) * 100;
-    const remaining    = Math.max(0, targetDeposit - savings);
-    const savingsRate  = takeHome > 0 ? (monthlySave / takeHome) * 100 : 0;
-    const dti          = snapshotDerived.metrics?.dti ?? 0;
-    const emergencyMonths = savings > 0 && snapshotDerived.totalExpenses > 0
-      ? savings / snapshotDerived.totalExpenses
-      : snapshotDerived.metrics?.emergencyMonths ?? 0;
+    const pct = (savings / targetDeposit) * 100;
+    const remaining = Math.max(0, targetDeposit - savings);
+    const savingsRate = takeHome > 0 ? (monthlySave / takeHome) * 100 : 0;
 
     const r = interestRate / 100 / 12;
     let months = 0;
@@ -368,195 +358,240 @@ export default function FirstPropertyBuilder() {
       }
     }
 
-    const years    = Math.floor(months / 12);
-    const mo       = months % 12;
+    const years = Math.floor(months / 12);
+    const mo = months % 12;
     const goalDate =
-      months === 0     ? "Already reached"
-      : months >= 360  ? "36+ years"
-      : years > 0      ? `${years}y ${mo}m`
-      :                  `${mo} months`;
+      months === 0
+        ? "Already reached"
+        : months >= 360
+          ? "36+ years"
+          : years > 0
+            ? `${years}y ${mo}m`
+            : `${mo} months`;
 
     // Smart alerts
     const alerts = [];
     if (savingsRate < 15)
-      alerts.push({ type: "warn", text: `Your savings rate is ${savingsRate.toFixed(0)}% — aim for at least 20% of take-home to hit your goal faster.` });
+      alerts.push({
+        type: "warn",
+        text: `Your savings rate is ${savingsRate.toFixed(0)}% — aim for at least 20% of take-home to hit your goal faster.`,
+      });
     if (creditScore < 600)
-      alerts.push({ type: "warn", text: "Your credit score needs attention. Clear any missed payments and keep credit utilisation below 30%." });
+      alerts.push({
+        type: "warn",
+        text: "Your credit score needs attention. Clear any missed payments and keep credit utilisation below 30%.",
+      });
     if (creditScore >= 670 && creditScore < 750)
-      alerts.push({ type: "info", text: "A 750+ score unlocks better bond rates. Request your free credit report from TransUnion or Experian and dispute any errors." });
+      alerts.push({
+        type: "info",
+        text: "A 750+ score unlocks better bond rates. Request your free credit report from TransUnion or Experian and dispute any errors.",
+      });
     if (creditScore >= 750)
-      alerts.push({ type: "good", text: "Excellent credit score — you're likely to qualify for prime or prime minus rates on your bond." });
+      alerts.push({
+        type: "good",
+        text: "Excellent credit score — you're likely to qualify for prime or prime minus rates on your bond.",
+      });
     if (pct >= 100)
-      alerts.push({ type: "good", text: "You've reached your deposit target! Consider locking it in a fixed-term account while you prepare your bond application." });
+      alerts.push({
+        type: "good",
+        text: "You've reached your deposit target! Consider locking it in a fixed-term account while you prepare your bond application.",
+      });
     if (months > 60 && months < 360)
-      alerts.push({ type: "info", text: `Increasing your monthly contribution by R500 would cut approximately ${Math.round(months * 0.08)} months off your timeline.` });
+      alerts.push({
+        type: "info",
+        text: `Increasing your monthly contribution by R500 would cut approximately ${Math.round(months * 0.08)} months off your timeline.`,
+      });
     if (alerts.length === 0)
-      alerts.push({ type: "good", text: "You're on track. Stay consistent and review your budget quarterly to find extra savings capacity." });
+      alerts.push({
+        type: "good",
+        text: "You're on track. Stay consistent and review your budget quarterly to find extra savings capacity.",
+      });
 
-    // Monthly action plan
+    // Monthly actions
     const actions = [];
     if (creditScore < 670)
-      actions.push("Check your credit report for errors via TransUnion or Experian (free once a year)");
-    actions.push(`Automate a R${monthlySave.toLocaleString()} debit order into your dedicated deposit savings account`);
+      actions.push(
+        "Check your credit report for errors via TransUnion or Experian (free once a year)",
+      );
+    actions.push(
+      `Automate a R${monthlySave.toLocaleString()} debit order into your dedicated deposit savings account`,
+    );
     if (savingsRate < 20)
-      actions.push("Review last month's spending — identify one category to cut by 10%");
-    actions.push("Compare TFSA interest rates across FNB, Nedbank, and Standard Bank");
+      actions.push(
+        "Review last month's spending — identify one category to cut by 10%",
+      );
+    actions.push(
+      "Compare TFSA interest rates across FNB, Nedbank, and Standard Bank",
+    );
     if (creditScore >= 600)
-      actions.push("Get pre-qualified at your bank to understand your current bond eligibility");
+      actions.push(
+        "Get pre-qualified at your bank to understand your current bond eligibility",
+      );
     if (months > 24)
-      actions.push("Consider supplementary income streams to accelerate your deposit timeline");
-    actions.push("Confirm your emergency fund still covers at least 3 months of expenses");
+      actions.push(
+        "Consider supplementary income streams to accelerate your deposit timeline",
+      );
+    actions.push(
+      "Confirm your emergency fund still covers at least 3 months of expenses",
+    );
 
-    return { pct, remaining, months, goalDate, savingsRate, dti, emergencyMonths, alerts, actions };
-  }, [takeHome, monthlySave, savings, targetDeposit, interestRate, creditScore, snapshotDerived]);
+    return { pct, remaining, months, goalDate, savingsRate, alerts, actions };
+  }, [
+    takeHome,
+    monthlySave,
+    savings,
+    targetDeposit,
+    interestRate,
+    creditScore,
+  ]);
 
-  // ── Stage statuses — requirement(snapshotState) merged with local inputs ──
-  const stageStatuses = useMemo(() => {
-    const ctx = {
-      savings,
-      targetDeposit,
-      creditScore,
-      emergencyMonths: computed.emergencyMonths,
-      dti: computed.dti,
-      savingsRate: computed.savingsRate,
-      tfsa: snapshotState.tfsa,
-      totalSavings: snapshotDerived.totalSavings,
-    };
-
-    const autoResults = track?.stages.map((s) => {
-      try { return s.requirement(ctx); }
-      catch { return false; }
-    }) ?? [];
-
-    // Manual overrides can only promote, not demote past auto-completion
-    return autoResults.map((autoDone, i) => {
-      const stage     = track.stages[i];
-      const isManual  = manuallyCompleted.includes(stage.id);
-      const done      = autoDone || isManual;
+  // Milestone
+  const msStatuses = useMemo(() => {
+    const state = { savings, targetDeposit, creditScore };
+    const results = MILESTONES.map((m) => m.requirement(state));
+    return results.map((done, i) => {
       if (done) return "done";
-      if (i === 0 || autoResults[i - 1] || manuallyCompleted.includes(track.stages[i - 1].id)) return "active";
+      if (i === 0 || results[i - 1]) return "active";
       return "locked";
     });
-  }, [savings, targetDeposit, creditScore, computed, snapshotState, snapshotDerived, manuallyCompleted, track]);
+  }, [savings, targetDeposit, creditScore]);
 
-  const doneCount       = stageStatuses.filter((s) => s === "done").length;
-  const totalStages     = track?.stages.length ?? 0;
+  const doneCount = msStatuses.filter((s) => s === "done").length;
+  const overallProgress = (doneCount / MILESTONES.length) * 100;
 
-  // ── Nudges ────────────────────────────────────────────────
-  const nudgeContext = useMemo(() => ({
-    savings,
-    tfsa: snapshotState.tfsa,
-    housing: snapshotDerived.housing,
-    takeHome,
-    totalSavings: snapshotDerived.totalSavings,
-    offshoreInv: snapshotState.offshoreInv,
-  }), [savings, snapshotState, snapshotDerived, takeHome]);
+  const msIconClass = (status) => {
+    if (status === "done") return `${styles.msIcon} ${styles.msIconDone}`;
+    if (status === "active") return `${styles.msIcon} ${styles.msIconActive}`;
+    return `${styles.msIcon} ${styles.msIconLocked}`;
+  };
 
-  const nudgeMetrics = useMemo(() => ({
-    savingsRate: computed.savingsRate,
-    emergencyMonths: computed.emergencyMonths,
-    dti: computed.dti,
-  }), [computed]);
+  const msStatusClass = (status) => {
+    if (status === "done") return `${styles.msStatus} ${styles.msStatusDone}`;
+    if (status === "active")
+      return `${styles.msStatus} ${styles.msStatusActive}`;
+    return `${styles.msStatus} ${styles.msStatusLocked}`;
+  };
 
-  const { activeNudges, dismissNudge } = useNudges(
-    track?.nudgeDefs ?? [],
-    nudgeMetrics,
-    nudgeContext,
-    `track_nudges_${TRACK_ID}_v1`,
-  );
+  const msBadgeClass = (status) => {
+    if (status === "done") return `${styles.msBadge} ${styles.msBadgeDone}`;
+    if (status === "active") return `${styles.msBadge} ${styles.msBadgeActive}`;
+    return `${styles.msBadge} ${styles.msBadgeLocked}`;
+  };
 
-  // ── Scroll to milestone refs ──────────────────────────────
-  const milestoneRefs = useRef([]);
-  const handleTimelineClick = useCallback((stageId, index) => {
-    milestoneRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
-
-  if (!track) return <div className={styles.page}>Track not found.</div>;
+  const alertClass = (type) => {
+    if (type === "warn") return `${styles.alert} ${styles.alertWarn}`;
+    if (type === "good") return `${styles.alert} ${styles.alertGood}`;
+    return `${styles.alert} ${styles.alertInfo}`;
+  };
 
   return (
     <div className={styles.page}>
-      {/* Back */}
-      <button className={styles.backBtn} onClick={() => window.history.back()} aria-label="Go back">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Back button */}
+      <button
+        className={styles.backBtn}
+        onClick={() => window.history.back()}
+        aria-label="Go back"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path
+            d="M10 3L5 8l5 5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         Back
       </button>
 
       {/* Hero */}
       <div className={styles.hero}>
-        <div className={styles.heroEyebrow}>{track.difficulty} · {track.timeHorizon}</div>
         <h1 className={styles.heroTitle}>
           First Property
           <br />
           Builder
         </h1>
-        <p className={styles.heroSub}>{track.description}</p>
-        <p className={styles.heroWho}>{track.whoIsItFor}</p>
+
+        <p className={styles.heroSub}>
+          A structured simulation lab for young professionals working toward the
+          milestone of home ownership. Track your deposit progress, credit
+          score, and five key milestones — all updating in real time as you
+          adjust your inputs.
+        </p>
       </div>
 
-      {/* Nudges */}
-      <NudgeBanner nudges={activeNudges} onDismiss={dismissNudge} />
-
-      {/* Learn More / Rationale */}
+      {/*  Learn More */}
       <div className={styles.learnCard}>
         <button
           className={styles.learnToggle}
           onClick={() => setLearnOpen((v) => !v)}
-          aria-expanded={learnOpen}
         >
-          Why this track?
+          Learn More
           <svg
             className={`${styles.chevron} ${learnOpen ? styles.chevronOpen : ""}`}
-            width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
           >
-            <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M3 5l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
 
         {learnOpen && (
           <div className={styles.learnBody}>
-            <p className={styles.learnIntro}>{track.rationale}</p>
+            <p className={styles.learnIntro}>
+              The First Property Builder track is built on a simple philosophy:
+              the gap between renting and owning is mostly a savings and credit
+              discipline problem, not an income problem. Most young
+              professionals in Johannesburg earn enough to eventually qualify
+              for a bond — they just haven't optimised the inputs yet.
+            </p>
             <div className={styles.learnGrid}>
               <div className={styles.learnItem}>
                 <h4>Why Deposit Size Matters</h4>
-                <p>A 10% deposit meets the minimum. A 20% deposit typically saves R200–400K in total interest by reducing the loan principal and often unlocking a better rate.</p>
+                <p>
+                  A 10% deposit meets the minimum. A 20% deposit typically saves
+                  R200–400K in total interest by reducing the loan principal and
+                  often unlocking a better rate.
+                </p>
               </div>
               <div className={styles.learnItem}>
                 <h4>The Credit Score Lever</h4>
-                <p>Your credit score is often more impactful than your income. Moving from 620 to 720 can be the difference between prime+2% and prime−0.5% — thousands per month.</p>
+                <p>
+                  Your credit score is often more impactful than your income.
+                  Moving from 620 to 720 can be the difference between prime+2%
+                  and prime−0.5% — thousands per month.
+                </p>
               </div>
               <div className={styles.learnItem}>
                 <h4>Compound Savings</h4>
-                <p>Consistent monthly contributions into a high-yield TFSA compound meaningfully over 3–5 years. A R3,500/month contribution at 8.5% p.a. grows to R200K+ in under 4 years.</p>
+                <p>
+                  Consistent monthly contributions into a high-yield TFSA
+                  compound meaningfully over 3–5 years. A R3,500/month
+                  contribution at 8.5% p.a. grows to R200K+ in under 4 years.
+                </p>
               </div>
               <div className={styles.learnItem}>
                 <h4>The Trade-Offs</h4>
-                <p>Higher deposit = lower risk but longer timeline. Better credit = lower interest but requires time and discipline. This lab helps you find your optimal path.</p>
+                <p>
+                  Higher deposit = lower risk but longer timeline. Better credit
+                  = lower interest but requires time and discipline. This lab
+                  helps you find your optimal path.
+                </p>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Timeline */}
-      <div className={styles.sectionLabel}>
-        <span className={styles.sectionLabelText}>Your Journey</span>
-        <div className={styles.sectionLabelLine} />
-      </div>
-
-      <TrackTimeline
-        stages={track.stages}
-        stageStatuses={stageStatuses}
-        onStageClick={handleTimelineClick}
-      />
-
-      <TrackProgress
-        totalStages={totalStages}
-        completedStages={doneCount}
-      />
-
-      {/* Step 1 — Profile inputs */}
+      {/* STep 1*/}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 1 — Your Situation</span>
         <div className={styles.sectionLabelLine} />
@@ -565,128 +600,154 @@ export default function FirstPropertyBuilder() {
       <div className={styles.sectionCard}>
         <h2 className={styles.cardTitle}>Your Financial Profile</h2>
         <p className={styles.cardSub}>
-          These values are pre-filled from your Money Snapshot. Adjust freely — your changes are saved here and don&apos;t affect your Snapshot.
-          Use <em>↩ Sync from Snapshot</em> on any field to pull the latest figure across.
+          Adjust the sliders to reflect your current situation. All outputs
+          update in real time.
         </p>
 
         <div className={styles.twoCol}>
           <div>
             <SliderField
               label="Monthly Take-Home Pay"
-              min={8000} max={120000} step={500}
-              value={takeHome} onChange={(v) => set("takeHome", v)}
-              prefix="R " info
-              snapshotValue={snapshotDefaults.takeHome}
+              min={8000}
+              max={120000}
+              step={500}
+              value={takeHome}
+              onChange={setTakeHome}
+              prefix="R "
+              info
             />
             <SliderField
               label="Monthly Savings Contribution"
-              min={500} max={30000} step={250}
-              value={monthlySave} onChange={(v) => set("monthlySave", v)}
-              prefix="R " info
-              snapshotValue={snapshotDefaults.monthlySave}
+              min={500}
+              max={30000}
+              step={250}
+              value={monthlySave}
+              onChange={setMonthlySave}
+              prefix="R "
+              info
             />
             <SliderField
               label="Savings Interest Rate"
-              min={4} max={14} step={0.25}
-              value={interestRate} onChange={(v) => set("interestRate", v)}
-              suffix="% p.a." info
+              min={4}
+              max={14}
+              step={0.25}
+              value={interestRate}
+              onChange={setInterestRate}
+              suffix="% p.a."
+              info
             />
           </div>
           <div>
             <SliderField
               label="Current Savings Balance"
-              min={0} max={500000} step={5000}
-              value={savings} onChange={(v) => set("savings", v)}
-              prefix="R " info
-              snapshotValue={Math.round(snapshotDefaults.savings)}
+              min={0}
+              max={500000}
+              step={5000}
+              value={savings}
+              onChange={setSavings}
+              prefix="R "
+              info
             />
             <SliderField
               label="Target Deposit"
-              min={50000} max={600000} step={10000}
-              value={targetDeposit} onChange={(v) => set("targetDeposit", v)}
-              prefix="R " info
+              min={50000}
+              max={600000}
+              step={10000}
+              value={targetDeposit}
+              onChange={setTargetDeposit}
+              prefix="R "
+              info
             />
             <SliderField
               label="Credit Score"
-              min={300} max={999} step={1}
-              value={creditScore} onChange={(v) => set("creditScore", v)}
+              min={300}
+              max={999}
+              step={1}
+              value={creditScore}
+              onChange={setCreditScore}
               info
             />
           </div>
         </div>
-
-        {/* Snapshot-derived metrics read-only display */}
-        <div className={styles.snapshotMetaRow}>
-          <div className={styles.snapshotMetaItem}>
-            <span className={styles.snapshotMetaLabel}>Emergency Fund Coverage</span>
-            <span className={`${styles.snapshotMetaValue} ${computed.emergencyMonths >= 3 ? styles.metaGood : styles.metaWarn}`}>
-              {computed.emergencyMonths.toFixed(1)} months
-            </span>
-          </div>
-          <div className={styles.snapshotMetaItem}>
-            <span className={styles.snapshotMetaLabel}>Debt-to-Income Ratio</span>
-            <span className={`${styles.snapshotMetaValue} ${computed.dti < 36 ? styles.metaGood : styles.metaWarn}`}>
-              {computed.dti.toFixed(1)}%
-            </span>
-          </div>
-          <div className={styles.snapshotMetaItem}>
-            <span className={styles.snapshotMetaLabel}>Monthly Savings Rate</span>
-            <span className={`${styles.snapshotMetaValue} ${computed.savingsRate >= 20 ? styles.metaGood : styles.metaWarn}`}>
-              {computed.savingsRate.toFixed(1)}%
-            </span>
-          </div>
-        </div>
       </div>
 
-      {/* Step 2 — Savings Progress */}
+      {/* Step 2*/}
       <div className={styles.sectionLabel}>
-        <span className={styles.sectionLabelText}>Step 2 — Savings Progress</span>
+        <span className={styles.sectionLabelText}>
+          Step 2 — Savings Progress
+        </span>
         <div className={styles.sectionLabelLine} />
       </div>
 
       <div className={styles.twoCol}>
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Deposit Tracker</h2>
-          <p className={styles.cardSub}>How close you are to your target deposit</p>
+          <p className={styles.cardSub}>
+            How close you are to your target deposit
+          </p>
 
           <DonutChart pct={computed.pct} />
+
           <div className={styles.divider} />
 
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>Saved</span>
-            <span className={styles.summaryVal}>R {savings.toLocaleString()}</span>
+            <span className={styles.summaryVal}>
+              R {savings.toLocaleString()}
+            </span>
           </div>
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>Remaining</span>
-            <span className={styles.summaryVal}>R {computed.remaining.toLocaleString()}</span>
+            <span className={styles.summaryVal}>
+              R {computed.remaining.toLocaleString()}
+            </span>
           </div>
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>Target</span>
-            <span className={styles.summaryVal}>R {targetDeposit.toLocaleString()}</span>
+            <span className={styles.summaryVal}>
+              R {targetDeposit.toLocaleString()}
+            </span>
           </div>
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>Savings Rate</span>
-            <span className={computed.savingsRate >= 20 ? styles.summaryValGood : styles.summaryValWarn}>
+            <span
+              className={
+                computed.savingsRate >= 20
+                  ? styles.summaryValGood
+                  : styles.summaryValWarn
+              }
+            >
               {computed.savingsRate.toFixed(1)}% of income
             </span>
           </div>
+
           <div className={styles.divider} />
+
           <div className={styles.goalEstimate}>
             <div className={styles.goalEstimateLbl}>Estimated Time to Goal</div>
-            <div className={computed.months < 360 ? styles.goalEstimateVal : styles.goalEstimateValDim}>
+            <div
+              className={
+                computed.months < 360
+                  ? styles.goalEstimateVal
+                  : styles.goalEstimateValDim
+              }
+            >
               {computed.goalDate}
             </div>
           </div>
         </div>
 
+        {/* Credit Score */}
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Credit Score</h2>
-          <p className={styles.cardSub}>Your key to bond approval and better rates</p>
+          <p className={styles.cardSub}>
+            Your key to bond approval and better rates
+          </p>
           <CreditScoreBar score={creditScore} />
         </div>
       </div>
 
-      {/* Step 3 — Milestones */}
+      {/* milestones */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 3 — Milestones</span>
         <div className={styles.sectionLabelLine} />
@@ -695,42 +756,77 @@ export default function FirstPropertyBuilder() {
       <div className={styles.sectionCard}>
         <h2 className={styles.cardTitle}>Your Journey to Home Ownership</h2>
         <p className={styles.cardSub}>
-          {totalStages} stages from financial foundation to bond application. Progress updates live as you adjust your inputs —
-          or mark stages complete manually as you hit them in real life.
+          Five milestones from financial foundation to bond application.
+          Progress updates live as you adjust your inputs above.
         </p>
 
-        <div className={styles.milestones}>
-          {track.stages.map((stage, i) => (
+        <div className={styles.progressRow}>
+          <div className={styles.progressLabels}>
+            <span>Overall Progress</span>
+            <span className={styles.progressGold}>
+              {doneCount} / {MILESTONES.length} complete
+            </span>
+          </div>
+          <div className={styles.progressTrack}>
             <div
-              key={stage.id}
-              ref={(el) => (milestoneRefs.current[i] = el)}
-            >
-              <MilestoneStep
-                stage={stage}
-                stageNumber={i + 1}
-                status={stageStatuses[i]}
-                onComplete={markComplete}
-                onUncomplete={markIncomplete}
-              />
-            </div>
-          ))}
+              className={styles.progressFill}
+              style={{ width: `${overallProgress}%` }}
+            />
+          </div>
+        </div>
+
+        <div className={styles.milestones}>
+          {MILESTONES.map((m, i) => {
+            const status = msStatuses[i];
+            const isLast = i === MILESTONES.length - 1;
+
+            return (
+              <div key={m.id} className={styles.milestoneRow}>
+                <div className={styles.msIconCol}>
+                  <div className={msIconClass(status)}>{m.icon}</div>
+                  {!isLast && (
+                    <div
+                      className={`${styles.msConnector} ${status === "done" ? styles.msConnectorDone : ""}`}
+                    />
+                  )}
+                </div>
+                <div className={styles.msContent}>
+                  <div className={msStatusClass(status)}>
+                    {status === "done"
+                      ? "✓ Completed"
+                      : status === "active"
+                        ? "▶ In Progress"
+                        : "Locked"}
+                  </div>
+                  <div className={styles.msTitle}>{m.title}</div>
+                  <div className={styles.msDesc}>{m.desc}</div>
+                  <span className={msBadgeClass(status)}>{m.badge}</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Step 4 — Recommendations */}
+      {/* step 4 */}
       <div className={styles.sectionLabel}>
-        <span className={styles.sectionLabelText}>Step 4 — Recommendations</span>
+        <span className={styles.sectionLabelText}>
+          Step 4 — Recommendations
+        </span>
         <div className={styles.sectionLabelLine} />
       </div>
 
       <div className={styles.twoCol}>
+        {/* Smart Alerts */}
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Smart Alerts</h2>
-          <p className={styles.cardSub}>Dynamic insights based on your current inputs</p>
+          <p className={styles.cardSub}>
+            Dynamic insights based on your current inputs
+          </p>
           <div className={styles.alerts}>
             {computed.alerts.map((a, i) => (
-              <div key={i} className={alertClass(a.type, styles)}>
-                <span className={styles.alertIcon} aria-hidden="true">
+              <div key={i} className={alertClass(a.type)}>
+                <span className={styles.alertIcon}>
                   {a.type === "warn" ? "⚠" : a.type === "good" ? "✓" : "ℹ"}
                 </span>
                 <span>{a.text}</span>
@@ -739,13 +835,14 @@ export default function FirstPropertyBuilder() {
           </div>
         </div>
 
+        {/* Monthly Actions */}
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Monthly Action Plan</h2>
           <p className={styles.cardSub}>Personalised actions for this month</p>
           <ul className={styles.actionsList}>
             {computed.actions.map((action, i) => (
               <li key={i} className={styles.actionItem}>
-                <div className={styles.actionDot} aria-hidden="true" />
+                <div className={styles.actionDot} />
                 <span>{action}</span>
               </li>
             ))}
@@ -753,7 +850,7 @@ export default function FirstPropertyBuilder() {
         </div>
       </div>
 
-      {/* Step 5 — Summary */}
+      {/* step 5*/}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 5 — Summary</span>
         <div className={styles.sectionLabelLine} />
@@ -762,7 +859,8 @@ export default function FirstPropertyBuilder() {
       <div className={styles.sectionCard}>
         <h2 className={styles.cardTitle}>Key Numbers at a Glance</h2>
         <p className={styles.cardSub}>
-          A snapshot of your path to first property ownership based on your current profile.
+          A snapshot of your path to first property ownership based on your
+          current profile.
         </p>
 
         <table className={styles.table}>
@@ -775,14 +873,24 @@ export default function FirstPropertyBuilder() {
           </thead>
           <tbody>
             {[
-              ["Monthly Savings",    `R ${monthlySave.toLocaleString()}`,                       `R ${Math.round(takeHome * 0.2).toLocaleString()} (20%)`],
-              ["Savings Rate",       `${computed.savingsRate.toFixed(1)}%`,                     "20%+"],
-              ["Deposit Progress",   `${Math.min(Math.round(computed.pct), 100)}%`,             "100%"],
-              ["Credit Score",       `${creditScore}`,                                          "670+ for approval"],
-              ["Emergency Coverage", `${computed.emergencyMonths.toFixed(1)} months`,           "3+ months"],
-              ["Debt-to-Income",     `${computed.dti.toFixed(1)}%`,                            "< 36%"],
-              ["Time to Goal",       computed.goalDate,                                         "< 36 months ideal"],
-              ["Property Budget",    `R ${Math.round(targetDeposit / 0.1).toLocaleString()}`,  "Based on 10% deposit"],
+              [
+                "Monthly Savings",
+                `R ${monthlySave.toLocaleString()}`,
+                `R ${Math.round(takeHome * 0.2).toLocaleString()} (20%)`,
+              ],
+              ["Savings Rate", `${computed.savingsRate.toFixed(1)}%`, "20%+"],
+              [
+                "Deposit Progress",
+                `${Math.min(Math.round(computed.pct), 100)}%`,
+                "100%",
+              ],
+              ["Credit Score", `${creditScore}`, "670+ for approval"],
+              ["Time to Goal", computed.goalDate, "< 36 months ideal"],
+              [
+                "Property Budget",
+                `R ${Math.round(targetDeposit / 0.1).toLocaleString()}`,
+                "Based on 10% deposit",
+              ],
             ].map(([label, yours, bench]) => (
               <tr key={label}>
                 <td className={styles.rowLabel}>{label}</td>
@@ -794,8 +902,10 @@ export default function FirstPropertyBuilder() {
         </table>
 
         <div className={styles.recHighlight}>
-          <strong>Simulation Insight:</strong> At your current savings rate of {computed.savingsRate.toFixed(0)}% and a {interestRate}% annual
-          return, you&apos;re projected to reach your R {targetDeposit.toLocaleString()} deposit target in{" "}
+          <strong>Simulation Insight:</strong> At your current savings rate of{" "}
+          {computed.savingsRate.toFixed(0)}% and a {interestRate}% annual
+          return, you're projected to reach your R{" "}
+          {targetDeposit.toLocaleString()} deposit target in{" "}
           <strong>{computed.goalDate}</strong>.
           {computed.savingsRate < 20
             ? ` Increasing monthly contributions by R${Math.round(takeHome * 0.05).toLocaleString()} could shave approximately ${Math.round(computed.months * 0.15)} months off your timeline.`

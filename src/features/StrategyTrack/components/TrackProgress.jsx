@@ -1,11 +1,31 @@
-/*Progress summary component within a track page.
-–	Props: totalStages, completedStages
-–	ProgressBar showing overall completion %
-–	Text: 'Stage X of Y completed'
-–	Nudge trigger: congratulations when a stage is completed
+/**
+ * TrackProgress.jsx
+ * Generic progress summary used by all three track pages.
+ * Props: totalStages, completedStages, onCelebrate (optional callback when stage completes)
+ */
+import styles from "../Tracks.module.css";
 
-*/
+export default function TrackProgress({ totalStages, completedStages }) {
+  const pct = totalStages > 0 ? (completedStages / totalStages) * 100 : 0;
 
-export default function TrackProgress() {
-  return <div>Patient Dashboard</div>
+  return (
+    <div className={styles.progressRow}>
+      <div className={styles.progressLabels}>
+        <span>Overall Progress</span>
+        <span className={styles.progressGold}>
+          {completedStages} / {totalStages} complete
+        </span>
+      </div>
+      <div className={styles.progressTrack}>
+        <div
+          className={styles.progressFill}
+          style={{ width: `${pct}%` }}
+          role="progressbar"
+          aria-valuenow={Math.round(pct)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        />
+      </div>
+    </div>
+  );
 }

@@ -985,3 +985,367 @@
 .ctaBtn:active {
   transform: translateY(0);
 }
+
+/*
+ * Tracks_additions.module.css
+ * Append these styles to your existing Tracks.module.css.
+ * They add the new classes for: timeline, milestone cards, nudge banners,
+ * glossary terms, tradeoff grid, and complete button.
+ * No existing styles are changed.
+ */
+
+/* ── Nudges ─────────────────────────────────────────────────────────────── */
+.nudgesWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.nudgeBanner {
+  /* extends .alert — just adds dismiss button layout */
+  justify-content: flex-start;
+  animation: nudgeIn 0.3s ease;
+}
+
+@keyframes nudgeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.nudgeDismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.55;
+  transition: opacity 0.15s;
+  color: currentColor;
+  flex-shrink: 0;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.nudgeDismiss:hover {
+  opacity: 1;
+}
+
+/* ── Horizontal Stage Timeline ──────────────────────────────────────────── */
+.timelineWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0 1.25rem;
+  position: relative;
+  overflow-x: auto;
+  gap: 0;
+}
+
+.timelineDot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex: 1;
+  gap: 0;
+}
+
+.timelineDotIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 2;
+  background: var(--clr-bg-card);
+}
+
+.timelineDotDone .timelineDotIcon {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: var(--clr-green, #4ade80);
+}
+
+.timelineDotActive .timelineDotIcon {
+  background: rgba(155, 109, 255, 0.18);
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 12px var(--clr-accent-glow);
+}
+
+.timelineDotLocked .timelineDotIcon {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.timelineDotSelected .timelineDotIcon {
+  transform: scale(1.15);
+  box-shadow: 0 0 18px var(--clr-accent-glow);
+}
+
+.timelineConnector {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 18px);
+  right: calc(-50% + 18px);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.timelineConnectorDone {
+  background: rgba(74, 222, 128, 0.35);
+}
+
+/* ── Milestone Stage Cards ───────────────────────────────────────────────── */
+.milestoneCard {
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
+  background: var(--clr-bg-card);
+  margin-bottom: 0.6rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.milestoneCardActive {
+  border-color: rgba(155, 109, 255, 0.3);
+}
+
+.milestoneCardDone {
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+.milestoneCardLocked {
+  opacity: 0.55;
+}
+
+.milestoneCardHeader {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  text-align: left;
+  color: inherit;
+}
+
+.milestoneCardHeader:disabled {
+  cursor: not-allowed;
+}
+
+.milestoneCardMeta {
+  flex: 1;
+}
+
+.milestoneCardRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.milestoneCardBody {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  animation: bodyIn 0.2s ease;
+}
+
+@keyframes bodyIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.completedDate {
+  font-size: 0.68rem;
+  color: var(--clr-green, #4ade80);
+  font-family: var(--font-body);
+  margin-top: 0.15rem;
+  opacity: 0.75;
+}
+
+/* ── Milestone Section Within Card ─────────────────────────────────────── */
+.milestoneSection {
+  margin-top: 1rem;
+}
+
+.milestoneSectionTitle {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+}
+
+/* ── Tradeoff Grid ──────────────────────────────────────────────────────── */
+.tradeoffGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tradeoffPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .tradeoffPair {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tradeoffPro,
+.tradeoffCon {
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  line-height: 1.6;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+}
+
+.tradeoffPro {
+  background: rgba(74, 222, 128, 0.07);
+  color: var(--clr-text);
+  border: 1px solid rgba(74, 222, 128, 0.15);
+}
+
+.tradeoffCon {
+  background: rgba(248, 113, 113, 0.07);
+  color: var(--clr-text);
+  border: 1px solid rgba(248, 113, 113, 0.12);
+}
+
+.tradeoffIcon {
+  font-weight: 700;
+  margin-right: 0.3rem;
+  opacity: 0.7;
+}
+
+/* ── Glossary Terms ─────────────────────────────────────────────────────── */
+.glossaryRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.glossaryTerm {
+  position: relative;
+  display: inline-block;
+}
+
+.glossaryBtn {
+  background: rgba(248, 210, 153, 0.1);
+  border: 1px solid rgba(248, 210, 153, 0.25);
+  border-radius: 12px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  color: var(--clr-gold);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.glossaryBtn:hover {
+  background: rgba(248, 210, 153, 0.18);
+}
+
+.glossaryPop {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  width: 240px;
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  padding: 0.7rem 0.85rem;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  animation: tooltipIn 0.15s ease;
+}
+
+.glossaryPopTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--clr-gold);
+  font-family: var(--font-body);
+}
+
+.glossaryPopBody {
+  font-size: 0.73rem;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: var(--font-body);
+  line-height: 1.65;
+}
+
+/* ── Example Box ────────────────────────────────────────────────────────── */
+.exampleBox {
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--clr-text-muted);
+  background: rgba(155, 109, 255, 0.06);
+  border-left: 2px solid var(--clr-accent);
+  border-radius: 0 6px 6px 0;
+  padding: 0.65rem 0.85rem;
+}
+
+/* ── Complete Button ────────────────────────────────────────────────────── */
+.milestoneCompleteWrap {
+  margin-top: 1.1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.completeBtn {
+  background: var(--clr-accent);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.completeBtn:hover {
+  background: var(--clr-gold);
+  color: #180016;
+  transform: translateY(-1px);
+}
+
+.completeBtn:active {
+  transform: translateY(0);
+}
+
+/* ── Donut container fix ───────────────────────────────────────────────── */
+.donutContainer {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+}

@@ -1,7 +1,7 @@
 /**
  * useNudges.js
  * Evaluates contextual nudge rules against live financial metrics.
- * Nudge definitions live in tracksData — this hook is generic across tracks.
+ * Nudge definitions live in tracksData — this hook is generic across all tracks.
  *
  * Usage:
  *   const { activeNudges, dismissNudge } = useNudges(nudgeDefs, metrics, context, storageKey);
@@ -11,8 +11,8 @@ import { useLocalStorage } from "./userLocalStorage";
 
 /**
  * @param {Array}  nudgeDefs  — array of { id, condition(metrics, ctx), message, severity }
- * @param {object} metrics    — from useSnapshotStore derived.metrics
- * @param {object} context    — arbitrary extra context passed to condition (tfsa, housing, etc.)
+ * @param {object} metrics    — live financial state
+ * @param {object} context    — arbitrary extra context passed to condition
  * @param {string} storageKey — unique key to persist dismissed IDs per track
  */
 export function useNudges(nudgeDefs = [], metrics = {}, context = {}, storageKey = "nudges_dismissed") {

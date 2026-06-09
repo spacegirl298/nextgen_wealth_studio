@@ -1,6 +1,33 @@
-/*Generic hook for reading/writing to localStorage with JSON serialisation.
-–	useLocalStorage(key, initialValue) — returns [value, setValue]
-–	Auto-parses on read, auto-stringifies on write
-–	Handles parse errors gracefully
-–	Used by: StrategyTrack progress, MoneySnapshot history, UserContext session
-*/
+/**
+ * useLocalStorage.js
+ * Generic hook for reading/writing to localStorage with JSON serialisation.
+ * Returns [value, setValue] — same API as useState but persistent.
+ */
+import { useState, useCallback } from "react";
+
+export function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+
+  const setValue = useCallback(
+    (value) => {
+      try {
+        const valueToStore =
+          value instanceof Function ? value(storedValue) : value;
+        setStoredValue(valueToStore);
+        localStorage.setItem(key, JSON.stringify(valueToStore));
+      } catch {
+        // silently fail — storage full or blocked
+      }
+    },
+    [key, storedValue],
+  );
+
+  return [storedValue, setValue];
+}

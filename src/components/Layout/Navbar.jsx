@@ -33,11 +33,11 @@ export default function Navbar() {
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.inner}>
         {/* Logo */}
-        <NavLink to="/" className={styles.logo}>
+        <div className={styles.logo}>
           <div className={styles.logoMark}>
             <span>absa</span>
           </div>
-        </NavLink>
+        </div>
 
         {/* Desktop nav */}
         <nav className={styles.nav}>

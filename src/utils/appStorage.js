@@ -1,5 +1,4 @@
-// utils/appStorage.js
-// Clear ONLY app data, NOT authentication data
+
 export function clearAllAppData() {
   try {
     // Preserve auth data

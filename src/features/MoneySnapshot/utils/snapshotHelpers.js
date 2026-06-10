@@ -1,10 +1,4 @@
-/**
- * snapshotHelpers.js
- * ─────────────────────────────────────────────────────────────
- * Pure helper functions for snapshot logic.
- * No React dependencies — safe to import anywhere.
- * ─────────────────────────────────────────────────────────────
- */
+
 
 /**
  * createSnapshot(financialData)

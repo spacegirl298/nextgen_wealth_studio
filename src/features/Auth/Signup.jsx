@@ -1,10 +1,3 @@
-/*
-  Signup.jsx
-  – Signup page container
-  – Renders SignupForm component
-  – Redirects to home if already logged in
-  – Link back to Login
-*/
 
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";

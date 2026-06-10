@@ -1,11 +1,3 @@
-/**
- * MetricsSummary.jsx
- * ─────────────────────────────────────────────────────────────
- * Key financial health metrics: DTI, savings rate, emergency
- * fund, health score, and goal progress circles.
- * Reads from derived values — no local state needed.
- * ─────────────────────────────────────────────────────────────
- */
 
 import styles from "../Snapshot.module.css";
 import { StatCard, CircleProgress } from "../components/SnapshotUI";

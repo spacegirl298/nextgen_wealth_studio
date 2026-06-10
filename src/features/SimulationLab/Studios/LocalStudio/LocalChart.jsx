@@ -1,9 +1,4 @@
-/**
- * OffshoreCharThing.jsx
- * Three-line chart comparing: blended allocation, pure local, and pure offshore
- * over the investment horizon.
- * Uses recharts LineChart — mirrors ComparisonChart.jsx patterns.
- */
+
 import { useState, useEffect } from "react";
 import {
   LineChart,

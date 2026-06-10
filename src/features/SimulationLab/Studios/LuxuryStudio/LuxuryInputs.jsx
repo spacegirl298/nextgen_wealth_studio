@@ -1,14 +1,4 @@
-/**
- * CarInputs.jsx
- * All inputs for the Luxury Car vs Investing simulation lab.
- * Receives state + setters as props from CarSim.
- * Reuses SliderField from SimUI.
- *
- * Sections:
- *   Profile   — income, savings (shared via SimContext)
- *   Car       — price, deposit, finance rate, term, insurance, fuel, service
- *   Investing — return assumption, horizon
- */
+
 import styles from "../../Studios.module.css";
 import { SliderField } from "../../components/SimUI";
 

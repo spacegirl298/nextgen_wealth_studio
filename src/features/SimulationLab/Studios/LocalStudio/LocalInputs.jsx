@@ -1,14 +1,4 @@
-/**
- * OffshoreInputs.jsx
- * All inputs for the Local vs Offshore Investing simulation lab.
- * Receives state + setters as props from OffshoreSim.
- * Reuses SliderField from SimUI.
- *
- * Sections:
- *   Profile     — income, lump sum savings (shared via SimContext)
- *   Portfolio   — monthly contribution, horizon, offshore allocation
- *   Assumptions — local return, offshore return, rand depreciation, tax drag
- */
+
 import styles from "../../Studios.module.css";
 import { SliderField } from "../../components/SimUI";
 

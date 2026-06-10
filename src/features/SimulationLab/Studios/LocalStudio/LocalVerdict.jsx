@@ -1,9 +1,4 @@
-/**
- * LocalVerdict.jsx
- * Verdict panel for the Local vs Offshore Investing simulation.
- * Shows: winner banner, verdict text, return breakdown table.
- * "Things to Consider" is rendered by the parent in the left column.
- */
+
 import styles from "../../Studios.module.css";
 
 const WINNER_COLORS = {

@@ -1,14 +1,4 @@
-/**
- * CarSim.jsx
- * Luxury Car vs Investing the Difference simulation lab.
- *
- * Architecture:
- *   - Shared profile state (income, savings) is read from SimContext.
- *   - Car-specific inputs live in local state.
- *   - All results computed live via useMemo — no calculate button needed.
- *   - Contextual nudges fire against live metrics via useNudges.
- *   - Sub-components: CarInputs, CarChart, CarVerdict.
- */
+
 import { useEffect, useState, useMemo } from "react";
 import styles from "../../Studios.module.css";
 
@@ -46,7 +36,7 @@ export default function CarSim() {
   const { profile, setProfile } = useSimProfile();
   const { monthlyIncome, savings } = profile;
 
-  /* Car-specific state */
+
   const [horizon,          setHorizon]          = useState(5);
   const [carPrice,         setCarPrice]          = useState(850_000);
   const [deposit,          setDeposit]           = useState(150_000);

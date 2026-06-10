@@ -102,7 +102,7 @@
   flex-shrink: 0; 
 }
 
-/* Profile wrapper for dropdown positioning */
+
 .profileWrapper {
   position: relative;
 }
@@ -443,7 +443,7 @@
   border-color: var(--clr-accent);
 }
 
-/* Hide desktop nav on tablet/mobile */
+
 @media (max-width: 800px) {
   .desktopNav {
     display: none;
@@ -454,7 +454,7 @@
   }
 }
 
-/* Tablet landscape adjustments */
+/* Tablet  */
 @media (min-width: 769px) and (max-width: 1024px) {
   .navLink {
     padding: clamp(0.3rem, 1vw, 0.4rem) clamp(0.5rem, 1.5vw, 0.85rem);

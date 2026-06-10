@@ -1,13 +1,4 @@
-/**
- * SimContext.jsx
- * Shared context for simulation labs. Provides common financial profile
- * inputs (income, savings, housing budget) so they don't need to be
- * re-entered across different simulation labs.
- *
- * Usage:
- *   Wrap your app/router in <SimProvider>
- *   In any lab: const { profile, setProfile } = useSimProfile()
- */
+
 import { createContext, useContext, useCallback } from "react";
 import { useLocalStorage } from "../../../hooks/userLocalStorage";
 

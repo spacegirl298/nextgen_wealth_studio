@@ -5,7 +5,7 @@
    Fully responsive: mobile-first, adapts to all screen sizes
    ============================================================ */
 
-/* ── CSS Variables for responsive scaling ─────────────────── */
+/*  CSS Variables for responsive scaling  */
 :root {
   --profile-spacing-xs: 12px;
   --profile-spacing-sm: 16px;
@@ -16,14 +16,14 @@
   --profile-radius-tile: var(--radius-md, 12px);
 }
 
-/* ── Page shell ─────────────────────────────────────────────── */
+/*  Page shell  */
 .pageWrapper {
   min-height: 100vh;
   padding: 0 0 var(--profile-spacing-xl);
   color: var(--clr-text);
 }
 
-/* ── Hero (mobile-first) ───────────────────────────────────── */
+/*  Hero (mobile-first)  */
 .hero {
   padding: var(--profile-spacing-xl) var(--profile-spacing-md) var(--profile-spacing-xl);
   text-align: center;
@@ -83,7 +83,7 @@
   }
 }
 
-/* ── Top row: profile + DNA (responsive grid) ───────────────── */
+/*  Top row: profile + DNA (responsive grid)  */
 .topRow {
   display: grid;
   grid-template-columns: 1fr;
@@ -113,7 +113,7 @@
   }
 }
 
-/* ── Profile card ───────────────────────────────────────────── */
+/*  Profile card  */
 .profileCard {
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
@@ -229,7 +229,7 @@
   }
 }
 
-/* ── Banking DNA card ───────────────────────────────────────── */
+/*  Banking DNA card  */
 .dnaCard {
   background: var(--clr-bg-card);
   border: 1px solid color-mix(in srgb, var(--dna-color, var(--clr-border)) 30%, var(--clr-border));
@@ -323,7 +323,7 @@
   margin-top: 2px;
 }
 
-/* ── Health section (responsive) ────────────────────────────── */
+/*  Health section (responsive)  */
 .healthSection {
   display: flex;
   flex-direction: column;
@@ -467,7 +467,7 @@
   }
 }
 
-/* ── Section header ─────────────────────────────────────────── */
+/*  Section header  */
 .sectionTitle {
   font-family: var(--font-display);
   font-size: 1.1rem;
@@ -497,7 +497,7 @@
   }
 }
 
-/* ── Snapshot metrics grid (responsive) ─────────────────────── */
+/*  Snapshot metrics grid (responsive)  */
 .snapshotSection {
   max-width: 860px;
   margin: 0 auto var(--profile-spacing-xl);
@@ -592,7 +592,7 @@
   }
 }
 
-/* ── Settings (responsive) ─────────────────────────────────── */
+/*  Settings (responsive)  */
 .settingsSection {
   max-width: 860px;
   margin: 0 auto;
@@ -710,7 +710,7 @@
   border-color: #b032e0; 
 }
 
-/* ── Modals (responsive) ───────────────────────────────────── */
+/*  Modals   */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -943,7 +943,7 @@
   }
 }
 
-/* ── Extra small screen adjustments ────────────────────────── */
+/*  Extra small screen adjustments  */
 @media (max-width: 380px) {
   .metricsGrid {
     grid-template-columns: 1fr;
@@ -963,7 +963,7 @@
   }
 }
 
-/* ── Large screen optimizations ────────────────────────────── */
+/*  Large screen optimizations  */
 @media (min-width: 1200px) {
   .topRow,
   .healthSection,

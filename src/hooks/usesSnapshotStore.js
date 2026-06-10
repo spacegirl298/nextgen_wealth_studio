@@ -1,6 +1,6 @@
 /**
  * useSnapshotStore.js
- * ─────────────────────────────────────────────────────────────
+ * 
  * Centralised state for the Money Snapshot feature.
  * All data is auto-saved to localStorage on every change —
  * no manual save required, and it persists across pages/tabs.
@@ -9,18 +9,18 @@
  *   import { useSnapshotStore } from "./useSnapshotStore";
  *
  * The hook returns { state, update, derived, history, saveSnapshot }
- * ─────────────────────────────────────────────────────────────
+ * 
  */
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useUser } from "../context/UserContext";
 
-// ─── Storage keys (versioned so old data doesn't break new shape) ───
+//  Storage keys (versioned so old data doesn't break new shape) 
 export const STORAGE_KEY     = "moneySnapshot_v3";
 export const HISTORY_KEY     = "moneySnapshot_history_v3";
 export const DISMISSED_KEY   = "moneySnapshot_dismissed_nudges_v3";
 
-// ─── SA TAX 2025/26 ─────────────────────────────────────────────────
+//  SA TAX 2025/26 
 const TAX_BRACKETS = [
   { min: 0,        max: 237100,   base: 0,      rate: 0.18 },
   { min: 237100,   max: 370500,   base: 42678,  rate: 0.26 },
@@ -61,7 +61,7 @@ export function calcTaxBreakdown(grossMonthly, medDependants = 0) {
   return { paye: monthlyPaye, uif: monthlyUif, medCredit: calcMedicalAidCredit(medDependants), netIncome, effectiveRate, annualTax, annualGross };
 }
 
-// ─── METRICS ────────────────────────────────────────────────────────
+//  METRICS 
 export function calcMetrics({ netIncome, totalExpenses, totalDebtPayments, emergencyFund, totalMonthlySavings }) {
   const dti              = netIncome > 0 ? (totalDebtPayments / netIncome) * 100 : 0;
   const savingsRate      = netIncome > 0 ? (totalMonthlySavings / netIncome) * 100 : 0;
@@ -73,7 +73,7 @@ export function calcMetrics({ netIncome, totalExpenses, totalDebtPayments, emerg
   return { dti, savingsRate, disposable, emergencyMonths, health };
 }
 
-// ─── HEALTH SCORE ────────────────────────────────────────────────────
+//  HEALTH SCORE 
 export function calcHealthScore(metrics, tfsa, disposable) {
   let score = 0;
   if (metrics.dti < 36) score += 25; else if (metrics.dti < 50) score += 12;
@@ -84,7 +84,7 @@ export function calcHealthScore(metrics, tfsa, disposable) {
   return Math.min(100, score);
 }
 
-// ─── NUDGES ──────────────────────────────────────────────────────────
+//  NUDGES 
 export const ALL_NUDGES = [
   { id: "dti_high",       condition: (m)    => m.dti > 50,                                        message: "⚠️ Your debt is consuming over half your income. Explore debt consolidation options.", severity: "danger"  },
   { id: "no_emergency",   condition: (m)    => m.emergencyMonths < 1,                              message: "🚨 No emergency fund detected. Start with just R500/month in a separate account.",   severity: "danger"  },
@@ -93,7 +93,7 @@ export const ALL_NUDGES = [
   { id: "housing_high",   condition: (m, d) => d.takeHome > 0 && d.housing / d.takeHome > 0.40,   message: "🏠 Housing exceeds 40% of take-home pay. This limits your ability to save or cover unexpected costs.", severity: "warning" },
 ];
 
-// ─── DEFAULT STATE ───────────────────────────────────────────────────
+//  DEFAULT STATE 
 export const DEFAULT_STATE = {
   // Income
   salary:               0,
@@ -141,7 +141,7 @@ export const DEFAULT_STATE = {
   ],
 };
 
-// ─── STORAGE HELPERS ─────────────────────────────────────────────────
+//  STORAGE HELPERS 
 function read(key, fallback) {
   try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
   catch { return fallback; }
@@ -154,7 +154,7 @@ function write(key, value) {
   }
 }
 
-// ─── MAIN HOOK ───────────────────────────────────────────────────────
+//  MAIN HOOK 
 export function useSnapshotStore() {
   const { getUserStorageKey } = useUser();
   const storageKey = getUserStorageKey ? getUserStorageKey(STORAGE_KEY) : STORAGE_KEY;
@@ -241,7 +241,7 @@ useEffect(() => {
     setTimeout(() => setSaveSuccess(false), 2500);
   }, [state, history, historyKey]);
 
-  // ─── All derived values, computed once here ─────────────────────
+  //  All derived values, computed once here 
   const derived = useMemo(() => {
     const { salary, investIncome, rentalIncome, bonuses, sideIncome, medDependants,
       rentBond, levies, rates, carPayment, petrol, insurance,
@@ -286,7 +286,7 @@ useEffect(() => {
     };
   }, [state]);
 
-  // ─── Active nudges ───────────────────────────────────────────────
+  //  Active nudges 
   const activeNudges = useMemo(() =>
     ALL_NUDGES.filter(n =>
       !dismissed.includes(n.id) &&

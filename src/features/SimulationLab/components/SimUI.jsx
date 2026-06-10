@@ -1,13 +1,9 @@
-/**
- * SimUI.jsx
- * Shared UI primitives for all simulation labs.
- * Exports: SliderField, InfoTooltip, NudgeBar, StudioLayout
- */
+
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "../Studios.module.css";
 
-/* ── InfoTooltip ────────────────────────────────────────────── */
+/* InfoTooltip */
 export const InfoTooltip = ({ title, body }) => {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -90,7 +86,7 @@ export const InfoTooltip = ({ title, body }) => {
   );
 };
 
-/* ── SliderField ─────────────────────────────────────────────── */
+/* SliderField */
 export const SliderField = ({ label, min, max, step, value, onChange, prefix = "", suffix = "", tooltip }) => (
   <div className={styles.fieldRow}>
     <label className={styles.fieldLabel}>{label}</label>
@@ -115,9 +111,7 @@ export const SliderField = ({ label, min, max, step, value, onChange, prefix = "
   </div>
 );
 
-/* ── NudgeBar ─────────────────────────────────────────────────
-   Non-intrusive nudge strip. Slides in from the bottom.
-   Severity: "info" | "warn" | "alert"
+/* NudgeBar 
 */
 const SEVERITY_COLORS = {
   info:  { border: "rgba(248,210,153,0.35)", icon: "💡", accent: "var(--clr-gold)" },

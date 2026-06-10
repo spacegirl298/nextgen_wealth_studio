@@ -1,9 +1,4 @@
-/**
- * StudioVerdict.jsx
- * Verdict panel for the Property simulation.
- * Shows: winner banner, verdict text, upfront buying cost breakdown.
- * "Things to Consider" is rendered by the parent in the left column.
- */
+
 import styles from "../../Studios.module.css";
 import { fmtRand } from "../../utils/StudioCalculations";
 

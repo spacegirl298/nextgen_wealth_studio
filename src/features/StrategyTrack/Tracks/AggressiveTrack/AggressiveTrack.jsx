@@ -1,7 +1,4 @@
-/**
- * AggressiveGlobalInvestor.jsx
- * Aggressive Global Investor — full strategy track page.
- */
+
 import { useState, useMemo, useRef } from "react";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";

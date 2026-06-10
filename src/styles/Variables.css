@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap");
 :root {
 
-  /* ── Colours ─────────────────────────────────────────────── */
+  /*  Colours  */
   --clr-bg:               #0a0010;
   --clr-bg-card:          rgba(255, 255, 255, 0.04);
   --clr-bg-card-hover:    #18002e;
@@ -44,7 +44,7 @@
   --clr-text-dim:         rgba(240, 232, 255, 0.3);
 
 
-  /* ── Typography ──────────────────────────────────────────── */
+  /*  Typography  */
   --font-display: "Syne",       sans-serif;
   --font-main:    "Anek Latin", sans-serif;
   --font-body:    "DM Sans",    sans-serif;
@@ -66,7 +66,7 @@
   --line-height-xs: 1;
 
 
-  /* ── Spacing ─────────────────────────────────────────────── */
+  /*  Spacing  */
   --space-xxs: 0.25rem;
   --space-xs:  0.5rem;
   --space-sm:  0.75rem;
@@ -76,7 +76,7 @@
   --space-xxl: 3rem;
 
 
-  /* ── Borders & Radius ────────────────────────────────────── */
+  /*  Borders & Radius  */
   --border-xs: 1px solid;
   --radius-sm:    6px;
   --radius-md:    10px;
@@ -84,7 +84,7 @@
   --radius-round: 9999px;
 
 
-  /* ── Shadows ─────────────────────────────────────────────── */
+  /*  Shadows  */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -92,13 +92,13 @@
   --shadow-gold:   0 4px 16px rgba(201, 168, 76, 0.35);
 
 
-  /* ── Transitions ─────────────────────────────────────────── */
+  /*  Transitions  */
   --transition-fast:   0.15s ease;
   --transition:        0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow:   0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
 
-  /* ── Layout ──────────────────────────────────────────────── */
+  /*  Layout  */
   --page-max-width:   900px;
   --content-max-width: 680px;
   --page-padding-x:   clamp(1rem, 4vw, 1.5rem);

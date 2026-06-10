@@ -1,11 +1,3 @@
-/**
- * SnapshotHistory.jsx
- * ─────────────────────────────────────────────────────────────
- * Timeline of saved snapshots.
- * Snapshots save automatically — the manual "Save" button here
- * creates a named point-in-time bookmark for comparison.
- * ─────────────────────────────────────────────────────────────
- */
 
 import styles from "../Snapshot.module.css";
 import { compareSnapshots, getSnapshotTrend } from "../utils/snapshotHelpers";

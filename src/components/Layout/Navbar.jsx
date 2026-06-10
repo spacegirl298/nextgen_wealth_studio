@@ -31,7 +31,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // Close mobile menu when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -45,7 +45,7 @@ export default function Navbar() {
       }
     };
 
-    // Prevent body scroll when mobile menu is open
+  
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -59,7 +59,7 @@ export default function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  // Cleanup timeout on unmount
+  
   useEffect(() => {
     return () => {
       if (dropdownTimeoutRef.current) {
@@ -98,7 +98,7 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   };
 
-  // Get initial for avatar
+
   const getInitial = () => {
     if (displayName) return displayName.charAt(0).toUpperCase();
     if (email) return email.charAt(0).toUpperCase();

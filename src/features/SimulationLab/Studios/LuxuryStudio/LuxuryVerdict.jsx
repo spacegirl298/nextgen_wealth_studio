@@ -1,9 +1,4 @@
-/**
- * LuxuryVerdict.jsx
- * Verdict panel for the Luxury Car vs Investing simulation.
- * Shows: winner banner, verdict text, upfront cost breakdown.
- * "Things to Consider" is rendered by the parent in the left column.
- */
+
 import styles from "../../Studios.module.css";
 import { fmtRand } from "../../utils/StudioCalculations";
 

@@ -1,20 +1,8 @@
-/**
- * PropertyInputs.jsx
- * All inputs for the Property simulation lab.
- * Receives state + setters as props from PropertySim.
- * Reuses SliderField from SimUI.
- *
- * Sections:
- *   General  — time horizon, property growth
- *   Buying   — purchase price, deposit, bond rate, bond term
- *   Renting  — monthly rent, rental inflation
- */
+
 import styles from "../../Studios.module.css";
 import { SliderField } from "../../components/SimUI";
 
-/* ── Tooltip content ──────────────────────────────────────────
-   Defined here so they travel with the inputs that need them.
-*/
+
 const T = {
   income: {
     title: "Gross Monthly Income",

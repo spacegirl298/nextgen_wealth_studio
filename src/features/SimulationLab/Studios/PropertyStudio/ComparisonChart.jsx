@@ -1,9 +1,4 @@
-/**
- * ComparisonChart.jsx
- * Dual-line chart: net worth of buying vs renting over the time horizon.
- * Crossover year is highlighted with a reference line.
- * Uses recharts LineChart.
- */
+
 import { useState, useEffect } from "react";
 import {
   LineChart,

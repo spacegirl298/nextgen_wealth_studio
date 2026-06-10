@@ -1,8 +1,4 @@
-/**
- * useLocalStorage.js
- * Generic hook for reading/writing to localStorage with JSON serialisation.
- * Returns [value, setValue] — same API as useState but persistent.
- */
+
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { useUser } from "../context/UserContext";
 import { getScopedStorageKey, isUserScopedStorageKey } from "../utils/userStorage";

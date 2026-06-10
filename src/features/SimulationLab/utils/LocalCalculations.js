@@ -1,16 +1,4 @@
-/**
- * OffshoreCalculations.js
- * Pure financial calculation functions for the Local vs Offshore Investing simulation.
- * No React imports — safe to use in any context.
- *
- * Models two portfolio paths — a local-only allocation and an offshore-tilted
- * allocation — over a given horizon, incorporating rand depreciation,
- * distinct return rates, and tax drag on both.
- *
- * Exported:
- *   calcOffshore(inputs)  → { local, offshore, blended, winner, verdict, chart }
- *   OFFSHORE_NUDGES       — contextual nudge definitions
- */
+
 
 import { fmtRand, fmtRandShort } from "../utils/StudioCalculations";
 
@@ -67,12 +55,12 @@ export function calcOffshore({
   const lumpOffshore    = lumpSum * (offshoreAllocation / 100);
 
   let localPortfolio    = lumpLocal;
-  let offshorePortfolio = lumpOffshore; // in ZAR equivalent
+  let offshorePortfolio = lumpOffshore; 
   let blendedPortfolio  = lumpSum;
 
-  // For reference: a pure-local-only portfolio (0% offshore)
+ 
   let pureLocalPortfolio   = lumpSum;
-  // And a pure-offshore-only portfolio (100% offshore)
+  
   let pureOffshorePortfolio = lumpSum;
 
   const chartData = [];
@@ -107,7 +95,7 @@ export function calcOffshore({
   // Total contributions over horizon
   const totalContributed = lumpSum + monthlyContribution * 12 * horizon;
 
-  /* ── Breakeven — when does the blended beat pure local? ───── */
+
   let breakevenYear = null;
   for (let i = 1; i < chartData.length; i++) {
     const prev = chartData[i - 1];
@@ -118,7 +106,7 @@ export function calcOffshore({
     }
   }
 
-  /* ── Winner: blended vs pure local ─────────── */
+
   const delta      = Math.abs(finalBlended - finalPureLocal);
   const deltaShort = fmtRandShort(delta);
 
@@ -165,7 +153,7 @@ export function calcOffshore({
   };
 }
 
-/* ── Nudge definitions for OffshoreSim ─────────────────────── */
+/* ── Nudge definitions  ─────────────────────── */
 export const OFFSHORE_NUDGES = [
   {
     id: "no_offshore_exposure",

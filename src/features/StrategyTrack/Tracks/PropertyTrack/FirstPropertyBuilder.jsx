@@ -1,7 +1,4 @@
-/**
- * FirstPropertyBuilder.jsx
- * First Property Builder — full strategy track page.
- */
+
 import { useState, useRef, useMemo } from "react";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";

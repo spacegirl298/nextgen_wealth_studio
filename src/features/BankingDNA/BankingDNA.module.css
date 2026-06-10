@@ -1,4 +1,4 @@
-/* BankingDNA.module.css - Fully Responsive */
+
 
 .page {
   width: 100%;
@@ -118,7 +118,7 @@
   line-height: 1.6;
 }
 
-/* Two Column Grid - Responsive */
+
 .twoCol {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -199,7 +199,7 @@
   border-color: rgba(248, 210, 153, 0.4);
 }
 
-/* Level Grid Intro - Responsive */
+/* Level Grid Intro */
 .levelGridIntro {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -237,7 +237,7 @@
   color: var(--clr-text, #f0e8ff);
 }
 
-/* CTA Buttons - Touch friendly */
+/* CTA Buttons  */
 .ctaWrap {
   display: flex;
   justify-content: center;
@@ -471,7 +471,7 @@
   text-align: center;
 }
 
-/* Level Track - Scrollable on mobile */
+/* Level Track  */
 .levelTrack {
   display: flex;
   align-items: flex-start;

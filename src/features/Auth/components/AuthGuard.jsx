@@ -5,7 +5,7 @@ export default function AuthGuard({ children }) {
   const { isAuthenticated } = useUser()
   const location = useLocation()
 
-  // DEV BYPASS — remove before production
+
   if (import.meta.env.DEV && import.meta.env.VITE_SKIP_AUTH === "true") {
     return children
   }

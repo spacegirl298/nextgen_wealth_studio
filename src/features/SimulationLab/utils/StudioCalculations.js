@@ -1,17 +1,5 @@
-/**
- * StudioCalculations.js
- * Pure financial calculation functions for all simulation labs.
- * No React imports — safe to use in any context.
- *
- * Exported functions:
- *   calcProperty(inputs)  → { renting, buying, winner, verdict, chart }
- *   fmtRand(n)            → formatted ZAR string
- *   calcBondRepayment(principal, annualRate, termYears) → monthly repayment
- *   calcTransferDuty(price) → transfer duty (SA 2025 SARS table)
- *   calcBondRegistration(price) → estimated bond registration costs
- */
 
-/* ── Formatting helpers ─────────────────────────────────────── */
+/*  Formatting helpers */
 export const fmtRand = (n) =>
   "R " + Math.round(n).toLocaleString("en-ZA");
 
@@ -22,7 +10,7 @@ export const fmtRandShort = (n) => {
   return `R${Math.round(n)}`;
 };
 
-/* ── Bond repayment (standard amortisation) ─────────────────── */
+/*  Bond repayment  */
 export function calcBondRepayment(principal, annualRate, termYears) {
   if (principal <= 0) return 0;
   const r = annualRate / 100 / 12;
@@ -31,7 +19,7 @@ export function calcBondRepayment(principal, annualRate, termYears) {
   return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 }
 
-/* ── Transfer Duty — SARS 2025 table ────────────────────────── */
+
 export function calcTransferDuty(price) {
   if (price <= 1_100_000)  return 0;
   if (price <= 1_512_500)  return (price - 1_100_000) * 0.03;
@@ -41,9 +29,9 @@ export function calcTransferDuty(price) {
   return                          1_128_600 + (price - 12_100_000) * 0.13;
 }
 
-/* ── Bond registration costs (estimated) ────────────────────── */
+/* Bond registration costs (estimated)  */
 export function calcBondRegistration(bondAmount) {
-  // Attorney and Deeds Office fees — approximate South African schedule
+
   if (bondAmount <= 0)         return 0;
   if (bondAmount <= 500_000)   return 8_500;
   if (bondAmount <= 1_000_000) return 12_000;
@@ -53,7 +41,7 @@ export function calcBondRegistration(bondAmount) {
   return                              32_000;
 }
 
-/* ── Conveyancing/attorney fees (transfer) ──────────────────── */
+/* Conveyancing/attorney fees (transfer)  */
 export function calcTransferFees(price) {
   // Approximate recommended sliding-scale attorney fees
   if (price <= 500_000)   return 9_000;
@@ -64,7 +52,7 @@ export function calcTransferFees(price) {
   return                          38_000;
 }
 
-/* ── Main property calculation ──────────────────────────────── */
+/*Main property calculation */
 /**
  * @param {object} inputs
  * @param {number} inputs.horizon          years
@@ -92,7 +80,7 @@ export function calcProperty({
   const years = horizon;
   const monthlyInvestReturn = investReturn / 100 / 12;
 
-  /* ── Buying setup ──────────────────────────── */
+  /* Buying setup  */
   const deposit         = savings;
   const loanAmount      = Math.max(0, purchasePrice - deposit);
   const bondPayment     = calcBondRepayment(loanAmount, bondRate, bondTerm);
@@ -101,21 +89,19 @@ export function calcProperty({
   const bondRegCosts    = calcBondRegistration(loanAmount);
   const upfrontBuyCost  = deposit + transferDuty + transferFees + bondRegCosts;
 
-  // Monthly buying cost: bond + 1% of value/year maintenance + est R1 500 levy
+
   const monthlyMaintenance = (purchasePrice * 0.01) / 12;
   const monthlyLevy         = 1_500;
   const monthlyBuyCost      = bondPayment + monthlyMaintenance + monthlyLevy;
 
-  /* ── Renting setup ─────────────────────────── */
+  /* Renting setup */
   const rentInfRate      = rentalInflation / 100;
 
-  /* ── Year-by-year simulation ─────────────────
-     Both paths track cumulative outlay and net worth at each year-end
-  */
+
   const chartData = [];
 
   let rentCashOutlay   = 0;
-  let rentInvestValue  = deposit; // renter invests the deposit + monthly difference
+  let rentInvestValue  = deposit; 
 
   let buyCashOutlay    = upfrontBuyCost;
   const numPayments    = bondTerm * 12;
@@ -145,9 +131,9 @@ export function calcProperty({
         : Math.max(0, loanAmount - bondPayment * paidMonths);
 
     const buyEquity   = propertyValue - Math.max(0, bondBalance);
-    const buyNetworth = buyEquity; // homeowner's net worth = equity
+    const buyNetworth = buyEquity; 
 
-    const rentNetworth = rentInvestValue; // renter's net worth = investment portfolio
+    const rentNetworth = rentInvestValue; 
 
     chartData.push({
       year: yr,
@@ -159,16 +145,16 @@ export function calcProperty({
     });
   }
 
-  /* ── Final-year values ─────────────────────── */
+  /* Final-year values  */
   const last           = chartData[chartData.length - 1];
   const buyNetworth    = last.buying;
   const rentNetworth   = last.renting;
   const finalPropValue = last.propertyValue;
 
-  // Total interest paid over full bond term (for display)
+ 
   const totalInterestPaid = bondPayment * numPayments - loanAmount;
 
-  /* ── Breakeven year ────────────────────────── */
+  /*  Breakeven year*/
   let breakevenYear = null;
   for (let i = 1; i < chartData.length; i++) {
     const prev = chartData[i - 1];
@@ -179,7 +165,7 @@ export function calcProperty({
     }
   }
 
-  /* ── Verdict ───────────────────────────────── */
+  /*  Verdict*/
   const delta      = Math.abs(buyNetworth - rentNetworth);
   const deltaShort = fmtRandShort(delta);
   const winner     = buyNetworth > rentNetworth ? "Buying" : "Renting";
@@ -241,7 +227,7 @@ export function calcProperty({
   };
 }
 
-/* ── Nudge definitions for PropertySim ─────────────────────── */
+/* ── Nudge definitions */
 export const PROPERTY_NUDGES = [
   {
     id: "deposit_low",

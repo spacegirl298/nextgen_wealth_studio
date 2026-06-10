@@ -1,11 +1,3 @@
-/**
- * NarrativeInsights.jsx  (was: Insights tab — now: Analysis tab)
- * ─────────────────────────────────────────────────────────────
- * Plain-English financial analysis generated from live metrics.
- * Colour-coded by sentiment · Actionable SA-specific recommendations.
- * Includes embedded glossary and benchmarks (moved from Education tab).
- * ─────────────────────────────────────────────────────────────
- */
 
 import { useState } from "react";
 import styles from "../Snapshot.module.css";

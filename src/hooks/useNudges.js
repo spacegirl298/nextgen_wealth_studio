@@ -1,11 +1,4 @@
-/**
- * useNudges.js
- * Evaluates contextual nudge rules against live financial metrics.
- * Nudge definitions live in tracksData — this hook is generic across all tracks.
- *
- * Usage:
- *   const { activeNudges, dismissNudge } = useNudges(nudgeDefs, metrics, context, storageKey);
- */
+
 import { useMemo, useCallback } from "react";
 import { useLocalStorage } from "./userLocalStorage";
 

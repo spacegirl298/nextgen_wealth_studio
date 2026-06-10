@@ -73,7 +73,7 @@ function AlertIcon() {
   );
 }
 
-// ── Step 1: Email lookup ──────────────────────────────────────────────────────
+
 function EmailStep({ onFound }) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -126,7 +126,6 @@ function EmailStep({ onFound }) {
   );
 }
 
-// ── Step 2: New password form ─────────────────────────────────────────────────
 function ResetStep({ email, onSuccess }) {
   const [fields, setFields] = useState({ password: "", confirm: "" });
   const [errors, setErrors] = useState({});
@@ -275,7 +274,7 @@ function ResetStep({ email, onSuccess }) {
   );
 }
 
-// ── Step 3: Done ──────────────────────────────────────────────────────────────
+
 function SuccessStep({ onBack }) {
   return (
     <div className={styles.successState}>
@@ -293,9 +292,9 @@ function SuccessStep({ onBack }) {
   );
 }
 
-// ── Main export ───────────────────────────────────────────────────────────────
+
 export default function ForgotPasswordForm({ onBack }) {
-  const [step, setStep] = useState("email"); // "email" | "reset" | "done"
+  const [step, setStep] = useState("email"); 
   const [resolvedEmail, setResolvedEmail] = useState("");
 
   if (step === "done") return <SuccessStep onBack={onBack} />;

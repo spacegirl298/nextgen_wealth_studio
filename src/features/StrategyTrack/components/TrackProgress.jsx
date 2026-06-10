@@ -1,8 +1,4 @@
-/**
- * TrackProgress.jsx
- * Generic progress summary used by all three track pages.
- * Props: totalStages, completedStages
- */
+
 import styles from "../Tracks.module.css";
 
 export default function TrackProgress({ totalStages, completedStages }) {

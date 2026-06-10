@@ -11,7 +11,7 @@ export const InfoTooltip = ({ field, infoMap }) => {
   const updatePosition = useCallback(() => {
     if (buttonRef.current && open) {
       const rect = buttonRef.current.getBoundingClientRect();
-      // On mobile, center the tooltip
+   
       if (window.innerWidth <= 768) {
         setPosition({ 
           top: rect.bottom + 8, 
@@ -32,7 +32,7 @@ export const InfoTooltip = ({ field, infoMap }) => {
 
     const handleClickOutside = (event) => {
       if (buttonRef.current && !buttonRef.current.contains(event.target)) {
-        // Also check if click is inside tooltip
+    
         const tooltip = document.querySelector(`.${styles.tooltipBox}`);
         if (tooltip && !tooltip.contains(event.target)) {
           setOpen(false);

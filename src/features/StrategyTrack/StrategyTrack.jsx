@@ -15,7 +15,7 @@ import BuildImg from "../../assets/Track/BuildImg.jpg";
 import BalanceImg from "../../assets/Track/BalanceImg.jpg";
 import GlobalImg from "../../assets/Track/GlobalImg.jpg";
 
-// ─── Progress helpers — reads the same localStorage keys the track pages write ──
+//  Progress helpers — reads the same localStorage keys the track pages write 
 function useTrackProgress(completedKey, totalStages) {
   const raw = localStorage.getItem(completedKey);
   if (!raw) return { started: false, completed: 0, total: totalStages, pct: 0 };
@@ -33,7 +33,7 @@ function useTrackProgress(completedKey, totalStages) {
   }
 }
 
-// ─── Icons ─────────────────────────────────────────────────────────────
+//  Icons 
 const Chevron = ({ open }) => (
   <svg
     width="14" height="14" viewBox="0 0 14 14" fill="none"
@@ -49,7 +49,7 @@ const ArrowRight = () => (
   </svg>
 );
 
-// ─── Progress mini-bar ────────────────────────────────────────────────
+//  Progress mini-bar 
 function ProgressBar({ started, completed, total, pct }) {
   if (!started) {
     return <span className={styles.progressNotStarted}>Not started</span>;
@@ -67,7 +67,7 @@ function ProgressBar({ started, completed, total, pct }) {
   );
 }
 
-// ─── Banking DNA Assessment Component ─────────────────────────────────
+//  Banking DNA Assessment Component 
 const ASSESSMENT_QUESTIONS = [
   {
     id: "primaryGoal",
@@ -233,7 +233,7 @@ function BankingDNAAssessment({ onComplete, initialAnswers }) {
   );
 }
 
-// ─── Track Card ───────────────────────────────────────────────────────
+//  Track Card 
 function TrackCard({ 
   pill, 
   title, 
@@ -298,7 +298,7 @@ function TrackCard({
   );
 }
 
-// ─── Explainer items ──────────────────────────────────────────────────
+//  Explainer items 
 const EXPLAINER_ITEMS = [
   {
     title: "Structured milestones",
@@ -318,7 +318,7 @@ const EXPLAINER_ITEMS = [
   },
 ];
 
-// ─── Track definitions ────────────────────────────────────────────────
+//  Track definitions 
 const TRACKS = [
   {
     id: "property",
@@ -382,7 +382,7 @@ function calculateMatchPercentage(trackId, scores) {
   return percentage > 30 ? percentage : null;
 }
 
-// ─── Main Page Component ──────────────────────────────────────────────
+//  Main Page Component 
 export default function StrategyTrack() {
   const navigate = useNavigate();
   const [explainerOpen, setExplainerOpen] = useState(false);

@@ -1,14 +1,4 @@
-/**
- * OffshoreSim.jsx
- * Local vs Offshore Investing simulation lab.
- *
- * Architecture:
- *   - Shared profile state (income, savings as lump sum) is read from SimContext.
- *   - Investing-specific inputs (allocation, returns, horizon) live in local state.
- *   - All results computed live via useMemo — no calculate button needed.
- *   - Contextual nudges fire against live metrics via useNudges.
- *   - Sub-components: OffshoreInputs, OffshoreChart, OffshoreVerdict.
- */
+
 import { useEffect, useState, useMemo } from "react";
 import styles from "../../Studios.module.css";
 
@@ -50,7 +40,7 @@ export default function OffshoreSim() {
   const { profile, setProfile } = useSimProfile();
   const { monthlyIncome, savings: lumpSum } = profile;
 
-  /* Investing-specific state */
+
   const [monthlyContribution, setMonthlyContribution] = useState(5_000);
   const [horizon,             setHorizon]             = useState(10);
   const [offshoreAllocation,  setOffshoreAllocation]  = useState(40);

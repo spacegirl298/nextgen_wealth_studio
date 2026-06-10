@@ -37,7 +37,7 @@ export default function MoneySnapshot() {
   const { state, update, updateGoal, derived, activeNudges, dismissNudge, lastSaved } = store;
   const { grossMonthly, paye, uif, takeHome, housing, mobility, lifestyle, debtPayments, totalSavings, tfsaUsePct, metrics, healthScore, fmt, pct } = derived;
 
-  // ── OVERVIEW ──────────────────────────────────────────────
+  // OVERVIEW 
   const renderOverview = () => (
     <>
       <div className={styles.statsRow}>
@@ -94,7 +94,7 @@ export default function MoneySnapshot() {
     </>
   );
 
-  // ── SAVINGS ───────────────────────────────────────────────
+  // SAVINGS 
   const renderSavings = () => (
     <>
       <div className={styles.twoCol}>
@@ -204,7 +204,7 @@ export default function MoneySnapshot() {
     </>
   );
 
-  // ── PROGRESS (Goals) ─────────────────────────────────────
+  // Goals
   const renderProgress = () => (
     <>
       <div className={styles.twoCol}>
@@ -241,7 +241,7 @@ export default function MoneySnapshot() {
     </>
   );
 
-  // ── RENDER ────────────────────────────────────────────────
+  // RENDER 
   return (
     <div className={styles.page}>
       <div className={styles.hero}>

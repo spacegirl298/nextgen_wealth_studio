@@ -1,12 +1,3 @@
-/**
- * tracksData.js
- * Static content for all three strategy tracks.
- * Each track: id, name, pill, heroTitle, heroSub, learnIntro, learnItems[], stages[], nudges[]
- * Each stage: id, title, desc, badge, actions[], tradeoffs[], warnings[], glossary[], example
- *
- * nudges[]: { id, condition(metrics, ctx) → bool, message, severity: "warn"|"good"|"info" }
- * Nudge conditions are pure functions — evaluated by useNudges against live slider state.
- */
 
 export const TRACKS = {
   firstProperty: {

@@ -1,12 +1,4 @@
-/* SimulationLab.jsx
-   Simulation Lab overview/selection page matching Strategy Track styling.
-   
-   – Hero header explaining what the Simulation Lab is
-   – Three studio cards: Property, Luxury, Local vs Offshore
-   – Each card: pill, title, tagline, description, stat row, CTA
-   – Consistent card layout with StrategyTrack cards
-   – Navigation to all three studio routes (all ready, no "Coming Soon")
-*/
+
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +7,7 @@ import PropImg from "../../assets/Simulation/PropImg.jpg";
 import CarImg from "../../assets/Simulation/CarImg.jpg";
 import LocalImg from "../../assets/Simulation/LocalImg.jpg";
 
-// ─── Icons ─────────────────────────────────────────────────────────────
+// Icons 
 const Chevron = ({ open }) => (
   <svg
     width="14" height="14" viewBox="0 0 14 14" fill="none"
@@ -31,7 +23,7 @@ const ArrowRight = () => (
   </svg>
 );
 
-// ─── Explainer items for Simulation Lab ─────────────────────────────────
+//Explainer items for Simulation Lab 
 const EXPLAINER_ITEMS = [
   {
     title: "Real-time calculations",
@@ -51,7 +43,7 @@ const EXPLAINER_ITEMS = [
   },
 ];
 
-// ─── Simulation Card Component (matches TrackCard styling) ─────────────
+//  Simulation Card Component (matches TrackCard styling) 
 function SimulationCard({
   pill,
   title,
@@ -98,7 +90,7 @@ function SimulationCard({
   );
 }
 
-// ─── Simulation definitions ───────────────────────────────────────────
+//  Simulation definitions 
 const SIMULATIONS = [
   {
     id: "property",
@@ -144,7 +136,7 @@ const SIMULATIONS = [
   },
 ];
 
-// ─── Main Page Component ──────────────────────────────────────────────
+
 export default function SimulationLab() {
   const navigate = useNavigate();
   const [explainerOpen, setExplainerOpen] = useState(false);

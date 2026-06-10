@@ -1,11 +1,3 @@
-/**
- * IncomeForm.jsx
- * ─────────────────────────────────────────────────────────────
- * Income entry with live SARS 2025/26 tax calculation.
- * Reads/writes via useSnapshotStore — auto-saves on every change.
- * Inline glossary callouts replace the Education tab for tax terms.
- * ─────────────────────────────────────────────────────────────
- */
 
 import styles from "../Snapshot.module.css";
 import { SliderField, MultiSegmentBar } from "../components/SnapshotUI";

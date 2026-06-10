@@ -1,9 +1,4 @@
-/**
- * CarChart.jsx
- * Dual-line chart: net worth of car ownership vs investing over the horizon.
- * Shows the compounding divergence between the two paths.
- * Uses recharts LineChart — mirrors ComparisonChart.jsx patterns.
- */
+
 import { useState, useEffect } from "react";
 import {
   LineChart,

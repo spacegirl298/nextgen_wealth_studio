@@ -1,8 +1,4 @@
-/*
-  Home — marketing landing page.
-  Stat/goal cards use global class names (no styles. prefix) for shared styles,
-  plus module-scoped classes for Home-only additions.
-*/
+
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
@@ -14,7 +10,7 @@ import SimImg   from "../../assets/Home/SimImg.png";
 import StatImg  from "../../assets/Home/StatImg.png";
 import DNAImg   from "../../assets/Home/DNAImg.png";
 
-/* ── Stat Card (shared statCard styles come from globals.css) ── */
+/*  Stat Card (shared statCard styles come from globals.css)  */
 function StatCard({ label, value, to, delay = 0 }) {
   return (
     <Link to={to} className="statCard" style={{ animationDelay: `${delay}ms` }}>
@@ -25,7 +21,7 @@ function StatCard({ label, value, to, delay = 0 }) {
   );
 }
 
-/* ── Goal / Health-score card ───────────────────────────────── */
+/*  Goal / Health-score card  */
 function GoalCard({ percent = 44, delay = 0 }) {
   const r            = 42;
   const circumference = 2 * Math.PI * r;
@@ -66,7 +62,7 @@ function GoalCard({ percent = 44, delay = 0 }) {
   );
 }
 
-/* ── Feature Card ───────────────────────────────────────────── */
+/*  Feature Card  */
 function FeatureCard({ title, to, pattern, delay = 0 }) {
   return (
     <Link to={to} className={styles.featureCard} style={{ animationDelay: `${delay}ms` }}>
@@ -77,13 +73,13 @@ function FeatureCard({ title, to, pattern, delay = 0 }) {
   );
 }
 
-/* ── Image pattern helpers ──────────────────────────────────── */
+/*  Image pattern helpers  */
 const MoneyPattern    = () => <div className={styles.patternBg}><img src={MoneyImg} alt="Money"      /></div>;
 const StrategyPattern = () => <div className={styles.patternBg}><img src={StatImg}  alt="Strategy"   /></div>;
 const SimPattern      = () => <div className={styles.patternBg}><img src={SimImg}   alt="Simulation" /></div>;
 const DNAPattern      = () => <div className={styles.patternBg}><img src={DNAImg}   alt="DNA"        /></div>;
 
-/* ── Page ───────────────────────────────────────────────────── */
+/*  Page  */
 export default function Home() {
   const heroRef = useRef(null);
   const { derived } = useSnapshotStore();

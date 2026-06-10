@@ -1,10 +1,3 @@
-/*
-  ForgotPassword.jsx
-  – Forgot password page container
-  – Renders ForgotPasswordForm
-  – Shows confirmation message after submission (handled inside ForgotPasswordForm)
-  – Link back to Login
-*/
 
 import { useNavigate, Link } from "react-router-dom";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";

@@ -9,6 +9,7 @@
 
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useContext, useMemo, useCallback } from "react";
+import { clearAllAppData } from "../utils/appStorage";
 
 export const UserContext = createContext(null);
 
@@ -57,15 +58,7 @@ export const UserProvider = ({ children }) => {
     }
   });
 
-  /**
-   * Returns a namespaced localStorage key scoped to the current user.
-   * Use this everywhere you store per-user app data so users never see
-   * each other's data on a shared device.
-   *
-   * Example:
-   *   const key = getUserStorageKey("moneySnapshot_v3");
-   *   // → "moneySnapshot_v3_user_1234567890"
-   */
+
   const getUserStorageKey = useCallback(
     (suffix) => {
       if (!user?.userId) return suffix;
@@ -75,11 +68,12 @@ export const UserProvider = ({ children }) => {
   );
 
   const login = useCallback((userData) => {
+    clearAllAppData();
     setUser(userData);
     setIsAuthenticated(true);
     localStorage.setItem("auth_session", JSON.stringify(userData));
 
-    // Load this user's scoped data
+
     try {
       const dna = localStorage.getItem(`bankingDNAProfile_${userData.userId}`);
       setBankingDNAProfile(dna ? JSON.parse(dna) : null);
@@ -94,7 +88,7 @@ export const UserProvider = ({ children }) => {
     setBankingDNAProfile(null);
     setPreferredTrack(null);
     localStorage.removeItem("auth_session");
-    // Note: per-user data stays in localStorage so it's there when they log back in
+    
   }, []);
 
   const updateProfile = useCallback((data) => {
@@ -103,7 +97,7 @@ export const UserProvider = ({ children }) => {
     setUser(updated);
     localStorage.setItem("auth_session", JSON.stringify(updated));
 
-    // Also update the persisted user record so it's reflected on next login
+  
     try {
       const users = JSON.parse(localStorage.getItem("auth_users") || "{}");
       if (users[user.email]) {

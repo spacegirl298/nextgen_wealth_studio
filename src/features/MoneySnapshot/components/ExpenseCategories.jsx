@@ -1,12 +1,3 @@
-/**
- * ExpenseCategories.jsx
- * ─────────────────────────────────────────────────────────────
- * Categorised expense input and breakdown.
- * Categories: Housing · Mobility · Lifestyle · Debt · Savings
- * Reads/writes via useSnapshotStore — auto-saves on every change.
- * Inline benchmark callouts replace the Education tab for expense terms.
- * ─────────────────────────────────────────────────────────────
- */
 
 import { useState } from "react";
 import styles from "../Snapshot.module.css";

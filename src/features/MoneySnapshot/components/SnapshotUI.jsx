@@ -1,18 +1,10 @@
-/**
- * SnapshotUI.jsx
- * ─────────────────────────────────────────────────────────────
- * Shared, reusable UI primitives for the Money Snapshot feature.
- * Import individual components as needed in any snapshot page.
- * ─────────────────────────────────────────────────────────────
- */
+
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { createPortal } from "react-dom";
 import styles from "../Snapshot.module.css";
 
-// ─────────────────────────────────────────────
-//  INFO CONTENT (tooltip definitions)
-// ─────────────────────────────────────────────
+
 const INFO_CONTENT = {
   "Gross Monthly Salary":          { title: "Gross Monthly Salary",          body: "Your total salary before any deductions. Used to calculate PAYE via SARS 2025/26 brackets." },
   "Investment Income":             { title: "Investment Income",             body: "Monthly income from local investments: dividends, interest on unit trusts, or rental income." },
@@ -47,9 +39,7 @@ const INFO_CONTENT = {
   "Monthly Savings Contribution":  { title: "Monthly Savings Contribution",  body: "How much you actively add to savings/investments each month. This is the engine of wealth building." },
 };
 
-// ─────────────────────────────────────────────
-//  INFO TOOLTIP
-// ─────────────────────────────────────────────
+
 export const InfoTooltip = ({ field }) => {
   const [open, setOpen]       = useState(false);
   const [pos, setPos]         = useState({ top: 0, left: 0 });
@@ -111,9 +101,6 @@ export const InfoTooltip = ({ field }) => {
   );
 };
 
-// ─────────────────────────────────────────────
-//  SLIDER FIELD
-// ─────────────────────────────────────────────
 export const SliderField = ({ label, min = 0, max, step, value, onChange, prefix = "", suffix = "", id: propId }) => {
   const generated = useId();
   const inputId   = propId || `slider-${generated}`;
@@ -140,9 +127,7 @@ export const SliderField = ({ label, min = 0, max, step, value, onChange, prefix
   );
 };
 
-// ─────────────────────────────────────────────
-//  STAT CARD
-// ─────────────────────────────────────────────
+
 export const StatCard = ({ label, value, sub, accent }) => (
   <div className={styles.statCard}>
     <div className={styles.statLabel}>{label}</div>
@@ -152,9 +137,7 @@ export const StatCard = ({ label, value, sub, accent }) => (
   </div>
 );
 
-// ─────────────────────────────────────────────
-//  MULTI-SEGMENT BAR
-// ─────────────────────────────────────────────
+
 export const MultiSegmentBar = ({ segments }) => {
   const total = segments.reduce((s, seg) => s + (seg.value || 0), 0);
   return (
@@ -169,9 +152,7 @@ export const MultiSegmentBar = ({ segments }) => {
   );
 };
 
-// ─────────────────────────────────────────────
-//  CIRCLE PROGRESS
-// ─────────────────────────────────────────────
+
 export const CircleProgress = ({ pct, label }) => {
   const r = 28, circ = 2 * Math.PI * r;
   const dash = (Math.min(pct, 100) / 100) * circ;
@@ -188,18 +169,14 @@ export const CircleProgress = ({ pct, label }) => {
   );
 };
 
-// ─────────────────────────────────────────────
-//  INSIGHT CARD
-// ─────────────────────────────────────────────
+
 export const InsightCard = ({ text, sentiment }) => (
   <div className={`${styles.insightCard} ${styles[`insightCard--${sentiment}`]}`}>
     {text}
   </div>
 );
 
-// ─────────────────────────────────────────────
-//  NUDGE BANNER
-// ─────────────────────────────────────────────
+
 export const NudgeBanner = ({ nudges, onDismiss }) => {
   if (!nudges.length) return null;
   const nudge = nudges[0];
@@ -214,9 +191,7 @@ export const NudgeBanner = ({ nudges, onDismiss }) => {
   );
 };
 
-// ─────────────────────────────────────────────
-//  LEARN MORE CARD
-// ─────────────────────────────────────────────
+
 export const LearnMore = () => {
   const [open, setOpen] = useState(false);
   return (
@@ -240,9 +215,6 @@ export const LearnMore = () => {
   );
 };
 
-// ─────────────────────────────────────────────
-//  AUTO-SAVE INDICATOR
-// ─────────────────────────────────────────────
 export const AutoSaveIndicator = ({ lastSaved }) => {
   if (!lastSaved) return null;
   const time = lastSaved.toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" });

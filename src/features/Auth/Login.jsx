@@ -1,10 +1,3 @@
-/*
-  Login.jsx
-  – Login page container
-  – Renders LoginForm component
-  – Redirects to home if already logged in
-  – Links to Signup and ForgotPassword
-*/
 
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";

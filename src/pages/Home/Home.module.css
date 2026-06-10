@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-/* ── Hero ────────────────────────────────────────────────────── */
+/*  Hero  */
 .hero {
   position: relative;
   z-index: 1;
@@ -105,7 +105,7 @@
 .ctaArrow { transition: transform var(--transition); }
 .ctaBtn:hover .ctaArrow { transform: translateX(4px); }
 
-/* ── Stats section ───────────────────────────────────────────── */
+/*  Stats section  */
 .statsSection {
   position: relative;
   z-index: 1;
@@ -155,7 +155,7 @@
   z-index: 1;
 }
 
-/* ── Why section ─────────────────────────────────────────────── */
+/*  Why section  */
 .whySection {
   position: relative;
   z-index: 1;
@@ -205,7 +205,7 @@
   line-height: 1.8;
 }
 
-/* ── Features section ────────────────────────────────────────── */
+/*  Features section  */
 .featuresSection {
   position: relative;
   z-index: 1;
@@ -286,7 +286,7 @@
 
 .featureCard:hover .featureArrow { opacity: 1; transform: translate(2px, -2px); }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/*  Responsive  */
 @media (max-width: 1024px) {
   .statsGrid    { grid-template-columns: repeat(2, 1fr); }
   .featuresGrid { grid-template-columns: repeat(2, 1fr); }

@@ -994,7 +994,7 @@
  * No existing styles are changed.
  */
 
-/* ── Nudges ─────────────────────────────────────────────────────────────── */
+/*  Nudges  */
 .nudgesWrap {
   display: flex;
   flex-direction: column;
@@ -1031,7 +1031,7 @@
   opacity: 1;
 }
 
-/* ── Horizontal Stage Timeline ──────────────────────────────────────────── */
+/*  Horizontal Stage Timeline  */
 .timelineWrap {
   display: flex;
   align-items: center;
@@ -1109,7 +1109,7 @@
   background: rgba(74, 222, 128, 0.35);
 }
 
-/* ── Milestone Stage Cards ───────────────────────────────────────────────── */
+/*  Milestone Stage Cards  */
 .milestoneCard {
   border: 1px solid var(--clr-border);
   border-radius: 10px;
@@ -1179,7 +1179,7 @@
   opacity: 0.75;
 }
 
-/* ── Milestone Section Within Card ─────────────────────────────────────── */
+/*  Milestone Section Within Card  */
 .milestoneSection {
   margin-top: 1rem;
 }
@@ -1194,7 +1194,7 @@
   font-family: var(--font-body);
 }
 
-/* ── Tradeoff Grid ──────────────────────────────────────────────────────── */
+/*  Tradeoff Grid  */
 .tradeoffGrid {
   display: flex;
   flex-direction: column;
@@ -1240,7 +1240,7 @@
   opacity: 0.7;
 }
 
-/* ── Glossary Terms ─────────────────────────────────────────────────────── */
+/*  Glossary Terms  */
 .glossaryRow {
   display: flex;
   flex-wrap: wrap;
@@ -1299,7 +1299,7 @@
   line-height: 1.65;
 }
 
-/* ── Example Box ────────────────────────────────────────────────────────── */
+/*  Example Box  */
 .exampleBox {
   font-size: 0.8rem;
   font-family: var(--font-body);
@@ -1311,7 +1311,7 @@
   padding: 0.65rem 0.85rem;
 }
 
-/* ── Complete Button ────────────────────────────────────────────────────── */
+/*  Complete Button  */
 .milestoneCompleteWrap {
   margin-top: 1.1rem;
   display: flex;
@@ -1342,7 +1342,7 @@
   transform: translateY(0);
 }
 
-/* ── Donut container fix ───────────────────────────────────────────────── */
+/*  Donut container fix  */
 .donutContainer {
   position: relative;
   width: 160px;

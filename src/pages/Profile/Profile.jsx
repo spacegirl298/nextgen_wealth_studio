@@ -1,11 +1,4 @@
-// Profile.jsx
-/**
- * Profile.jsx
- * ─────────────────────────────────────────────────────────────
- * User profile page — wired to useSnapshotStore for live metrics.
- * Fully responsive: adapts to all screen sizes (mobile, tablet, desktop)
- * ─────────────────────────────────────────────────────────────
- */
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Profile.module.css";
@@ -14,7 +7,7 @@ import { useLocalStorage } from "../../hooks/userLocalStorage";
 import { useUser } from "../../context/UserContext";
 import { clearAllAppData } from "../../utils/appStorage";
 
-/* ── Icons ─────────────────────────────────────────────────── */
+/*  Icons  */
 const EditIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -48,7 +41,7 @@ const LogOutIcon = () => (
   </svg>
 );
 
-/* ── Banking DNA personas (gold/purple palette only) ───────── */
+/*  Banking DNA personas (gold/purple palette only)  */
 const QUIZ_PERSONAS = {
   spender:   { name: "The Spender",           badge: "◈", color: "var(--clr-accent)", description: "You have strong earning potential but tend to prioritise immediate lifestyle gratification. Savings and investments are inconsistent — making habits more intentional is the key unlock." },
   builder:   { name: "The Future Builder",     badge: "◆", color: "var(--clr-accent)", description: "Focused on long-term milestones. You save aggressively and delay lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in tomorrow's foundation." },
@@ -79,7 +72,7 @@ function formatDate(iso) {
   }
 }
 
-/* ── Main component ─────────────────────────────────────────── */
+/*  Main component  */
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { derived, state } = useSnapshotStore();
@@ -153,20 +146,20 @@ export default function ProfilePage() {
     { label: "Emergency Fund", value: `${metrics.emergencyMonths ?? 0}mo`, accent: "var(--clr-accent)" },
   ];
 
-  /* ── Derived display values ──────────────────────────────── */
+  /*  Derived display values  */
   const handle = profile.username || (displayName ? displayName.toLowerCase().replace(/\s+/g, "_") : "user");
 
   return (
     <div className={styles.pageWrapper}>
 
-      {/* ── Hero ─────────────────────────────────────────────── */}
+      {/*  Hero  */}
       <div className={styles.hero}>
         <p className={styles.heroEyebrow}>Your Account</p>
         <h1 className={styles.heroTitle}>{displayName || "Profile"}</h1>
         <p className={styles.heroSub}>Member since {formatDate(user?.joinedDate)}</p>
       </div>
 
-      {/* ── Profile card + DNA card ───────────────────────────── */}
+      {/*  Profile card + DNA card  */}
       <div className={styles.topRow}>
 
         {/* Profile card */}
@@ -210,7 +203,7 @@ export default function ProfilePage() {
 
       </div>
 
-      {/* ── Health Score gauge ────────────────────────────────── */}
+      {/*  Health Score gauge  */}
       <div className={styles.healthSection}>
         <div className={styles.healthGauge}>
           <svg width="110" height="110" viewBox="0 0 110 110" className={styles.gaugeSvg}>
@@ -251,7 +244,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Money Snapshot ────────────────────────────────────── */}
+      {/*  Money Snapshot  */}
       <div className={styles.snapshotSection}>
         <h2 className={styles.sectionTitle}>Money Snapshot</h2>
         <p className={styles.sectionSub}>Live read from your latest financial data — update values in the Snapshot tool.</p>
@@ -266,7 +259,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Settings ─────────────────────────────────────────── */}
+      {/*  Settings  */}
       <div className={styles.settingsSection}>
         <h2 className={styles.sectionTitle}>Settings</h2>
         <div className={styles.settingsCard}>
@@ -298,7 +291,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Edit profile modal ──────────────────────────────────── */}
+      {/*  Edit profile modal  */}
       {modalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalCard} onClick={e => e.stopPropagation()}>
@@ -328,7 +321,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* ── Sign-out confirmation modal ──────────────────────── */}
+      {/*  Sign-out confirmation modal  */}
       {logoutModal && (
         <div className={styles.modalOverlay} onClick={() => setLogoutModal(false)}>
           <div className={styles.modalCard} onClick={e => e.stopPropagation()}>
@@ -349,7 +342,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* ── Clear data confirmation modal ───────────────────────── */}
+      {/*  Clear data confirmation modal  */}
       {clearModal && (
         <div className={styles.modalOverlay} onClick={() => setClearModal(false)}>
           <div className={styles.modalCard} onClick={e => e.stopPropagation()}>

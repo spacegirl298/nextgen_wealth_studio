@@ -1,7 +1,4 @@
-/**
- * TrackTimeline.jsx
- * Visual timeline of stages within any track.
- */
+
 import styles from "../Tracks.module.css";
 
 export default function TrackTimeline({ stages, statuses, activeIndex, onSelect }) {

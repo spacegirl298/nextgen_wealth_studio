@@ -13,7 +13,11 @@
   transform: translateX(-50%);
   width: min(400px, 80vw);
   height: min(120px, 15vh);
-  background: radial-gradient(ellipse at center bottom, rgba(200, 75, 255, 0.12) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(200, 75, 255, 0.12) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -53,20 +57,22 @@
   white-space: nowrap;
 }
 
-/* On very small screens, allow links to wrap and remove white-space */
+/*Responsiveness*/
 @media (max-width: 500px) {
   .link {
     white-space: normal;
     text-align: center;
   }
-  
+
   .linkGroup {
     flex-wrap: wrap;
     justify-content: center;
   }
 }
 
-.link:hover { color: var(--clr-accent); }
+.link:hover {
+  color: var(--clr-accent);
+}
 
 .divider {
   color: var(--clr-text-dim);
@@ -75,16 +81,15 @@
   user-select: none;
 }
 
-/* Hide dividers on very small screens when items wrap */
 @media (max-width: 480px) {
   .divider {
     display: none;
   }
-  
+
   .links {
     gap: 0.75rem;
   }
-  
+
   .linkGroup {
     gap: 0;
   }
@@ -99,24 +104,22 @@
   padding: 0 0.5rem;
 }
 
-/* Small device adjustments */
 @media (max-width: 600px) {
   .footer {
     padding: 1.5rem 1rem;
   }
 }
 
-/* Extra small devices */
 @media (max-width: 380px) {
   .footer {
     padding: 1.25rem 0.75rem;
   }
-  
+
   .link {
     font-size: 0.7rem;
     padding: 0.25rem 0.4rem;
   }
-  
+
   .copy {
     font-size: 0.6rem;
   }

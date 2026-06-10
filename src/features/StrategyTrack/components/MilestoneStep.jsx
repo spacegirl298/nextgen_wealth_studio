@@ -1,7 +1,4 @@
-/**
- * MilestoneStep.jsx
- * Individual milestone/stage detail card — generic, used by all tracks.
- */
+
 import { useState, useRef, useEffect } from "react";
 import styles from "../Tracks.module.css";
 

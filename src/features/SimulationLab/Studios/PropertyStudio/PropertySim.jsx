@@ -48,7 +48,7 @@ export default function PropertySim() {
 
   const [learnOpen, setLearnOpen] = useState(false);
 
-  /* Shared profile — persisted across all labs via SimContext */
+  /* Shared profile  */
   const { profile, setProfile } = useSimProfile();
   const { monthlyIncome, housingBudget, savings } = profile;
 
@@ -79,7 +79,7 @@ export default function PropertySim() {
     [horizon, purchasePrice, bondRate, bondTerm, savings, priceGrowth, monthlyRent, rentalInflation, investReturn],
   );
 
-  /* Nudges — metrics passed to condition functions */
+  /* Nudges  */
   const nudgeMetrics = useMemo(
     () => ({
       savings,
@@ -101,7 +101,7 @@ export default function PropertySim() {
     "property_nudges_dismissed_v1",
   );
 
-  /* ── Comparison table rows ─────────────────────────────────── */
+  /* Comparison table rows  */
   const { buying, renting } = results;
 
   const TABLE_ROWS = [
@@ -132,7 +132,7 @@ export default function PropertySim() {
         </p>
       </div>
 
-      {/* Learn More / Methodology */}
+      {/* Learn More */}
       <div className={styles.learnCard}>
         <button className={styles.learnToggle} onClick={() => setLearnOpen(!learnOpen)}>
           How this works
@@ -152,10 +152,10 @@ export default function PropertySim() {
         )}
       </div>
 
-      {/* Contextual nudges — non-intrusive, dismissible */}
+      {/* Contextual nudges  */}
       <NudgeBar nudges={activeNudges} onDismiss={dismissNudge} />
 
-      {/* All inputs */}
+     
       <PropertyInputs
         monthlyIncome={monthlyIncome}    setMonthlyIncome={(v) => setProfile("monthlyIncome", v)}
         housingBudget={housingBudget}    setHousingBudget={(v) => setProfile("housingBudget", v)}
@@ -170,7 +170,7 @@ export default function PropertySim() {
         investReturn={investReturn}     setInvestReturn={setInvestReturn}
       />
 
-      {/* Chart — full width */}
+      {/* Chart  */}
       <ComparisonChart chartData={results.chart} breakevenYear={results.breakevenYear} />
 
       {/* Results grid: comparison table + verdict column */}

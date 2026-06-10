@@ -7,7 +7,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import "../../styles/globals.css";
-import { useFinancial } from "../../context/FinancialContext";
+import { useSnapshotStore } from "../../hooks/usesSnapshotStore";
 
 import MoneyImg from "../../assets/Home/MoneyImg.png";
 import SimImg   from "../../assets/Home/SimImg.png";
@@ -87,9 +87,8 @@ const DNAPattern      = () => <div className={styles.patternBg}><img src={DNAImg
 /* ── Page ───────────────────────────────────────────────────── */
 export default function Home() {
   const heroRef = useRef(null);
-  const { grossMonthly, totalMonthlyExpenses, totalDebt, healthScore } = useFinancial();
-
-  const fmt = (v) => `R${Math.round(v).toLocaleString()}`;
+  const { derived } = useSnapshotStore();
+  const { grossMonthly, totalExpenses, totalDebt, healthScore, fmt } = derived;
 
   return (
     <main className={styles.main}>
@@ -118,9 +117,9 @@ export default function Home() {
       {/* Stat cards */}
       <section className={styles.statsSection}>
         <div className={styles.statsGrid}>
-          <StatCard label="TOTAL INCOME"    value={fmt(grossMonthly)}        to="/money" delay={0}   />
-          <StatCard label="TOTAL EXPENSES"  value={fmt(totalMonthlyExpenses)} to="/money" delay={80}  />
-          <StatCard label="DEBT BALANCE"    value={fmt(totalDebt)}            to="/money" delay={160} />
+          <StatCard label="TOTAL INCOME"   value={fmt(grossMonthly)} to="/money" delay={0}   />
+          <StatCard label="TOTAL EXPENSES" value={fmt(totalExpenses)} to="/money" delay={80}  />
+          <StatCard label="DEBT BALANCE"  value={fmt(totalDebt)}    to="/money" delay={160} />
           <GoalCard percent={healthScore} delay={240} />
         </div>
       </section>

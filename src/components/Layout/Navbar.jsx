@@ -1,12 +1,3 @@
-/*Top navigation bar rendered on all pages.
-–	Logo / app name on the left
-–	Nav links: Home, Snapshot, Tracks, Simulation, Profile
-–	Active link highlighting based on current route
-–	Login/Signup buttons when unauthenticated
-–	User avatar/name + logout when authenticated
-–	Hamburger menu for mobile
-–	Reads from UserContext for auth state
-*/
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import NavLinkList from "./NavLinkList";

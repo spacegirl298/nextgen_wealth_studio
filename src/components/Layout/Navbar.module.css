@@ -1,9 +1,3 @@
-/* ============================================================
-   NAVBAR  —  Navbar.module.css
-   Unique to Navbar only. Shared tokens come from variables.css,
-   shared components from globals.css.
-   ============================================================ */
-
 .navbar {
   position: fixed;
   top: 0;

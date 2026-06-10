@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./BankingDNA.module.css";
+import { useLocalStorage } from "../../hooks/userLocalStorage";
 
 //Personality Types
 const PERSONALITY_TYPES = {
@@ -483,14 +484,18 @@ const LevelTrack = ({ currentLevel, personalityColor }) => (
 
 // Main 
 export default function BankingDNA() {
-  const [phase, setPhase] = useState("intro"); 
+  // Persisted quiz result — survives page refresh
+  const [savedResult, setSavedResult] = useLocalStorage("bankingDNA_result_v1", null);
+
+  // Derive initial phase from saved result
+  const [phase, setPhase] = useState(() => savedResult ? "result" : "intro");
   const [qIndex, setQIndex] = useState(0);
-  const [answers, setAnswers] = useState([]);
+  const [answers, setAnswers] = useState(() => savedResult?.answers || []);
   const [selected, setSelected] = useState(null);
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState(() => !!savedResult);
   const [learnOpen, setLearnOpen] = useState(false);
 
-  const [signals, setSignals] = useState({
+  const [signals, setSignals] = useState(() => savedResult?.signals || {
     budget: 45,
     savings: 30,
     goals: 55,
@@ -552,12 +557,14 @@ export default function BankingDNA() {
         },
       };
       setSignals(defaults[type]);
+      setSavedResult({ answers: newAnswers, signals: defaults[type], completedAt: Date.now() });
       setPhase("result");
       setTimeout(() => setRevealed(true), 300);
     }
   };
 
   const restart = () => {
+    setSavedResult(null);
     setPhase("intro");
     setQIndex(0);
     setAnswers([]);

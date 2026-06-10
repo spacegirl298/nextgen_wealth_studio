@@ -3,6 +3,7 @@
   – Step 1: Enter email → checks if account exists in localStorage
   – Step 2: If found, show new password + confirm fields to reset directly
   – No fake email — works fully offline with localStorage auth
+  – No inline styles
 */
 
 import { useState } from "react";
@@ -23,11 +24,11 @@ function passwordStrength(pw) {
 }
 
 const STRENGTH_MAP = {
-  0: { label: "", color: "transparent", width: 0 },
-  1: { label: "Weak — try adding numbers or symbols", color: "#f87171", width: 25 },
-  2: { label: "Fair — add uppercase letters or symbols", color: "#f59e0b", width: 50 },
-  3: { label: "Good — nearly there", color: "#4bffab", width: 75 },
-  4: { label: "Strong password", color: "#c9a84c", width: 100 },
+  0: { label: "",                                       fillClass: "",                    width: 0   },
+  1: { label: "Weak — try adding numbers or symbols",   fillClass: styles.strengthWeak,   width: 25  },
+  2: { label: "Fair — add uppercase letters or symbols",fillClass: styles.strengthFair,   width: 50  },
+  3: { label: "Good — nearly there",                    fillClass: styles.strengthGood,   width: 75  },
+  4: { label: "Strong password",                        fillClass: styles.strengthStrong, width: 100 },
 };
 
 function EyeIcon({ open }) {
@@ -55,9 +56,19 @@ function CheckIcon() {
 
 function CheckCircleIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1d9e75" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.successCheckIcon}>
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
       <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+  );
+}
+
+function AlertIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.alertIcon}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
     </svg>
   );
 }
@@ -74,7 +85,6 @@ function EmailStep({ onFound }) {
     if (!isValidEmail(email)) { setEmailError("Enter a valid email address."); return; }
 
     setLoading(true);
-    // Small delay so it doesn't feel instant (UX)
     await new Promise((r) => setTimeout(r, 600));
 
     const users = getUsers();
@@ -181,16 +191,15 @@ function ResetStep({ email, onSuccess }) {
 
   return (
     <>
-      <p className={styles.subtitle} style={{ marginBottom: "1.25rem" }}>
-        Setting a new password for <strong style={{ color: "var(--clr-gold)" }}>{email}</strong>
+      <p className={styles.resetEmailLabel}>
+        Setting a new password for{" "}
+        <span className={styles.resetEmailHighlight}>{email}</span>
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
         {formError && (
           <div className={`${styles.alert} ${styles.alertDanger}`} role="alert">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
-              <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
+            <AlertIcon />
             {formError}
           </div>
         )}
@@ -208,16 +217,24 @@ function ResetStep({ email, onSuccess }) {
               autoComplete="new-password"
               autoFocus
             />
-            <button type="button" className={styles.eyeBtn} onClick={() => setShowPw((v) => !v)} aria-label={showPw ? "Hide password" : "Show password"}>
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={() => setShowPw((v) => !v)}
+              aria-label={showPw ? "Hide password" : "Show password"}
+            >
               <EyeIcon open={showPw} />
             </button>
           </div>
           {fields.password && (
             <>
               <div className={styles.strengthBar}>
-                <div className={styles.strengthFill} style={{ width: `${si.width}%`, backgroundColor: si.color }} />
+                <div
+                  className={`${styles.strengthFill} ${si.fillClass}`}
+                  style={{ width: `${si.width}%` }}
+                />
               </div>
-              <p className={styles.strengthLabel} style={{ color: si.color }}>{si.label}</p>
+              <p className={`${styles.strengthLabel} ${si.fillClass}`}>{si.label}</p>
             </>
           )}
           {errors.password && <p className={styles.fieldError}>{errors.password}</p>}
@@ -235,7 +252,12 @@ function ResetStep({ email, onSuccess }) {
               onChange={set("confirm")}
               autoComplete="new-password"
             />
-            <button type="button" className={styles.eyeBtn} onClick={() => setShowConfirm((v) => !v)} aria-label={showConfirm ? "Hide password" : "Show password"}>
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={() => setShowConfirm((v) => !v)}
+              aria-label={showConfirm ? "Hide password" : "Show password"}
+            >
               <EyeIcon open={showConfirm} />
             </button>
           </div>

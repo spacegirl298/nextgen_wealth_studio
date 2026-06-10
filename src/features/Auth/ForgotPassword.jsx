@@ -16,13 +16,8 @@ export default function ForgotPassword() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.brand}>
-          <div className={styles.brandIcon}>F</div>
-          <span className={styles.brandName}>Finpath</span>
-        </div>
-
         <h1 className={styles.heading}>Reset your password</h1>
-        <p className={styles.subtitle}>Enter the email linked to your account and we'll send a reset link.</p>
+        <p className={styles.subtitle}>Enter the email linked to your account and we'll look it up.</p>
 
         <ForgotPasswordForm onBack={() => navigate("/login")} />
 

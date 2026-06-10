@@ -23,11 +23,6 @@ export default function Signup() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.brand}>
-          <div className={styles.brandIcon}>F</div>
-          <span className={styles.brandName}>Finpath</span>
-        </div>
-
         <h1 className={styles.heading}>Create your account</h1>
         <p className={styles.subtitle}>Get your full financial picture in one place.</p>
 

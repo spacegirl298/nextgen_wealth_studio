@@ -23,11 +23,6 @@ export default function Login() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.brand}>
-          <div className={styles.brandIcon}>F</div>
-          <span className={styles.brandName}>Finpath</span>
-        </div>
-
         <h1 className={styles.heading}>Welcome back</h1>
         <p className={styles.subtitle}>Sign in to pick up where you left off.</p>
 

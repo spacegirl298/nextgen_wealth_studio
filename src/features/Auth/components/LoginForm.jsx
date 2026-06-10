@@ -3,6 +3,7 @@
   – Shows a success banner when arriving from signup (justRegistered state)
   – Pre-fills email if passed via navigation state
   – Dark theme via Auth.module.css
+  – No inline styles
 */
 
 import { useState } from "react";
@@ -26,6 +27,25 @@ function EyeIcon({ open }) {
   );
 }
 
+function AlertIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.alertIcon}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  );
+}
+
+function SuccessIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.alertIcon}>
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+  );
+}
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -35,7 +55,6 @@ export default function LoginForm({ onForgotPassword }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Pick up state passed from Signup redirect
   const justRegistered = location.state?.justRegistered ?? false;
   const prefillEmail = location.state?.email ?? "";
 
@@ -63,10 +82,7 @@ export default function LoginForm({ onForgotPassword }) {
     e?.preventDefault();
     setFormError("");
     const errs = validate();
-    if (Object.keys(errs).length) { 
-      setErrors(errs); 
-      return; 
-    }
+    if (Object.keys(errs).length) { setErrors(errs); return; }
 
     setLoading(true);
     await new Promise((r) => setTimeout(r, 700));
@@ -82,7 +98,6 @@ export default function LoginForm({ onForgotPassword }) {
         return;
       }
 
-      // Check password
       const expectedHash = btoa(fields.password);
       if (stored.passwordHash !== expectedHash) {
         setErrors({ password: "Wrong password. Try again or reset it below." });
@@ -90,11 +105,9 @@ export default function LoginForm({ onForgotPassword }) {
         return;
       }
 
-      // Update last login timestamp
       users[emailKey].lastLogin = new Date().toISOString();
       localStorage.setItem("auth_users", JSON.stringify(users));
 
-      // Log the user in
       login({
         userId: stored.userId,
         displayName: stored.displayName,
@@ -103,7 +116,6 @@ export default function LoginForm({ onForgotPassword }) {
         lastLogin: new Date().toISOString(),
       });
 
-      // Redirect to the page they were trying to reach, or home
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (error) {
@@ -117,18 +129,14 @@ export default function LoginForm({ onForgotPassword }) {
     <form onSubmit={handleSubmit} noValidate>
       {justRegistered && (
         <div className={`${styles.alert} ${styles.alertSuccess}`} role="status">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-          </svg>
+          <SuccessIcon />
           Account created! Sign in to get started.
         </div>
       )}
 
       {formError && (
         <div className={`${styles.alert} ${styles.alertDanger}`} role="alert">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
-            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <AlertIcon />
           {formError}
         </div>
       )}
@@ -159,7 +167,12 @@ export default function LoginForm({ onForgotPassword }) {
             onChange={set("password")}
             autoComplete="current-password"
           />
-          <button type="button" className={styles.eyeBtn} onClick={() => setShowPw((v) => !v)} aria-label={showPw ? "Hide password" : "Show password"}>
+          <button
+            type="button"
+            className={styles.eyeBtn}
+            onClick={() => setShowPw((v) => !v)}
+            aria-label={showPw ? "Hide password" : "Show password"}
+          >
             <EyeIcon open={showPw} />
           </button>
         </div>

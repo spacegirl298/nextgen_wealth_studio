@@ -4,6 +4,7 @@
   – Name, email, password, confirm-password fields
   – Password strength indicator
   – Dark theme via Auth.module.css
+  – No inline styles
 */
 
 import { useState } from "react";
@@ -35,6 +36,16 @@ function CheckIcon() {
   );
 }
 
+function AlertIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.alertIcon}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  );
+}
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -49,11 +60,11 @@ function passwordStrength(pw) {
 }
 
 const STRENGTH_MAP = {
-  0: { label: "", color: "transparent", width: 0 },
-  1: { label: "Weak — try adding numbers or symbols", color: "#f87171", width: 25 },
-  2: { label: "Fair — add uppercase letters or symbols", color: "#f59e0b", width: 50 },
-  3: { label: "Good — nearly there", color: "#4bffab", width: 75 },
-  4: { label: "Strong password", color: "#c9a84c", width: 100 },
+  0: { label: "",                                    fillClass: "",                    width: 0   },
+  1: { label: "Weak — try adding numbers or symbols", fillClass: styles.strengthWeak,  width: 25  },
+  2: { label: "Fair — add uppercase letters or symbols", fillClass: styles.strengthFair, width: 50 },
+  3: { label: "Good — nearly there",                 fillClass: styles.strengthGood,   width: 75  },
+  4: { label: "Strong password",                     fillClass: styles.strengthStrong, width: 100 },
 };
 
 export default function SignupForm() {
@@ -93,21 +104,15 @@ export default function SignupForm() {
     e?.preventDefault();
     setFormError("");
     const errs = validate();
-    if (Object.keys(errs).length) { 
-      setErrors(errs); 
-      return; 
-    }
+    if (Object.keys(errs).length) { setErrors(errs); return; }
 
     setLoading(true);
-
-    // Simulate network delay
     await new Promise((r) => setTimeout(r, 800));
 
     try {
       const users = getUsers();
       const emailKey = fields.email.toLowerCase();
 
-      // Check if user already exists
       if (users[emailKey]) {
         setFormError("An account already exists for this email. Sign in instead.");
         setLoading(false);
@@ -117,7 +122,6 @@ export default function SignupForm() {
       const userId = `user_${Date.now()}`;
       const joinedDate = new Date().toISOString();
 
-      // Create new user
       users[emailKey] = {
         userId,
         displayName: fields.name.trim(),
@@ -127,16 +131,13 @@ export default function SignupForm() {
         lastLogin: joinedDate,
       };
 
-      // Save to localStorage
       const saveSuccess = saveUsers(users);
-      
       if (!saveSuccess) {
         setFormError("Failed to create account. Please try again.");
         setLoading(false);
         return;
       }
 
-      // Verify the user was actually saved
       const verifyUsers = getUsers();
       if (!verifyUsers[emailKey]) {
         setFormError("Account creation failed. Please try again.");
@@ -144,10 +145,7 @@ export default function SignupForm() {
         return;
       }
 
-      // Clear only app data (preserves auth_users)
       clearAllAppData();
-
-      // Redirect to login
       navigate("/login", { state: { justRegistered: true, email: emailKey } });
     } catch (error) {
       console.error("Signup error:", error);
@@ -160,9 +158,7 @@ export default function SignupForm() {
     <form onSubmit={handleSubmit} noValidate>
       {formError && (
         <div className={`${styles.alert} ${styles.alertDanger}`} role="alert">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
-            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <AlertIcon />
           {formError}
         </div>
       )}
@@ -207,16 +203,24 @@ export default function SignupForm() {
             onChange={set("password")}
             autoComplete="new-password"
           />
-          <button type="button" className={styles.eyeBtn} onClick={() => setShowPw((v) => !v)} aria-label={showPw ? "Hide password" : "Show password"}>
+          <button
+            type="button"
+            className={styles.eyeBtn}
+            onClick={() => setShowPw((v) => !v)}
+            aria-label={showPw ? "Hide password" : "Show password"}
+          >
             <EyeIcon open={showPw} />
           </button>
         </div>
         {fields.password && (
           <>
             <div className={styles.strengthBar}>
-              <div className={styles.strengthFill} style={{ width: `${si.width}%`, backgroundColor: si.color }} />
+              <div
+                className={`${styles.strengthFill} ${si.fillClass}`}
+                style={{ width: `${si.width}%` }}
+              />
             </div>
-            <p className={styles.strengthLabel} style={{ color: si.color }}>{si.label}</p>
+            <p className={`${styles.strengthLabel} ${si.fillClass}`}>{si.label}</p>
           </>
         )}
         {errors.password && <p className={styles.fieldError}>{errors.password}</p>}
@@ -234,7 +238,12 @@ export default function SignupForm() {
             onChange={set("confirm")}
             autoComplete="new-password"
           />
-          <button type="button" className={styles.eyeBtn} onClick={() => setShowConfirm((v) => !v)} aria-label={showConfirm ? "Hide password" : "Show password"}>
+          <button
+            type="button"
+            className={styles.eyeBtn}
+            onClick={() => setShowConfirm((v) => !v)}
+            aria-label={showConfirm ? "Hide password" : "Show password"}
+          >
             <EyeIcon open={showConfirm} />
           </button>
         </div>

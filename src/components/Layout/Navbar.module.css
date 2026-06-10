@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 0 2.5rem;
+  padding: 0 clamp(1rem, 4vw, 2.5rem);
   transition:
     background var(--transition),
     backdrop-filter var(--transition),
@@ -22,10 +22,10 @@
 .inner {
   max-width: 1200px;
   margin: 0 auto;
-  height: 72px;
+  height: clamp(60px, 8vh, 72px);
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(0.75rem, 3vw, 2rem);
 }
 
 /* Logo */
@@ -37,8 +37,8 @@
 }
 
 .logoMark {
-  width: 44px;
-  height: 44px;
+  width: clamp(36px, 6vw, 44px);
+  height: clamp(36px, 6vw, 44px);
   border-radius: 50%;
   border: 2px solid var(--clr-accent);
   display: flex;
@@ -55,7 +55,7 @@
 
 .logoMark span {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: lowercase;
@@ -66,17 +66,17 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: clamp(0.125rem, 1vw, 0.25rem);
   flex: 1;
   justify-content: center;
 }
 
 .navLink {
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.875rem);
   font-weight: var(--weight-normal);
   color: var(--clr-text-unhighlighted);
-  padding: 0.4rem 0.85rem;
+  padding: clamp(0.3rem, 1.5vw, 0.4rem) clamp(0.6rem, 2vw, 0.85rem);
   border-radius: var(--radius-sm);
   transition: color var(--transition), background var(--transition);
   white-space: nowrap;
@@ -86,7 +86,7 @@
 .navLink.active { color: var(--clr-text); font-weight: var(--weight-semi); }
 
 /* Actions */
-.actions { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.actions { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 0.75rem); flex-shrink: 0; }
 
 /* Profile wrapper for dropdown positioning */
 .profileWrapper {
@@ -94,8 +94,8 @@
 }
 
 .profileBtn {
-  width: 38px;
-  height: 38px;
+  width: clamp(32px, 6vw, 38px);
+  height: clamp(32px, 6vw, 38px);
   border-radius: 50%;
   border: 1px solid var(--clr-border);
   background: var(--clr-accent-soft);
@@ -114,7 +114,7 @@
 }
 
 .profileInitial {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 3vw, 0.9rem);
   font-weight: var(--weight-semi);
 }
 
@@ -123,7 +123,7 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 260px;
+  min-width: clamp(240px, 70vw, 280px);
   background: rgba(10, 0, 16, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid var(--clr-border);
@@ -154,8 +154,8 @@
 }
 
 .dropdownAvatar {
-  width: 40px;
-  height: 40px;
+  width: clamp(36px, 8vw, 40px);
+  height: clamp(36px, 8vw, 40px);
   border-radius: 50%;
   background: var(--clr-accent-soft);
   border: 1px solid var(--clr-accent);
@@ -163,25 +163,32 @@
   align-items: center;
   justify-content: center;
   font-weight: var(--weight-bold);
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 3vw, 1rem);
   color: var(--clr-accent);
 }
 
 .dropdownInfo {
   flex: 1;
+  min-width: 0; /* Allows text truncation */
 }
 
 .dropdownName {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 3vw, 0.85rem);
   font-weight: var(--weight-semi);
   color: var(--clr-text);
   margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdownEmail {
-  font-size: 0.7rem;
+  font-size: clamp(0.65rem, 2.5vw, 0.7rem);
   color: var(--clr-text-light);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdownStats {
@@ -195,7 +202,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: clamp(0.7rem, 2.5vw, 0.75rem);
 }
 
 .statLabel {
@@ -223,7 +230,7 @@
   border: none;
   color: var(--clr-text-light);
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.8rem);
   cursor: pointer;
   transition: all var(--transition-fast);
   text-align: left;
@@ -231,6 +238,7 @@
 
 .dropdownItem svg {
   opacity: 0.7;
+  flex-shrink: 0;
 }
 
 .dropdownItem:hover {
@@ -255,7 +263,7 @@
   display: none;
   flex-direction: column;
   gap: 5px;
-  width: 32px;
+  width: 28px;
   padding: 4px;
   background: none;
   border: none;
@@ -281,7 +289,7 @@
   flex-direction: column;
   background: rgba(10, 0, 16, 0.97);
   backdrop-filter: blur(20px);
-  padding: 1rem 2.5rem 1.5rem;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem) 1.5rem;
   border-bottom: 1px solid var(--clr-border);
   gap: 0.25rem;
   max-height: 0;
@@ -293,7 +301,7 @@
 
 .mobileLink {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 4vw, 1rem);
   color: var(--clr-text-light);
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--clr-border);
@@ -305,17 +313,19 @@
 .mobileLink:hover,
 .mobileLink.active { color: var(--clr-accent); }
 
-/* Responsive */
+/* Tablet breakpoint */
 @media (max-width: 800px) {
   .nav       { display: none; }
   .hamburger { display: flex; }
   .mobileMenu { display: flex; }
-  .navbar { padding: 0 1.25rem; }
 }
 
+/* Mobile breakpoint for dropdown */
 @media (max-width: 480px) {
-  .navbar { padding: 0 1rem; }
-  .inner { gap: 0.75rem; }
+  .profileWrapper {
+    position: static;
+  }
+
   .dropdown {
     position: fixed;
     top: auto;
@@ -332,5 +342,24 @@
   @keyframes slideUp {
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 380px) {
+  .inner {
+    gap: 0.5rem;
+  }
+  
+  .dropdownItem {
+    padding: 0.75rem 1rem;
+  }
+  
+  .dropdownStats {
+    padding: 0.75rem;
+  }
+  
+  .dropdownHeader {
+    padding: 0.5rem 0.75rem 0.75rem;
   }
 }

@@ -234,8 +234,6 @@ export const LearnMore = () => {
           <br /><br />
           <strong className={styles.learnHighlight}>In the South African context</strong>, many households carry high debt-to-income ratios, often fuelled by vehicle finance, store accounts, and personal loans at 20–30% interest.
           A regular snapshot helps you catch these patterns before they become crises.
-          <br /><br />
-          Update your snapshot monthly. Your data is saved automatically on this device and never leaves your browser.
         </div>
       )}
     </div>

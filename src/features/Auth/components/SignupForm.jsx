@@ -93,39 +93,67 @@ export default function SignupForm() {
     e?.preventDefault();
     setFormError("");
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-
-    const users = getUsers();
-    const emailKey = fields.email.toLowerCase();
-
-    if (users[emailKey]) {
-      setFormError("An account already exists for this email. Sign in instead.");
-      setLoading(false);
-      return;
+    if (Object.keys(errs).length) { 
+      setErrors(errs); 
+      return; 
     }
 
-    const userId = `user_${Date.now()}`;
-    const joinedDate = new Date().toISOString();
+    setLoading(true);
 
-    users[emailKey] = {
-      userId,
-      displayName: fields.name.trim(),
-      email: emailKey,
-      passwordHash: btoa(fields.password),
-      joinedDate,
-      lastLogin: joinedDate,
-    };
+    // Simulate network delay
+    await new Promise((r) => setTimeout(r, 800));
 
-    saveUsers(users);
+    try {
+      const users = getUsers();
+      const emailKey = fields.email.toLowerCase();
 
-    // Start this new account with a clean zeroed snapshot state.
-    clearAllAppData();
+      // Check if user already exists
+      if (users[emailKey]) {
+        setFormError("An account already exists for this email. Sign in instead.");
+        setLoading(false);
+        return;
+      }
 
-    // Redirect to login so user signs in with their new credentials
-    navigate("/login", { state: { justRegistered: true, email: emailKey } });
+      const userId = `user_${Date.now()}`;
+      const joinedDate = new Date().toISOString();
+
+      // Create new user
+      users[emailKey] = {
+        userId,
+        displayName: fields.name.trim(),
+        email: emailKey,
+        passwordHash: btoa(fields.password),
+        joinedDate,
+        lastLogin: joinedDate,
+      };
+
+      // Save to localStorage
+      const saveSuccess = saveUsers(users);
+      
+      if (!saveSuccess) {
+        setFormError("Failed to create account. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Verify the user was actually saved
+      const verifyUsers = getUsers();
+      if (!verifyUsers[emailKey]) {
+        setFormError("Account creation failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Clear only app data (preserves auth_users)
+      clearAllAppData();
+
+      // Redirect to login
+      navigate("/login", { state: { justRegistered: true, email: emailKey } });
+    } catch (error) {
+      console.error("Signup error:", error);
+      setFormError("An unexpected error occurred. Please try again.");
+      setLoading(false);
+    }
   }
 
   return (

@@ -571,6 +571,13 @@
 .saveBtn:hover { background: var(--clr-gold-highlight); border-color: var(--clr-gold-highlight); }
 
 /* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .topRow { max-width: 100%; padding: 0 16px; }
+  .snapshotSection { padding: 0 16px; }
+  .settingsSection { padding: 0 16px; }
+  .healthSection { padding: 20px 24px; gap: 20px; }
+}
+
 @media (max-width: 700px) {
   .topRow { grid-template-columns: 1fr; }
   .metricsGrid { grid-template-columns: repeat(2, 1fr); }
@@ -583,4 +590,11 @@
   .formRow { grid-template-columns: 1fr; }
   .scoreRow { grid-template-columns: 100px 1fr 40px; }
   .settingRow { flex-direction: column; align-items: flex-start; }
+  .hero { padding: 36px 16px 32px; }
+  .heroTitle { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+}
+
+@media (max-width: 380px) {
+  .metricsGrid { grid-template-columns: 1fr; }
+  .topRow { padding: 0 12px; }
 }

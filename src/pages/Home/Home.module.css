@@ -58,7 +58,7 @@
   font-family: var(--font-body);
   font-size: 1rem;
   font-weight: var(--weight-light);
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 580px;
   text-align: center;
@@ -201,7 +201,7 @@
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: var(--weight-light);
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.8;
 }
 
@@ -287,17 +287,31 @@
 .featureCard:hover .featureArrow { opacity: 1; transform: translate(2px, -2px); }
 
 /* ── Responsive ──────────────────────────────────────────────── */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .statsGrid    { grid-template-columns: repeat(2, 1fr); }
   .featuresGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 600px) {
-  .hero { padding: 8rem 1.5rem 3rem; }
+@media (max-width: 900px) {
+  .hero { padding: 8rem 2rem 3.5rem; }
   .statsSection,
   .whySection,
   .featuresSection { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 6rem 1.25rem 2.5rem; }
+  .statsSection,
+  .whySection,
+  .featuresSection { padding-left: 1rem; padding-right: 1rem; }
   .statsGrid    { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
   .featuresGrid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .whyCard      { padding: 2rem 1.5rem; }
+  .whyCard      { padding: 1.75rem 1.25rem; }
+}
+
+@media (max-width: 380px) {
+  .statsGrid    { grid-template-columns: 1fr; }
+  .featuresGrid { grid-template-columns: 1fr; }
+  .hero { padding: 5rem 1rem 2rem; }
+  .heroHeading { font-size: clamp(2.2rem, 9vw, 3rem); }
 }

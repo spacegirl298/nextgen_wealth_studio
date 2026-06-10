@@ -29,7 +29,8 @@ export function useLocalStorage(key, initialValue) {
     try {
       const item = localStorage.getItem(storageKey);
       return item ? JSON.parse(item) : initialValueRef.current;
-    } catch {
+    } catch (error) {
+      console.error(`[useLocalStorage] Error reading ${storageKey}:`, error);
       return initialValueRef.current;
     }
   }, [storageKey]);
@@ -38,25 +39,24 @@ export function useLocalStorage(key, initialValue) {
     try {
       const item = localStorage.getItem(storageKey);
       return item ? JSON.parse(item) : initialValue;
-    } catch {
+    } catch (error) {
+      console.error(`[useLocalStorage] Error in initial state for ${storageKey}:`, error);
       return initialValue;
     }
   });
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStoredValue(readValue());
   }, [storageKey, readValue]);
 
   const setValue = useCallback(
     (value) => {
       try {
-        const valueToStore =
-          value instanceof Function ? value(storedValue) : value;
+        const valueToStore = value instanceof Function ? value(storedValue) : value;
         setStoredValue(valueToStore);
         localStorage.setItem(storageKey, JSON.stringify(valueToStore));
-      } catch {
-        // silently fail — storage full or blocked
+      } catch (error) {
+        console.error(`[useLocalStorage] Error setting ${storageKey}:`, error);
       }
     },
     [storageKey, storedValue],

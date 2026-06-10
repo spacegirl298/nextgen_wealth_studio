@@ -63,41 +63,54 @@ export default function LoginForm({ onForgotPassword }) {
     e?.preventDefault();
     setFormError("");
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    if (Object.keys(errs).length) { 
+      setErrors(errs); 
+      return; 
+    }
 
     setLoading(true);
     await new Promise((r) => setTimeout(r, 700));
 
-    const users = getUsers();
-    const stored = users[fields.email.toLowerCase()];
+    try {
+      const users = getUsers();
+      const emailKey = fields.email.toLowerCase();
+      const stored = users[emailKey];
 
-    if (!stored) {
-      setFormError("No account found for this email. Check for typos or create an account.");
+      if (!stored) {
+        setFormError("No account found for this email. Check for typos or create an account.");
+        setLoading(false);
+        return;
+      }
+
+      // Check password
+      const expectedHash = btoa(fields.password);
+      if (stored.passwordHash !== expectedHash) {
+        setErrors({ password: "Wrong password. Try again or reset it below." });
+        setLoading(false);
+        return;
+      }
+
+      // Update last login timestamp
+      users[emailKey].lastLogin = new Date().toISOString();
+      localStorage.setItem("auth_users", JSON.stringify(users));
+
+      // Log the user in
+      login({
+        userId: stored.userId,
+        displayName: stored.displayName,
+        email: emailKey,
+        joinedDate: stored.joinedDate,
+        lastLogin: new Date().toISOString(),
+      });
+
+      // Redirect to the page they were trying to reach, or home
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error("Login error:", error);
+      setFormError("An unexpected error occurred. Please try again.");
       setLoading(false);
-      return;
     }
-
-    if (stored.passwordHash !== btoa(fields.password)) {
-      setErrors({ password: "Wrong password. Try again or reset it below." });
-      setLoading(false);
-      return;
-    }
-
-    // Persist last-login timestamp
-    users[fields.email.toLowerCase()].lastLogin = new Date().toISOString();
-    localStorage.setItem("auth_users", JSON.stringify(users));
-
-    login({
-      userId: stored.userId,
-      displayName: stored.displayName,
-      email: fields.email.toLowerCase(),
-      joinedDate: stored.joinedDate,
-      lastLogin: new Date().toISOString(),
-    });
-
-    // Redirect to the page they were trying to reach, or home
-    const from = location.state?.from?.pathname || "/";
-    navigate(from, { replace: true });
   }
 
   return (

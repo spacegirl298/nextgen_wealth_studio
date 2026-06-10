@@ -1,10 +1,9 @@
-export function isUserScopedStorageKey(key) {
-  return typeof key === 'string' && /(_user_[A-Za-z0-9_-]+)$/.test(key);
+// utils/userStorage.js
+export function getScopedStorageKey(baseKey, userId) {
+  return `${baseKey}_${userId}`;
 }
 
-export function getScopedStorageKey(key, userId) {
-  if (!key || typeof key !== 'string') return key;
-  if (!userId || isUserScopedStorageKey(key)) return key;
-
-  return `${key}_${userId}`;
+export function isUserScopedStorageKey(key) {
+  // Keys that contain a userId are already scoped
+  return key.includes("_user_") || key.match(/_[a-zA-Z0-9]+$/);
 }

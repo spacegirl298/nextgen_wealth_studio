@@ -46,7 +46,7 @@ export default function IncomeForm({ state, update, derived }) {
         {/* Income Sources */}
         <div className={styles.sectionCard}>
           <h2 className={styles.cardTitle}>Income Sources</h2>
-          <p className={styles.cardSub}>Enter all sources of monthly income. Changes save automatically.</p>
+          <p className={styles.cardSub}>Enter all sources of monthly income.</p>
 
           <SliderField label="Gross Monthly Salary" min={0} max={200000} step={500}
             value={salary} onChange={v => update("salary", v)} prefix="R " />

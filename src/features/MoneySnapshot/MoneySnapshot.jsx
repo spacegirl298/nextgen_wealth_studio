@@ -42,7 +42,7 @@ export default function MoneySnapshot() {
     <>
       <div className={styles.statsRow}>
         <StatCard label="Gross Monthly Income" value={fmt(grossMonthly)}  sub="Before tax" />
-        <StatCard label="Estimated PAYE Tax"   value={fmt(paye)}          sub={`${derived.tax.effectiveRate.toFixed(1)}% effective rate`} accent="#f87171" />
+        <StatCard label="Estimated PAYE Tax"   value={fmt(paye)}          sub={`${derived.tax.effectiveRate.toFixed(1)}% effective rate`} accent="#954f4f" />
         <StatCard label="Take-Home Pay"        value={fmt(takeHome)}      sub="After PAYE & UIF" accent="#4ade80" />
         <StatCard label="Monthly Disposable"   value={fmt(metrics.disposable)} sub="After all expenses" accent={metrics.disposable < 0 ? "#f87171" : "#f8d299"} />
       </div>
@@ -247,7 +247,7 @@ export default function MoneySnapshot() {
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>Money Snapshot</h1>
         <p className={styles.heroSub}>
-          A clear, organised view of your financial position — built for South Africa.
+          Let's unpack your financial position.
         </p>
         <AutoSaveIndicator lastSaved={lastSaved} />
       </div>

@@ -21,7 +21,8 @@
   --clr-warn:             #fbbf24;
 
   --clr-text:             #f0e8ff;
-  --clr-text-muted:       rgba(240, 232, 255, 0.792);
+  --clr-text-light:       #f0e8ffb2;
+
   --clr-text-unhighlighted: rgba(240, 232, 255, 0.547);
   --clr-text-dim:         rgba(240, 232, 255, 0.3);
 
@@ -87,6 +88,38 @@
   --page-padding-y:   2rem;
 
 
-  /* ── Breakpoints (for reference — use in @media directly) ── */
-  /* sm: 640px  |  md: 768px  |  lg: 1024px  |  xl: 1280px */
+  /* Scalability */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  
+  --text-fluid-xs: clamp(0.64rem, 0.05vw + 0.63rem, 0.7rem);
+  --text-fluid-sm: clamp(0.8rem, 0.17vw + 0.76rem, 0.9rem);
+  --text-fluid-base: clamp(0.88rem, 0.17vw + 0.84rem, 1rem);
+  --text-fluid-md: clamp(1rem, 0.34vw + 0.92rem, 1.2rem);
+  --text-fluid-lg: clamp(1.2rem, 0.51vw + 1.08rem, 1.5rem);
+  --text-fluid-xl: clamp(1.5rem, 0.85vw + 1.3rem, 2rem);
+  --text-fluid-2xl: clamp(1.8rem, 1.2vw + 1.5rem, 2.5rem);
+  --text-fluid-3xl: clamp(2.2rem, 1.8vw + 1.8rem, 3rem);
+  --text-fluid-4xl: clamp(2.8rem, 2.5vw + 2.2rem, 4rem);
+  --text-fluid-5xl: clamp(3.5rem, 3.5vw + 2.7rem, 5rem);
+
+  /* Override fixed sizes with fluid equivalents */
+  --text-xs:   var(--text-fluid-xs);
+  --text-sm:   var(--text-fluid-sm);
+  --text-base: var(--text-fluid-base);
+  --text-lg:   var(--text-fluid-lg);
+  --text-xl:   var(--text-fluid-xl);
+  --text-2xl:  var(--text-fluid-2xl);
+  --text-hero: var(--text-fluid-4xl);
+
+  /* Touch-friendly minimum tap target */
+  --tap-min: 44px;
+
+  /* Responsive page padding */
+  --page-padding-x: clamp(1rem, 4vw, 1.5rem);
+  --page-padding-y: clamp(1.25rem, 3vw, 2rem);
 }

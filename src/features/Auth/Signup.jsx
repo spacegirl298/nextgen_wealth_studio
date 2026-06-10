@@ -1,11 +1,43 @@
-/*Signup page container.
-–	Renders SignupForm component
-–	Link back to Login
+/*
+  Signup.jsx
+  – Signup page container
+  – Renders SignupForm component
+  – Redirects to home if already logged in
+  – Link back to Login
 */
-import { useState, useEffect, useRef } from "react";
+
+import { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import SignupForm from "./components/SignupForm";
 import styles from "./Auth.module.css";
-import Login from "./Login";
 
 export default function Signup() {
-  return <div>Patient Dashboard</div>
+  const { isAuthenticated } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/", { replace: true });
+  }, [isAuthenticated, navigate]);
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <div className={styles.brand}>
+          <div className={styles.brandIcon}>F</div>
+          <span className={styles.brandName}>Finpath</span>
+        </div>
+
+        <h1 className={styles.heading}>Create your account</h1>
+        <p className={styles.subtitle}>Get your full financial picture in one place.</p>
+
+        <SignupForm />
+
+        <p className={styles.footerText}>
+          Already have an account?{" "}
+          <Link to="/login" className={styles.footerLink}>Sign in</Link>
+        </p>
+      </div>
+    </div>
+  );
 }

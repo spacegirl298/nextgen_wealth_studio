@@ -123,8 +123,6 @@ export function calcProperty({
 
   for (let yr = 1; yr <= years; yr++) {
     for (let mo = 1; mo <= 12; mo++) {
-      const m = (yr - 1) * 12 + mo;
-
       // Renting: accumulate rent outlay, invest difference vs buying
       const currentRent = monthlyRent * Math.pow(1 + rentInfRate, yr - 1);
       rentCashOutlay += currentRent;

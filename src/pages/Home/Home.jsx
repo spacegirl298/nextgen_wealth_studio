@@ -34,7 +34,6 @@ function GoalCard({ percent = 44, delay = 0 }) {
   return (
     <Link
       to="/money"
-      /* global statCard base + home-only goalCard centering */
       className={`statCard ${styles.goalCard}`}
       style={{ animationDelay: `${delay}ms` }}
     >

@@ -8,7 +8,7 @@
  * – Recommended track highlighted based on assessment answers and moved to top
  * – Progress reads from localStorage (same keys the individual track pages write to)
  */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/SelectionLayout.module.css";
 import BuildImg from "../../assets/Track/BuildImg.jpg";
@@ -386,22 +386,17 @@ function calculateMatchPercentage(trackId, scores) {
 export default function StrategyTrack() {
   const navigate = useNavigate();
   const [explainerOpen, setExplainerOpen] = useState(false);
-  const [dnaProfile, setDnaProfile] = useState(null);
-
-  // Load saved DNA profile on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("bankingDNA");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed.complete) {
-          setDnaProfile(parsed);
-        }
-      } catch (e) {
-        console.error("Failed to load DNA profile", e);
-      }
+  const [dnaProfile, setDnaProfile] = useState(() => {
+    try {
+      const saved = localStorage.getItem("bankingDNA");
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      return parsed?.complete ? parsed : null;
+    } catch (error) {
+      console.error("Failed to load DNA profile", error);
+      return null;
     }
-  }, []);
+  });
 
   const handleAssessmentComplete = (profile) => {
     setDnaProfile(profile);

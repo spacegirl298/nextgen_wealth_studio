@@ -92,7 +92,7 @@ export default function CarVerdict({ results, horizon }) {
               ["Licensing & Registration", car.onceOffFeesFmt],
               ["Amount Financed",         car.loanAmountFmt],
               ["Total Finance Cost (interest)", car.totalFinanceFmt],
-            ].map(([label, value], i) => (
+            ].map(([label, value]) => (
               <tr key={label}>
                 <td className={styles.rowLabel}>{label}</td>
                 <td style={{ textAlign: "right" }}>{value}</td>

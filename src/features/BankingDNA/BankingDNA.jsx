@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import styles from "./BankingDNA.module.css";
 import { useLocalStorage } from "../../hooks/userLocalStorage";
 
@@ -439,7 +439,7 @@ const XPBar = ({ xp, current, next }) => {
   );
 };
 
-const LevelTrack = ({ currentLevel, personalityColor }) => (
+const LevelTrack = ({ currentLevel }) => (
   <div className={styles.levelTrack}>
     {LEVELS.map((lvl, i) => {
       const isReached = currentLevel.level >= lvl.level;

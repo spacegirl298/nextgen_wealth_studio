@@ -35,7 +35,7 @@ export default function MoneySnapshot() {
 
   const store = useSnapshotStore();
   const { state, update, updateGoal, derived, activeNudges, dismissNudge, lastSaved } = store;
-  const { grossMonthly, paye, uif, takeHome, housing, mobility, lifestyle, debtPayments, totalExpenses, totalSavings, tfsaUsePct, metrics, healthScore, fmt, pct } = derived;
+  const { grossMonthly, paye, uif, takeHome, housing, mobility, lifestyle, debtPayments, totalSavings, tfsaUsePct, metrics, healthScore, fmt, pct } = derived;
 
   // ── OVERVIEW ──────────────────────────────────────────────
   const renderOverview = () => (

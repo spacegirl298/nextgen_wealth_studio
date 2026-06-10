@@ -146,7 +146,11 @@ function read(key, fallback) {
   catch { return fallback; }
 }
 function write(key, value) {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn("Unable to persist snapshot data", error);
+  }
 }
 
 // ─── MAIN HOOK ───────────────────────────────────────────────────────
@@ -156,16 +160,16 @@ export function useSnapshotStore() {
     return saved ? { ...DEFAULT_STATE, ...saved } : DEFAULT_STATE;
   });
 
-  const [history, setHistory]           = useState(() => read(HISTORY_KEY, []));
-  const [dismissed, setDismissed]       = useState(() => read(DISMISSED_KEY, []));
-  const [saveSuccess, setSaveSuccess]   = useState(false);
-  const [lastSaved, setLastSaved]       = useState(null);
+  const [history, setHistory]         = useState(() => read(HISTORY_KEY, []));
+  const [dismissed, setDismissed]     = useState(() => read(DISMISSED_KEY, []));
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Auto-save state to localStorage on every change
   useEffect(() => {
     write(STORAGE_KEY, state);
-    setLastSaved(new Date());
   }, [state]);
+
+  const lastSaved = new Date();
 
   // Granular updater — pass a partial object or a key/value pair
   const update = useCallback((keyOrPatch, value) => {

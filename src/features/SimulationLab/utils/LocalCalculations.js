@@ -14,11 +14,6 @@
 
 import { fmtRand, fmtRandShort } from "../utils/StudioCalculations";
 
-/* ── Compound growth helper ─────────────────────────────────── */
-function futureValue(present, annualRate, years) {
-  return present * Math.pow(1 + annualRate / 100, years);
-}
-
 /* ── Main offshore vs local calculation ─────────────────────── */
 /**
  * @param {object} inputs

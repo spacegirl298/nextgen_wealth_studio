@@ -1,9 +1,8 @@
 import { Navigate, useLocation } from "react-router-dom"
-import { useContext } from "react"
-import { UserContext } from "../../../context/UserContext"
+import { useUser } from "../../../context/UserContext"
 
 export default function AuthGuard({ children }) {
-  const { isAuthenticated } = useContext(UserContext)
+  const { isAuthenticated } = useUser()
   const location = useLocation()
 
   // DEV BYPASS — remove before production

@@ -5,22 +5,19 @@
  *        allocation summary, and "Things to Consider" list.
  */
 import styles from "../../Studios.module.css";
-import { fmtRand } from "../../utils/StudioCalculations";
 
 const WINNER_COLORS = {
   "Offshore-blended": "var(--clr-gold, #f8d299)",
   "Local only":       "#a78bfa",
 };
 
-export default function OffshoreVerdict({ results, horizon }) {
+export default function OffshoreVerdict({ results }) {
   if (!results) return null;
 
-  const { blended, pureLocal, pureOffshore, winner, verdict, breakevenYear } = results;
+  const { blended, winner, verdict, breakevenYear } = results;
   const winnerColor = WINNER_COLORS[winner] || "var(--clr-gold)";
 
-  const { offshoreAllocation, localReturn, offshoreReturn, randDepreciation, taxRate } =
-    results.inputs;
-  const localAllocation = 100 - offshoreAllocation;
+  const { localReturn, offshoreReturn, randDepreciation, taxRate } = results.inputs;
 
   // Effective ZAR return on offshore portion
   const offshoreZarReturn = (offshoreReturn * (1 - taxRate / 100) + randDepreciation).toFixed(2);

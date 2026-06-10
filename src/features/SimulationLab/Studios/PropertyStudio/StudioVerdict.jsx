@@ -24,7 +24,6 @@ export default function StudioVerdict({ results, horizon }) {
 
   const { buying, renting, winner, verdict, breakevenYear } = results;
   const winnerColor = WINNER_COLORS[winner] || "var(--clr-gold)";
-  const buyWins = winner === "Buying";
 
   const TABLE_ROWS = [
     {

@@ -1,6 +1,369 @@
-/*Shared styles for all auth pages.
-–	Centred card layout on a subtle background
-–	Logo or app name at top
-–	Form card with shadow
-–	Responsive: full-width on mobile
+/*
+  Auth.module.css
+  Shared styles for Login, Signup, and ForgotPassword pages.
+  – Centred card layout on a subtle background
+  – Logo / app name at top
+  – Form card with shadow
+  – Responsive: full-width on mobile
 */
+
+/* ── Page wrapper ────────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f3;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.card {
+  background: #ffffff;
+  border: 1px solid #e8e8e5;
+  border-radius: 14px;
+  padding: 2rem 2rem 1.75rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Brand / logo ─────────────────────────────────────────── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+
+.brandIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #1d9e75;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.brandName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+}
+
+/* ── Heading block ────────────────────────────────────────── */
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* ── Form fields ─────────────────────────────────────────── */
+.field {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: #1d9e75;
+  box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.12);
+}
+
+.inputError {
+  border-color: #e24b4a !important;
+  box-shadow: none !important;
+}
+
+.inputSuccess {
+  border-color: #1d9e75;
+}
+
+/* password with eye-toggle needs right padding */
+.inputWithEye {
+  padding-right: 40px;
+}
+
+/* ── Eye / show-password button ──────────────────────────── */
+.eyeBtn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.eyeBtn:hover {
+  color: #555;
+}
+
+/* ── Inline messages ─────────────────────────────────────── */
+.fieldError {
+  font-size: 12px;
+  color: #e24b4a;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+.fieldSuccess {
+  font-size: 12px;
+  color: #1d9e75;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+/* ── Password strength ───────────────────────────────────── */
+.strengthBar {
+  height: 3px;
+  border-radius: 2px;
+  background: #eee;
+  margin-top: 7px;
+  overflow: hidden;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthLabel {
+  font-size: 11px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ── Alert toast (form-level errors) ─────────────────────── */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 1.1rem;
+  line-height: 1.5;
+}
+
+.alertDanger {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.alertSuccess {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+/* ── Submit button ───────────────────────────────────────── */
+.submitBtn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #1d9e75;
+  color: #fff;
+  transition: opacity 0.15s, transform 0.1s;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ─────────────────────────────────────────────── */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Forgot password link ────────────────────────────────── */
+.forgotRow {
+  text-align: right;
+  margin-top: -4px;
+  margin-bottom: 1rem;
+}
+
+.forgotLink {
+  font-size: 12px;
+  color: #0f6e56;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Footer redirect links ───────────────────────────────── */
+.footerText {
+  text-align: center;
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 1.25rem;
+}
+
+.footerLink {
+  color: #0f6e56;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Success / confirmation state (ForgotPassword) ───────── */
+.successState {
+  text-align: center;
+  padding: 0.5rem 0 0.25rem;
+}
+
+.successIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.successTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+
+.successMessage {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.backBtn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  background: #fff;
+  color: #1a1a1a;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+
+.backBtn:hover {
+  background: #f5f5f3;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 12px;
+  }
+}

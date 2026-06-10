@@ -59,7 +59,6 @@ function SimulationCard({
   description,
   stats,
   imageSrc,
-  route,
   onLaunch,
 }) {
   return (

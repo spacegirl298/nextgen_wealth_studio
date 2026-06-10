@@ -42,7 +42,6 @@ export default function MilestoneStep({
   onToggle,
   onComplete,
   completedAt,
-  stageNumber,
 }) {
   const isLocked = status === "locked";
   const isDone = status === "done";

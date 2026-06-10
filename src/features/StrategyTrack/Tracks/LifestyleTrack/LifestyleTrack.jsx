@@ -8,7 +8,7 @@
  *   - useLocalStorage persists slider inputs, completed stages, dismissed nudges
  *   - useNudges evaluates nudge conditions against live metrics
  */
-import { useState, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";
@@ -238,8 +238,6 @@ const INFO_CONTENT = {
 };
 
 // ─── Info Tooltip ─────────────────────────────────────────────────────────────
-import { useEffect, useRef as useReactRef } from "react";
-
 const InfoTooltip = ({ field }) => {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });

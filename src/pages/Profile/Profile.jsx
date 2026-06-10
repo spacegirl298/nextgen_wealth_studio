@@ -121,7 +121,7 @@ function getBankingDNA(metrics, healthScore, quizResult) {
 /* ── Main component ─────────────────────────────────────────── */
 export default function ProfilePage() {
   const { derived, state } = useSnapshotStore();
-  const { grossMonthly, takeHome, paye, housing, totalExpenses, metrics, healthScore, fmt } = derived;
+  const { grossMonthly, takeHome, paye, totalExpenses, metrics, healthScore, fmt } = derived;
 
   // Persist profile info across sessions
   const [profile, setProfile] = useLocalStorage("userProfile_v1", {

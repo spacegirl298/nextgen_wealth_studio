@@ -8,6 +8,7 @@
 –	Persists entire state to localStorage
 
 */
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useContext, useMemo } from "react";
 
 const FinancialContext = createContext();
@@ -230,7 +231,6 @@ export const FinancialProvider = ({ children }) => {
 
     grossMonthly,
     totalMonthlyExpenses,
-    totalDebt,
     healthScore,
     paye,
     takeHome,

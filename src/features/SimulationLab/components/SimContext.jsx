@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * SimContext.jsx
  * Shared context for simulation labs. Provides common financial profile

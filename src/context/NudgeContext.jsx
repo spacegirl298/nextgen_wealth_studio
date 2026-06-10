@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * NudgeContext.jsx
  * Global nudge state: exposes activeNudges and dismissNudge to the tree.

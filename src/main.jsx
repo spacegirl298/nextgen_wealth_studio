@@ -3,7 +3,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
-//import { UserProvider } from './context/UserContext'
+import { UserProvider } from './context/UserContext'
 import { FinancialProvider } from './context/FinancialContext'
 //import { NudgeProvider } from './context/NudgeContext'
 
@@ -14,13 +14,13 @@ import App from './App'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-     {/* <UserProvider>*/}
+      <UserProvider>
         <FinancialProvider>
          {/* <NudgeProvider>*/}
             <App />
          {/* </NudgeProvider>*/}
         </FinancialProvider>
-    {/*  </UserProvider>*/}
+      </UserProvider>
     </BrowserRouter>
   </StrictMode>
 )

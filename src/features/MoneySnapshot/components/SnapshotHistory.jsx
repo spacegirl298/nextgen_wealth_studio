@@ -8,7 +8,7 @@
  */
 
 import styles from "../Snapshot.module.css";
-import { compareSnapshots, getSnapshotTrend, formatSnapshotSummary } from "../utils/snapshotHelpers";
+import { compareSnapshots, getSnapshotTrend } from "../utils/snapshotHelpers";
 
 function TrendIcon({ direction, inverse = false }) {
   const positive = inverse ? direction === "down" : direction === "up";

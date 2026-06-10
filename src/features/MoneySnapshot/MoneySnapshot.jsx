@@ -42,28 +42,28 @@ export default function MoneySnapshot() {
     <>
       <div className={styles.statsRow}>
         <StatCard label="Gross Monthly Income" value={fmt(grossMonthly)}  sub="Before tax" />
-        <StatCard label="Estimated PAYE Tax"   value={fmt(paye)}          sub={`${derived.tax.effectiveRate.toFixed(1)}% effective rate`} accent="#954f4f" />
-        <StatCard label="Take-Home Pay"        value={fmt(takeHome)}      sub="After PAYE & UIF" accent="#4ade80" />
-        <StatCard label="Monthly Disposable"   value={fmt(metrics.disposable)} sub="After all expenses" accent={metrics.disposable < 0 ? "#f87171" : "#f8d299"} />
+        <StatCard label="Estimated PAYE Tax"   value={fmt(paye)}          sub={`${derived.tax.effectiveRate.toFixed(1)}% effective rate`} />
+        <StatCard label="Take-Home Pay"        value={fmt(takeHome)}      sub="After PAYE & UIF" />
+        <StatCard label="Monthly Disposable"   value={fmt(metrics.disposable)} sub="After all expenses" />
       </div>
 
       <SectionCard title="Monthly Budget">
         <MultiSegmentBar segments={[
-          { label: "PAYE + UIF",        value: paye + uif,              color: "#f87171" },
-          { label: "Housing",           value: housing,                 color: "#c84bff" },
-          { label: "Mobility",          value: mobility,                color: "#f8d299" },
-          { label: "Lifestyle",         value: lifestyle,               color: "#4ade80" },
-          { label: "Debt Repayments",   value: debtPayments,            color: "#f97316" },
-          { label: "Savings",           value: state.monthlySavingsContrib, color: "#60a5fa" },
+          { label: "PAYE + UIF",        value: paye + uif,              color: "var(--clr-cat-purple-light)" },
+          { label: "Housing",           value: housing,                 color: "var(--clr-cat-purple)" },
+          { label: "Mobility",          value: mobility,                color: "var(--clr-cat-gold)" },
+          { label: "Lifestyle",         value: lifestyle,               color: "var(--clr-cat-lavender)" },
+          { label: "Debt Repayments",   value: debtPayments,            color: "var(--clr-cat-white-dim)" },
+          { label: "Savings",           value: state.monthlySavingsContrib, color: "var(--clr-cat-blue)" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "PAYE + UIF",      val: fmt(paye + uif),       pctVal: pct(paye + uif, grossMonthly),             color: "#f87171", basis: "gross" },
-            { label: "Housing",         val: fmt(housing),          pctVal: pct(housing, takeHome),                    color: "#c84bff", basis: "take-home" },
-            { label: "Mobility",        val: fmt(mobility),         pctVal: pct(mobility, takeHome),                   color: "#f8d299", basis: "take-home" },
-            { label: "Lifestyle",       val: fmt(lifestyle),        pctVal: pct(lifestyle, takeHome),                  color: "#4ade80", basis: "take-home" },
-            { label: "Debt Repayments", val: fmt(debtPayments),     pctVal: pct(debtPayments, takeHome),               color: "#f97316", basis: "take-home" },
-            { label: "Savings",         val: fmt(state.monthlySavingsContrib), pctVal: pct(state.monthlySavingsContrib, takeHome), color: "#60a5fa", basis: "take-home" },
+            { label: "PAYE + UIF",      val: fmt(paye + uif),       pctVal: pct(paye + uif, grossMonthly),             color: "var(--clr-cat-purple-light)", basis: "gross" },
+            { label: "Housing",         val: fmt(housing),          pctVal: pct(housing, takeHome),                    color: "var(--clr-cat-purple)", basis: "take-home" },
+            { label: "Mobility",        val: fmt(mobility),         pctVal: pct(mobility, takeHome),                   color: "var(--clr-cat-gold)", basis: "take-home" },
+            { label: "Lifestyle",       val: fmt(lifestyle),        pctVal: pct(lifestyle, takeHome),                  color: "var(--clr-cat-lavender)", basis: "take-home" },
+            { label: "Debt Repayments", val: fmt(debtPayments),     pctVal: pct(debtPayments, takeHome),               color: "var(--clr-cat-white-dim)", basis: "take-home" },
+            { label: "Savings",         val: fmt(state.monthlySavingsContrib), pctVal: pct(state.monthlySavingsContrib, takeHome), color: "var(--clr-cat-blue)", basis: "take-home" },
           ].map(item => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />
@@ -78,10 +78,10 @@ export default function MoneySnapshot() {
 
       {/* Metric summary cards */}
       <div className={styles.statsRow}>
-        <StatCard label="Debt-to-Income"  value={`${metrics.dti.toFixed(0)}%`}            sub={metrics.dti < 36 ? "Healthy" : metrics.dti < 50 ? "Elevated" : "High"}    accent={metrics.dti < 36 ? "#4ade80" : metrics.dti < 50 ? "#f59e0b" : "#f87171"} />
-        <StatCard label="Savings Rate"    value={`${metrics.savingsRate.toFixed(0)}%`}     sub={metrics.savingsRate >= 15 ? "Excellent" : metrics.savingsRate >= 5 ? "Adequate" : "Low"}  accent={metrics.savingsRate >= 15 ? "#4ade80" : metrics.savingsRate >= 5 ? "#f59e0b" : "#f87171"} />
-        <StatCard label="Emergency Cover" value={`${metrics.emergencyMonths.toFixed(1)} mo`} sub={metrics.emergencyMonths >= 3 ? "Secure" : "Build this up"}             accent={metrics.emergencyMonths >= 3 ? "#4ade80" : "#f59e0b"} />
-        <StatCard label="Health Score"    value={`${healthScore}%`}                        sub={healthScore >= 75 ? "Excellent" : healthScore >= 50 ? "Good" : "Needs work"} accent={healthScore >= 75 ? "#4ade80" : healthScore >= 50 ? "#f59e0b" : "#f87171"} />
+        <StatCard label="Debt-to-Income"  value={`${metrics.dti.toFixed(0)}%`}            sub={metrics.dti < 36 ? "Healthy" : metrics.dti < 50 ? "Elevated" : "High"} />
+        <StatCard label="Savings Rate"    value={`${metrics.savingsRate.toFixed(0)}%`}     sub={metrics.savingsRate >= 15 ? "Excellent" : metrics.savingsRate >= 5 ? "Adequate" : "Low"} />
+        <StatCard label="Emergency Cover" value={`${metrics.emergencyMonths.toFixed(1)} mo`} sub={metrics.emergencyMonths >= 3 ? "Secure" : "Build this up"} />
+        <StatCard label="Health Score"    value={`${healthScore}%`}                        sub={healthScore >= 75 ? "Excellent" : healthScore >= 50 ? "Good" : "Needs work"} />
       </div>
 
       <SectionCard title="Goal Progress">
@@ -131,7 +131,7 @@ export default function MoneySnapshot() {
           <div className={styles.tfsaBar}>
             <div className={styles.tfsaFill} style={{
               width: `${Math.min((metrics.emergencyMonths / 6) * 100, 100)}%`,
-              background: metrics.emergencyMonths >= 3 ? "#4ade80" : metrics.emergencyMonths >= 1 ? "#f59e0b" : "#f87171",
+              background: metrics.emergencyMonths >= 3 ? "var(--clr-positive)" : metrics.emergencyMonths >= 1 ? "var(--clr-warning)" : "var(--clr-danger)",
             }} />
           </div>
           <div className={styles.tfsaMeta}>
@@ -177,19 +177,19 @@ export default function MoneySnapshot() {
       {/* Portfolio breakdown bar */}
       <SectionCard title="Portfolio Breakdown">
         <MultiSegmentBar segments={[
-          { label: "Emergency Fund",      value: state.emergencyFund, color: "#4ade80" },
-          { label: "TFSA",                value: state.tfsa,          color: "#c84bff" },
-          { label: "Retirement Annuity",  value: state.preAnnuity,    color: "#c084fc" },
-          { label: "Offshore Investments",value: state.offshoreInv,   color: "#f8d299" },
-          { label: "Local Investments",   value: state.localInv,      color: "#e0c97a" },
+          { label: "Emergency Fund",      value: state.emergencyFund, color: "var(--clr-cat-lavender)" },
+          { label: "TFSA",                value: state.tfsa,          color: "var(--clr-cat-purple)" },
+          { label: "Retirement Annuity",  value: state.preAnnuity,    color: "var(--clr-cat-purple-light)" },
+          { label: "Offshore Investments",value: state.offshoreInv,   color: "var(--clr-cat-gold)" },
+          { label: "Local Investments",   value: state.localInv,      color: "var(--clr-cat-gold-dim)" },
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Emergency Fund", val: fmt(state.emergencyFund), raw: state.emergencyFund, color: "#4ade80" },
-            { label: "TFSA",                 val: fmt(state.tfsa),          color: "#c84bff" },
-            { label: "Retirement Annuity",   val: fmt(state.preAnnuity),    color: "#c084fc" },
-            { label: "Offshore Investments", val: fmt(state.offshoreInv),   color: "#f8d299" },
-            { label: "Local Investments",    val: fmt(state.localInv),      color: "#e0c97a" },
+            { label: "Emergency Fund", val: fmt(state.emergencyFund), raw: state.emergencyFund, color: "var(--clr-cat-lavender)" },
+            { label: "TFSA",                 val: fmt(state.tfsa),          color: "var(--clr-cat-purple)" },
+            { label: "Retirement Annuity",   val: fmt(state.preAnnuity),    color: "var(--clr-cat-purple-light)" },
+            { label: "Offshore Investments", val: fmt(state.offshoreInv),   color: "var(--clr-cat-gold)" },
+            { label: "Local Investments",    val: fmt(state.localInv),      color: "var(--clr-cat-gold-dim)" },
           ].map(item => (
             <div key={item.label} className={styles.legendItem}>
               <span className={styles.legendDot} style={{ background: item.color }} />

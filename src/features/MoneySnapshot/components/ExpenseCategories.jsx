@@ -47,7 +47,7 @@ export default function ExpenseCategories({ state, update, derived }) {
 
   const categories = {
     Housing: {
-      label: "Housing", color: "#c84bff", total: housing, benchmark: 30,
+      label: "Housing", color: "var(--clr-cat-purple)", total: housing, benchmark: 30,
       fields: [
         { label: "Rent / Bond",      val: rentBond,  set: v => update("rentBond", v),  max: 30000, step: 250 },
         { label: "Levies",           val: levies,    set: v => update("levies", v),    max: 5000,  step: 100 },
@@ -59,7 +59,7 @@ export default function ExpenseCategories({ state, update, derived }) {
       },
     },
     Mobility: {
-      label: "Mobility", color: "#f8d299", total: mobility, benchmark: 15,
+      label: "Mobility", color: "var(--clr-cat-gold)", total: mobility, benchmark: 15,
       fields: [
         { label: "Car Payment",      val: carPayment, set: v => update("carPayment", v), max: 20000, step: 250 },
         { label: "Petrol / Transport",val: petrol,    set: v => update("petrol", v),     max: 10000, step: 100 },
@@ -71,7 +71,7 @@ export default function ExpenseCategories({ state, update, derived }) {
       },
     },
     Lifestyle: {
-      label: "Lifestyle", color: "#4ade80", total: lifestyle, benchmark: 30,
+      label: "Lifestyle", color: "var(--clr-cat-lavender)", total: lifestyle, benchmark: 30,
       fields: [
         { label: "Medical Aid",  val: medicalAid,   set: v => update("medicalAid", v),   max: 10000, step: 100 },
         { label: "Groceries",    val: groceries,    set: v => update("groceries", v),    max: 20000, step: 250 },
@@ -86,7 +86,7 @@ export default function ExpenseCategories({ state, update, derived }) {
       },
     },
     Debt: {
-      label: "Debt Repayments", color: "#f87171", total: debtPayments, benchmark: 15,
+      label: "Debt Repayments", color: "var(--clr-danger)", total: debtPayments, benchmark: 15,
       fields: [
         { label: "Student Loan",     val: studentLoan,    set: v => update("studentLoan", v),    max: 10000, step: 100 },
         { label: "Personal Loan",    val: personalLoan,   set: v => update("personalLoan", v),   max: 10000, step: 100 },
@@ -99,7 +99,7 @@ export default function ExpenseCategories({ state, update, derived }) {
       },
     },
     Savings: {
-      label: "Savings", color: "#60a5fa", total: monthlySavingsContrib, benchmark: 15,
+      label: "Savings", color: "var(--clr-cat-blue)", total: monthlySavingsContrib, benchmark: 15,
       fields: [
         { label: "Monthly Savings Contribution", val: monthlySavingsContrib, set: v => update("monthlySavingsContrib", v), max: 50000, step: 500 },
       ],
@@ -147,7 +147,7 @@ export default function ExpenseCategories({ state, update, derived }) {
 
           <div className={styles.totalRow}>
             <span>Total {cat.label}</span>
-            <span className={styles.totalVal} style={overBenchmark ? { color: "#f87171" } : undefined}>
+            <span className={styles.totalVal} style={overBenchmark ? { color: "var(--clr-danger)" } : undefined}>
               {fmt(cat.total)}
             </span>
           </div>
@@ -176,13 +176,13 @@ export default function ExpenseCategories({ state, update, derived }) {
               <div key={key} className={styles.categoryOverviewRow}>
                 <div className={styles.categoryOverviewHeader}>
                   <span className={styles.categoryOverviewLabel}>{c.label}</span>
-                  <span className={styles.categoryOverviewAmt} style={over ? { color: "#f87171" } : undefined}>
+                  <span className={styles.categoryOverviewAmt} style={over ? { color: "var(--clr-danger)" } : undefined}>
                     {fmt(c.total)} · {p.toFixed(0)}%
                   </span>
                 </div>
                 <div className={styles.categoryOverviewTrack}>
                   <div className={styles.categoryOverviewFill}
-                    style={{ width: `${fill}%`, background: over ? "#f87171" : c.color }} />
+                    style={{ width: `${fill}%`, background: over ? "var(--clr-danger)" : c.color }} />
                 </div>
                 <div className={styles.categoryOverviewBenchmark}>Benchmark: {c.benchmark}%</div>
               </div>

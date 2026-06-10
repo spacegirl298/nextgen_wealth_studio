@@ -17,12 +17,28 @@
   --clr-gold-highlight:   #f1b862;
   --clr-gold-soft:        rgba(232, 184, 75, 0.15);
 
-  --clr-green:            #4ade80;
-  --clr-warn:             #fbbf24;
+  /* Status colours — using gold/purple palette */
+  --clr-success:          var(--clr-gold);
+  --clr-warning:          #f1b862;
+  --clr-critical:         #f8d299;
+  --clr-danger:           rgba(248, 210, 153, 0.7);
+  --clr-danger-bg:        rgba(248, 210, 153, 0.08);
+  --clr-positive:         var(--clr-gold);
+  --clr-negative:         rgba(248, 210, 153, 0.6);
+  --clr-neutral:          rgba(240, 232, 255, 0.4);
+
+  /* Category colours — purple/gold gradient */
+  --clr-cat-purple:       var(--clr-accent);
+  --clr-cat-purple-light: rgba(200, 75, 255, 0.55);
+  --clr-cat-purple-dim:   rgba(200, 75, 255, 0.4);
+  --clr-cat-gold:         var(--clr-gold);
+  --clr-cat-gold-dim:     #e0c97a;
+  --clr-cat-lavender:     #c084fc;
+  --clr-cat-white-dim:    rgba(240, 232, 255, 0.5);
+  --clr-cat-blue:         #a78bfa;
 
   --clr-text:             #f0e8ff;
   --clr-text-light:       #f0e8ffb2;
-
   --clr-text-unhighlighted: rgba(240, 232, 255, 0.547);
   --clr-text-dim:         rgba(240, 232, 255, 0.3);
 

@@ -146,7 +146,7 @@ export const SliderField = ({ label, min = 0, max, step, value, onChange, prefix
 export const StatCard = ({ label, value, sub, accent }) => (
   <div className={styles.statCard}>
     <div className={styles.statLabel}>{label}</div>
-    <div className={styles.statValue} style={accent ? { color: accent } : undefined}>{value}</div>
+    <div className={styles.statValue}>{value}</div>
     {sub && <div className={styles.statCardSub}>{sub}</div>}
     <div className={styles.statCardInfo}><InfoTooltip field={label} /></div>
   </div>

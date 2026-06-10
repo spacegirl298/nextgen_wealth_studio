@@ -486,7 +486,7 @@ export default function StrategyTrack() {
               {...track}
               isRecommended={track.id === recommendedTrackId}
               matchScore={getMatchScore(track.id)}
-              onStart={() => navigate(track.route)}
+              onStart={() => { window.scrollTo(0, 0); navigate(track.route); }}
             />
           ))}
         </div>

@@ -9,7 +9,7 @@
  *   - useNudges evaluates nudge conditions against live metrics
  *   - Stage completion records the date in localStorage
  */
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";
 import { useNudges } from "../../../../hooks/useNudges";

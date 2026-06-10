@@ -135,7 +135,7 @@ const SIMULATIONS = [
     tagline: "Find your optimal global-local balance.",
     description: "This simulation helps you navigate the decision of balancing your investment portfolio between local and offshore opportunities. By exploring different allocation scenarios, you can better understand the potential risks, returns, and long-term implications of each approach. Making this decision more accessible, informative, and less intimidating.",
     imageSrc: LocalImg,
-    route: "/simulation/investing",
+    route: "/simulation/local",
     stats: [
       { val: "Local", label: "vs" },
       { val: "Global", label: "Compare" },
@@ -150,6 +150,7 @@ export default function SimulationLab() {
   const [explainerOpen, setExplainerOpen] = useState(false);
 
   const handleLaunch = (route) => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     navigate(route);
   };
 

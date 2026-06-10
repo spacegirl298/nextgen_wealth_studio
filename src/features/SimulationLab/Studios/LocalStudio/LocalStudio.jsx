@@ -9,7 +9,7 @@
  *   - Contextual nudges fire against live metrics via useNudges.
  *   - Sub-components: OffshoreInputs, OffshoreChart, OffshoreVerdict.
  */
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import styles from "../../Studios.module.css";
 
 import { useSimProfile } from "../../components/SimContext";
@@ -41,6 +41,10 @@ independently each month. All output values are in South African rand.
 `;
 
 export default function OffshoreSim() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   const [learnOpen, setLearnOpen] = useState(false);
 
   const { profile, setProfile } = useSimProfile();

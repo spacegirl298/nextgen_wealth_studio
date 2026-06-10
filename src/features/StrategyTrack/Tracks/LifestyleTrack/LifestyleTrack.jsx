@@ -8,7 +8,7 @@
  *   - useLocalStorage persists slider inputs, completed stages, dismissed nudges
  *   - useNudges evaluates nudge conditions against live metrics
  */
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";
 import { useNudges } from "../../../../hooks/useNudges";

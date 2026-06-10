@@ -170,13 +170,6 @@ export function useSnapshotStore() {
   const [dismissed, setDismissed]     = useState(() => read(dismissedKey, []));
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  useEffect(() => {
-    const saved = read(storageKey, null);
-    setState(saved ? { ...DEFAULT_STATE, ...saved } : DEFAULT_STATE);
-    setHistory(read(historyKey, []));
-    setDismissed(read(dismissedKey, []));
-  }, [storageKey, historyKey, dismissedKey]);
-
   // Auto-save state to localStorage on every change
   useEffect(() => {
     write(storageKey, state);

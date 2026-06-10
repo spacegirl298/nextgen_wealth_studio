@@ -5,6 +5,7 @@ import AuthGuard from "./features/Auth/components/AuthGuard"
 import Navbar from "./components/Layout/Navbar"
 import Footer from "./components/Layout/Footer"
 import BackToTopButton from "./components/UI/BackToTopButton"
+import ScrollToTop from "./components/UI/ScrollToTop" // Add this import
 // Auth
 import Login from "./features/Auth/Login"
 import Signup from "./features/Auth/Signup"
@@ -31,43 +32,32 @@ export default function App() {
   return (
     <FinancialProvider>
       <SimProvider>
-      <Navbar />
-      <Routes>
-        {/* Public routes*/}
-        <Route path="/"               element={<Home />} />
-        {/*Temporaray
-        <Route path="/money"          element={<MoneySnapshot />} />
-        <Route path="/simulation"     element={<SimulationOverview />} />
-        <Route path="/simulation/local"    element={<LocalStudio />} />
-        <Route path="/simulation/luxury"   element={<LuxuryStudio />} />
-        <Route path="/simulation/property" element={<PropertyStudio />} />
-        <Route path="/track"          element={<StrategyOverview />} />
-        <Route path="/track/property"    element={<PropertyTrack />} />
-        <Route path="/track/lifestyle"   element={<LifestyleTrack />} />
-        <Route path="/track/aggressive"  element={<AggressiveTrack />}/>
-        <Route path="/profile"        element={<Profile />} />
-        <Route path="/dna"            element={<BankingDNA />}/>*/}
+        <ScrollToTop /> 
+        <Navbar />
+        <Routes>
+          {/* Public routes*/}
+          <Route path="/" element={<Home />} />
+          
+          {/* Auth routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        {/*Real Route - just for testing purposes*/}
-        <Route path="/login"          element={<Login />} />
-        <Route path="/signup"         element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-
-        {/* Protected routes**/}
-        <Route path="/money"          element={<AuthGuard><MoneySnapshot /></AuthGuard>} />
-        <Route path="/simulation"     element={<AuthGuard><SimulationOverview /></AuthGuard>} />
-        <Route path="/simulation/local"    element={<AuthGuard><LocalStudio /></AuthGuard>} />
-        <Route path="/simulation/luxury"   element={<AuthGuard><LuxuryStudio /></AuthGuard>} />
-        <Route path="/simulation/property" element={<AuthGuard><PropertyStudio /></AuthGuard>} />
-        <Route path="/track"          element={<AuthGuard><StrategyOverview /></AuthGuard>} />
-        <Route path="/track/property"    element={<AuthGuard><PropertyTrack /></AuthGuard>} />
-        <Route path="/track/lifestyle"   element={<AuthGuard><LifestyleTrack /></AuthGuard>} />
-        <Route path="/track/aggressive"  element={<AuthGuard><AggressiveTrack /></AuthGuard>} />
-        <Route path="/profile"        element={<AuthGuard><Profile /></AuthGuard>} />
-        <Route path="/dna"            element={<AuthGuard><BankingDNA /></AuthGuard>} />
-      </Routes>
-      <BackToTopButton />
-      <Footer />
+          {/* Protected routes */}
+          <Route path="/money" element={<AuthGuard><MoneySnapshot /></AuthGuard>} />
+          <Route path="/simulation" element={<AuthGuard><SimulationOverview /></AuthGuard>} />
+          <Route path="/simulation/local" element={<AuthGuard><LocalStudio /></AuthGuard>} />
+          <Route path="/simulation/luxury" element={<AuthGuard><LuxuryStudio /></AuthGuard>} />
+          <Route path="/simulation/property" element={<AuthGuard><PropertyStudio /></AuthGuard>} />
+          <Route path="/track" element={<AuthGuard><StrategyOverview /></AuthGuard>} />
+          <Route path="/track/property" element={<AuthGuard><PropertyTrack /></AuthGuard>} />
+          <Route path="/track/lifestyle" element={<AuthGuard><LifestyleTrack /></AuthGuard>} />
+          <Route path="/track/aggressive" element={<AuthGuard><AggressiveTrack /></AuthGuard>} />
+          <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
+          <Route path="/dna" element={<AuthGuard><BankingDNA /></AuthGuard>} />
+        </Routes>
+        <BackToTopButton />
+        <Footer />
       </SimProvider>
     </FinancialProvider>
   )

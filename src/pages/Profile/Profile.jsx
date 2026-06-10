@@ -90,7 +90,7 @@ export default function ProfilePage() {
   const { grossMonthly, takeHome, paye, totalExpenses, metrics, healthScore, fmt } = derived;
 
   // Auth data from context
-  const { user, displayName, email, userId, logout, updateProfile, getUserStorageKey } = useUser();
+  const { user, displayName, email, logout, updateProfile, getUserStorageKey } = useUser();
 
   // Extra profile fields (username, bio) — scoped per user
   const [profile, setProfile] = useLocalStorage(
@@ -158,9 +158,7 @@ export default function ProfilePage() {
   ];
 
   /* ── Derived display values ──────────────────────────────── */
-  const firstName = (displayName || "User").split(" ")[0];
-  const lastName  = (displayName || "").split(" ").slice(1).join(" ");
-  const handle    = profile.username || (displayName ? displayName.toLowerCase().replace(/\s+/g, "_") : "user");
+  const handle = profile.username || (displayName ? displayName.toLowerCase().replace(/\s+/g, "_") : "user");
 
   return (
     <div className={styles.pageWrapper}>

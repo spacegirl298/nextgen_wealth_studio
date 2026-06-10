@@ -10,7 +10,7 @@
  *   - Contextual nudges fire against live metrics via useNudges.
  *   - Sub-components: PropertyInputs, ComparisonChart, StudioVerdict.
  */
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import styles from "../../Studios.module.css";
 
 // Shared infrastructure
@@ -42,6 +42,10 @@ buying and renting costs is added to the portfolio each month. Transfer duty use
 `;
 
 export default function PropertySim() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   const [learnOpen, setLearnOpen] = useState(false);
 
   /* Shared profile — persisted across all labs via SimContext */

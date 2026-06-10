@@ -8,7 +8,8 @@
 –	Reads from UserContext for auth state
 */
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import NavLinkList from "./NavLinkList";
 import styles from "./Navbar.module.css";
 
 const NAV_LINKS = [
@@ -41,18 +42,12 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <nav className={styles.nav}>
-          {NAV_LINKS.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.to === "/"}
-              className={({ isActive }) =>
-                `${styles.navLink} ${isActive ? styles.active : ""}`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          <NavLinkList
+            links={NAV_LINKS}
+            getLinkClassName={({ isActive }) =>
+              `${styles.navLink} ${isActive ? styles.active : ""}`
+            }
+          />
         </nav>
 
         {/* Actions */}
@@ -97,19 +92,13 @@ export default function Navbar() {
       <div
         className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ""}`}
       >
-        {NAV_LINKS.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            end={link.to === "/"}
-            className={({ isActive }) =>
-              `${styles.mobileLink} ${isActive ? styles.active : ""}`
-            }
-            onClick={() => setMenuOpen(false)}
-          >
-            {link.label}
-          </NavLink>
-        ))}
+        <NavLinkList
+          links={NAV_LINKS}
+          getLinkClassName={({ isActive }) =>
+            `${styles.mobileLink} ${isActive ? styles.active : ""}`
+          }
+          onClick={() => setMenuOpen(false)}
+        />
         <NavLink
           to="/profile"
           className={({ isActive }) =>

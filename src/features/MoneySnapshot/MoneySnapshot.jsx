@@ -22,6 +22,7 @@ import styles from "./Snapshot.module.css";
 import { useSnapshotStore }       from "../../hooks/usesSnapshotStore";
 
 import { LearnMore, NudgeBanner, StatCard, MultiSegmentBar, CircleProgress, SliderField, AutoSaveIndicator } from "./components/SnapshotUI";
+import SectionCard         from "./components/SectionCard";
 import IncomeForm          from "./components/IncomeForm";
 import ExpenseCategories   from "./components/ExpenseCategories";
 import MetricsSummary      from "./components/MetricsSummary";
@@ -46,8 +47,7 @@ export default function MoneySnapshot() {
         <StatCard label="Monthly Disposable"   value={fmt(metrics.disposable)} sub="After all expenses" accent={metrics.disposable < 0 ? "#f87171" : "#f8d299"} />
       </div>
 
-      <div className={styles.sectionCard}>
-        <h3 className={styles.cardTitle}>Monthly Budget</h3>
+      <SectionCard title="Monthly Budget">
         <MultiSegmentBar segments={[
           { label: "PAYE + UIF",        value: paye + uif,              color: "#f87171" },
           { label: "Housing",           value: housing,                 color: "#c84bff" },
@@ -74,7 +74,7 @@ export default function MoneySnapshot() {
             </div>
           ))}
         </div>
-      </div>
+      </SectionCard>
 
       {/* Metric summary cards */}
       <div className={styles.statsRow}>
@@ -84,14 +84,13 @@ export default function MoneySnapshot() {
         <StatCard label="Health Score"    value={`${healthScore}%`}                        sub={healthScore >= 75 ? "Excellent" : healthScore >= 50 ? "Good" : "Needs work"} accent={healthScore >= 75 ? "#4ade80" : healthScore >= 50 ? "#f59e0b" : "#f87171"} />
       </div>
 
-      <div className={styles.sectionCard}>
-        <h3 className={styles.cardTitle}>Goal Progress</h3>
+      <SectionCard title="Goal Progress">
         <div className={styles.circleRow}>
           {derived.goals.map(g => (
             <CircleProgress key={g.name} pct={g.target > 0 ? (g.saved / g.target) * 100 : 0} label={g.name} />
           ))}
         </div>
-      </div>
+      </SectionCard>
     </>
   );
 
@@ -99,19 +98,19 @@ export default function MoneySnapshot() {
   const renderSavings = () => (
     <>
       <div className={styles.twoCol}>
-        <div className={styles.sectionCard}>
-          <h2 className={styles.cardTitle}>Savings &amp; Investments</h2>
-          <p className={styles.cardSub}>Current balances across all savings vehicles.</p>
+        <SectionCard
+          title="Savings & Investments"
+          subtitle="Current balances across all savings vehicles."
+        >
           <SliderField label="Emergency Fund"             min={0} max={500000}  step={1000} value={state.emergencyFund}          onChange={v => update("emergencyFund", v)}          prefix="R " />
           <SliderField label="TFSA Balance"               min={0} max={500000}  step={1000} value={state.tfsa}                   onChange={v => update("tfsa", v)}                   prefix="R " />
           <SliderField label="Retirement Annuity"         min={0} max={2000000} step={5000} value={state.preAnnuity}             onChange={v => update("preAnnuity", v)}             prefix="R " />
           <SliderField label="Offshore Investments"       min={0} max={2000000} step={5000} value={state.offshoreInv}            onChange={v => update("offshoreInv", v)}             prefix="R " />
           <SliderField label="Local Investments"          min={0} max={2000000} step={5000} value={state.localInv}               onChange={v => update("localInv", v)}               prefix="R " />
           <SliderField label="Monthly Savings Contribution" min={0} max={50000} step={500}  value={state.monthlySavingsContrib}  onChange={v => update("monthlySavingsContrib", v)}  prefix="R " />
-        </div>
+        </SectionCard>
 
-        <div className={styles.sectionCard}>
-          <h2 className={styles.cardTitle}>Portfolio Summary</h2>
+        <SectionCard title="Portfolio Summary">
           <div className={styles.bigStatWrap}>
             <div className={styles.bigStat}>{fmt(totalSavings)}</div>
             <div className={styles.bigStatLabel}>Total Portfolio Value</div>
@@ -154,13 +153,14 @@ export default function MoneySnapshot() {
               <span className={styles.taxVal}>{v}</span>
             </div>
           ))}
-        </div>
+        </SectionCard>
       </div>
 
       {/* Savings benchmarks — embedded from Education */}
-      <div className={styles.sectionCard}>
-        <h3 className={styles.cardTitle}>Savings Benchmarks</h3>
-        <p className={styles.cardSub}>SA rules of thumb for building long-term financial resilience.</p>
+      <SectionCard
+        title="Savings Benchmarks"
+        subtitle="SA rules of thumb for building long-term financial resilience."
+      >
         {[
           { rule: "Emergency fund = 3–6 months of expenses",   detail: "3 months for dual-income households; 6 months for single income or self-employed." },
           { rule: "Retirement savings = 15%+ of income",       detail: "National Treasury recommendation. Starting at 25 vs 35 requires roughly 3× less monthly contribution for the same outcome." },
@@ -172,11 +172,10 @@ export default function MoneySnapshot() {
             <div className={styles.benchmarkDetail}>{detail}</div>
           </div>
         ))}
-      </div>
+      </SectionCard>
 
       {/* Portfolio breakdown bar */}
-      <div className={styles.sectionCard}>
-        <h3 className={styles.cardTitle}>Portfolio Breakdown</h3>
+      <SectionCard title="Portfolio Breakdown">
         <MultiSegmentBar segments={[
           { label: "Emergency Fund",      value: state.emergencyFund, color: "#4ade80" },
           { label: "TFSA",                value: state.tfsa,          color: "#c84bff" },
@@ -201,7 +200,7 @@ export default function MoneySnapshot() {
             </div>
           ))}
         </div>
-      </div>
+      </SectionCard>
     </>
   );
 
@@ -210,8 +209,7 @@ export default function MoneySnapshot() {
     <>
       <div className={styles.twoCol}>
         {derived.goals.map((goal, i) => (
-          <div key={i} className={styles.sectionCard}>
-            <h2 className={styles.cardTitle}>Goal {i + 1}</h2>
+          <SectionCard key={i} title={`Goal ${i + 1}`}>
             <div className={styles.goalNameRow}>
               <label htmlFor={`goal-name-${i}`} className={styles.fieldLabel}>Goal Name</label>
               <input id={`goal-name-${i}`} className={styles.goalNameInput}
@@ -235,7 +233,7 @@ export default function MoneySnapshot() {
                 {goal.target > 0 ? Math.round((goal.saved / goal.target) * 100) : 0}%
               </span>
             </div>
-          </div>
+          </SectionCard>
         ))}
       </div>
 

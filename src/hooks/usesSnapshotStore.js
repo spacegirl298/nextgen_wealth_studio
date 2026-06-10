@@ -175,7 +175,12 @@ export function useSnapshotStore() {
     write(storageKey, state);
   }, [storageKey, state]);
 
-  const lastSaved = new Date();
+  const [lastSaved, setLastSaved] = useState(new Date());
+
+useEffect(() => {
+  write(storageKey, state);
+  setLastSaved(new Date());   // ← only updates when state actually changes
+}, [storageKey, state]);
 
   // Granular updater — pass a partial object or a key/value pair
   const update = useCallback((keyOrPatch, value) => {

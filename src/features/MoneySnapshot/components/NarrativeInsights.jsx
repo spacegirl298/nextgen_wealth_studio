@@ -25,7 +25,7 @@ export default function NarrativeInsights({ state, derived }) {
   const recommendations = [
     emergencyMonths < 3 && {
       action: "Build your emergency fund first",
-      detail: `You need ${fmt(totalExpenses * 3 - state.emergencyFund)} more to reach a 3-month safety net. Open a separate notice account and automate a fixed monthly transfer.`,
+      detail: `You need ${fmt(Math.max(0, totalExpenses * 3 - state.emergencyFund))} more to reach a 3-month safety net. Open a separate notice account and automate a fixed monthly transfer.`,
       priority: "High",
     },
     dti > 36 && {

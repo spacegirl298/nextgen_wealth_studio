@@ -185,7 +185,7 @@ export default function MoneySnapshot() {
         ]} />
         <div className={styles.barLegend}>
           {[
-            { label: "Emergency Fund",       val: fmt(state.emergencyFund), color: "#4ade80" },
+            { label: "Emergency Fund", val: fmt(state.emergencyFund), raw: state.emergencyFund, color: "#4ade80" },
             { label: "TFSA",                 val: fmt(state.tfsa),          color: "#c84bff" },
             { label: "Retirement Annuity",   val: fmt(state.preAnnuity),    color: "#c084fc" },
             { label: "Offshore Investments", val: fmt(state.offshoreInv),   color: "#f8d299" },
@@ -195,7 +195,7 @@ export default function MoneySnapshot() {
               <span className={styles.legendDot} style={{ background: item.color }} />
               <div>
                 <div className={styles.legendLabel}>{item.label}</div>
-                <div className={styles.legendVal}>{item.val} · {pct(Number(item.val.replace(/[R,\s]/g, "")), totalSavings)}%</div>
+                <div className={styles.legendVal}>{item.val} · {pct(item.raw, totalSavings)}%</div>
               </div>
             </div>
           ))}

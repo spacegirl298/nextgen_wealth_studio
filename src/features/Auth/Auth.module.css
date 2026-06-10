@@ -10,7 +10,7 @@
   --clr-bg-card:      rgba(255, 255, 255, 0.04);
   --clr-border:       rgba(255, 255, 255, 0.08);
   --clr-text:         #f0eaf8;
-  --clr-text-muted:   rgba(240, 234, 248, 0.45);
+  --clr-text-light:   rgba(240, 234, 248, 0.45);
   --clr-gold:         #c9a84c;
   --clr-gold-hi:      #e2c06a;
   --clr-accent:       #c84bff;
@@ -122,7 +122,7 @@
 
 .subtitle {
   font-size: 13px;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   margin-bottom: 1.75rem;
   line-height: 1.55;
 }
@@ -136,7 +136,7 @@
   display: block;
   font-size: 11px;
   font-weight: 600;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   margin-bottom: 6px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -192,7 +192,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   padding: 2px;
   display: flex;
   align-items: center;
@@ -226,7 +226,7 @@
 
 .fieldHint {
   font-size: 12px;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   margin-top: 4px;
 }
 
@@ -357,7 +357,7 @@
   align-items: center;
   gap: 10px;
   margin: 1.25rem 0;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -374,7 +374,7 @@
 .footerText {
   text-align: center;
   font-size: 13px;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   margin-top: 1.25rem;
 }
 
@@ -425,7 +425,7 @@
 
 .successMessage {
   font-size: 14px;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }

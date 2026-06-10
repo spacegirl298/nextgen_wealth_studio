@@ -1,13 +1,6 @@
 /**
  * FirstPropertyBuilder.jsx
  * First Property Builder — full strategy track page.
- *
- * Architecture notes (reusability):
- *   - All simulation logic is local to this file (property-specific)
- *   - TrackTimeline, TrackProgress, MilestoneStep are generic — reused by other tracks
- *   - useLocalStorage persists: slider inputs, completed stages, dismissed nudges
- *   - useNudges evaluates nudge conditions against live metrics
- *   - Stage completion records the date in localStorage
  */
 import { useState, useRef, useMemo } from "react";
 import styles from "../../Tracks.module.css";
@@ -24,7 +17,6 @@ const STORAGE_KEY = "fpb_state_v1";
 const COMPLETED_KEY = "fpb_completed_v1";
 const NUDGES_KEY = "fpb_nudges_dismissed_v1";
 
-// ─── Tooltip info content ────────────────────────────────────────────────────
 const INFO_CONTENT = {
   "Monthly Take-Home Pay": {
     title: "Monthly Take-Home Pay",
@@ -52,7 +44,6 @@ const INFO_CONTENT = {
   },
 };
 
-// ─── Donut Chart ─────────────────────────────────────────────────────────────
 const DonutChart = ({ pct }) => {
   const r = 68;
   const circ = 2 * Math.PI * r;
@@ -66,12 +57,12 @@ const DonutChart = ({ pct }) => {
           <circle cx="80" cy="80" r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="14" />
           <circle
             cx="80" cy="80" r={r} fill="none"
-            stroke={isComplete ? "#4ade80" : "var(--clr-gold)"}
+            stroke={isComplete ? "var(--clr-success)" : "var(--clr-gold)"}
             strokeWidth="14"
             strokeDasharray={`${dash} ${circ}`}
             strokeDashoffset={circ * 0.25}
             strokeLinecap="round"
-            style={{ transition: "stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1)", filter: "drop-shadow(0 0 8px rgba(248,210,153,0.4))" }}
+            style={{ transition: "stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1)" }}
           />
         </svg>
         <div className={styles.donutInner}>
@@ -83,14 +74,13 @@ const DonutChart = ({ pct }) => {
   );
 };
 
-// ─── Credit Score Bar ─────────────────────────────────────────────────────────
 const CreditScoreBar = ({ score }) => {
   const pct = Math.max(0, Math.min(100, ((score - 300) / 699) * 100));
   const gradeInfo =
-    score >= 750 ? { label: "Excellent", color: "#4ade80" }
-    : score >= 670 ? { label: "Good", color: "#86efac" }
-    : score >= 580 ? { label: "Fair", color: "#fbbf24" }
-    : { label: "Poor", color: "#f87171" };
+    score >= 750 ? { label: "Excellent", color: "var(--clr-success)" }
+    : score >= 670 ? { label: "Good", color: "var(--clr-gold)" }
+    : score >= 580 ? { label: "Fair", color: "var(--clr-warning)" }
+    : { label: "Poor", color: "var(--clr-danger)" };
 
   const TIERS = [
     { label: "Minimum Approval", score: 600 },
@@ -125,7 +115,6 @@ const CreditScoreBar = ({ score }) => {
   );
 };
 
-// ─── Nudge Banner ─────────────────────────────────────────────────────────────
 const NudgeBanner = ({ nudge, onDismiss }) => {
   const alertClass =
     nudge.severity === "warn" ? `${styles.alert} ${styles.alertWarn}`
@@ -151,9 +140,7 @@ const NudgeBanner = ({ nudge, onDismiss }) => {
   );
 };
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function FirstPropertyBuilder() {
-  // Persist all slider state to localStorage
   const [sliderState, setSliderState] = useLocalStorage(STORAGE_KEY, {
     takeHome: 32000,
     monthlySave: 3500,
@@ -164,19 +151,12 @@ export default function FirstPropertyBuilder() {
   });
 
   const { takeHome, monthlySave, savings, targetDeposit, interestRate, creditScore } = sliderState;
-
   const set = (key) => (val) => setSliderState((prev) => ({ ...prev, [key]: val }));
-
-  // Stage completion: { [stageId]: isoDateString }
   const [completedStages, setCompletedStages] = useLocalStorage(COMPLETED_KEY, {});
-
   const [learnOpen, setLearnOpen] = useState(false);
-  const [expandedStage, setExpandedStage] = useState(null); // index or null
-
-  // Scroll refs for timeline click-to-scroll
+  const [expandedStage, setExpandedStage] = useState(null);
   const stageRefs = useRef([]);
 
-  // ── Derived calculations ──────────────────────────────────────────────────
   const computed = useMemo(() => {
     const pct = (savings / targetDeposit) * 100;
     const remaining = Math.max(0, targetDeposit - savings);
@@ -200,7 +180,6 @@ export default function FirstPropertyBuilder() {
       : years > 0 ? `${years}y ${mo}m`
       : `${mo} months`;
 
-    // Smart alerts
     const alerts = [];
     if (savingsRate < 15)
       alerts.push({ type: "warn", text: `Your savings rate is ${savingsRate.toFixed(0)}% — aim for at least 20% of take-home to hit your goal faster.` });
@@ -217,7 +196,6 @@ export default function FirstPropertyBuilder() {
     if (alerts.length === 0)
       alerts.push({ type: "good", text: "You're on track. Stay consistent and review your budget quarterly to find extra savings capacity." });
 
-    // Monthly actions
     const actions = [];
     if (creditScore < 670) actions.push("Check your credit report for errors via TransUnion or Experian (free once a year)");
     actions.push(`Automate a R${monthlySave.toLocaleString()} debit order into your dedicated deposit savings account`);
@@ -230,15 +208,11 @@ export default function FirstPropertyBuilder() {
     return { pct, remaining, months, goalDate, savingsRate, alerts, actions };
   }, [takeHome, monthlySave, savings, targetDeposit, interestRate, creditScore]);
 
-  // ── Stage statuses (requirement-based + manually completed) ──────────────
   const stageStatuses = useMemo(() => {
     const metrics = { savings, targetDeposit, creditScore };
     return TRACK.stages.map((stage, i) => {
-      // Manual completion always wins
       if (completedStages[stage.id]) return "done";
-      // Requirement-based auto-completion
       if (stage.requirement && stage.requirement(metrics)) return "done";
-      // Active if previous stage is done
       if (i === 0) return "active";
       const prevDone =
         completedStages[TRACK.stages[i - 1].id] ||
@@ -249,7 +223,6 @@ export default function FirstPropertyBuilder() {
 
   const doneCount = stageStatuses.filter((s) => s === "done").length;
 
-  // ── Nudges ────────────────────────────────────────────────────────────────
   const nudgeMetrics = useMemo(
     () => ({
       savingsRate: computed.savingsRate,
@@ -262,7 +235,6 @@ export default function FirstPropertyBuilder() {
 
   const { activeNudges, dismissNudge } = useNudges(TRACK.nudges, nudgeMetrics, {}, NUDGES_KEY);
 
-  // ── Stage completion handler ──────────────────────────────────────────────
   const handleComplete = (stageId) => {
     setCompletedStages((prev) => ({
       ...prev,
@@ -270,7 +242,6 @@ export default function FirstPropertyBuilder() {
     }));
   };
 
-  // ── Timeline click → scroll to stage ─────────────────────────────────────
   const handleTimelineSelect = (i) => {
     setExpandedStage((prev) => (prev === i ? null : i));
     setTimeout(() => {
@@ -285,7 +256,6 @@ export default function FirstPropertyBuilder() {
 
   return (
     <div className={styles.page}>
-      {/* Back button */}
       <button className={styles.backBtn} onClick={() => window.history.back()} aria-label="Go back">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -293,7 +263,6 @@ export default function FirstPropertyBuilder() {
         Back
       </button>
 
-      {/* Hero */}
       <div className={styles.hero}>
         <div className={styles.trackPill}>
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -317,7 +286,6 @@ export default function FirstPropertyBuilder() {
         </div>
       </div>
 
-      {/* Contextual Nudges — non-intrusive, dismissible */}
       {activeNudges.length > 0 && (
         <div className={styles.nudgesWrap}>
           {activeNudges.map((nudge) => (
@@ -326,7 +294,6 @@ export default function FirstPropertyBuilder() {
         </div>
       )}
 
-      {/* Learn More */}
       <div className={styles.learnCard}>
         <button className={styles.learnToggle} onClick={() => setLearnOpen((v) => !v)}>
           How this track works
@@ -352,7 +319,6 @@ export default function FirstPropertyBuilder() {
         )}
       </div>
 
-      {/* Step 1 — Financial Profile */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 1 — Your Situation</span>
         <div className={styles.sectionLabelLine} />
@@ -377,7 +343,6 @@ export default function FirstPropertyBuilder() {
         </div>
       </div>
 
-      {/* Step 2 — Savings Progress */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 2 — Savings Progress</span>
         <div className={styles.sectionLabelLine} />
@@ -423,7 +388,6 @@ export default function FirstPropertyBuilder() {
         </div>
       </div>
 
-      {/* Step 3 — Stage Journey */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 3 — Your Journey</span>
         <div className={styles.sectionLabelLine} />
@@ -437,7 +401,6 @@ export default function FirstPropertyBuilder() {
 
         <TrackProgress totalStages={TRACK.stages.length} completedStages={doneCount} />
 
-        {/* Horizontal timeline nav */}
         <TrackTimeline
           stages={TRACK.stages}
           statuses={stageStatuses}
@@ -445,7 +408,6 @@ export default function FirstPropertyBuilder() {
           onSelect={handleTimelineSelect}
         />
 
-        {/* Stage cards */}
         <div className={styles.milestones}>
           {TRACK.stages.map((stage, i) => (
             <div key={stage.id} ref={(el) => (stageRefs.current[i] = el)}>
@@ -463,7 +425,6 @@ export default function FirstPropertyBuilder() {
         </div>
       </div>
 
-      {/* Step 4 — Recommendations */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 4 — Recommendations</span>
         <div className={styles.sectionLabelLine} />
@@ -499,7 +460,6 @@ export default function FirstPropertyBuilder() {
         </div>
       </div>
 
-      {/* Step 5 — Summary */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 5 — Summary</span>
         <div className={styles.sectionLabelLine} />

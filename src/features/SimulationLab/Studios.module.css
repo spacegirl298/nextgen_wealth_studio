@@ -57,7 +57,7 @@
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 580px;
   text-align: center;
@@ -412,7 +412,7 @@
 .table td {
   padding: 0.6rem 0.75rem;
   text-align: right;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   border-bottom: 0.1px solid rgba(248, 210, 153, 0.3);
   font-variant-numeric: tabular-nums;
 }
@@ -450,7 +450,7 @@
 
 .emptyVerdict {
   font-size: 0.82rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   text-align: center;
   margin: 0.5rem 0 0;
 }

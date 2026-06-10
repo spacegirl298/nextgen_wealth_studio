@@ -39,7 +39,7 @@
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: var(--weight-normal);
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   padding: 0.2rem 0.5rem;
   transition: color var(--transition);
 }

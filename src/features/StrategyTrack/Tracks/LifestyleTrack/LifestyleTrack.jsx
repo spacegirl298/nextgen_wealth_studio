@@ -1,12 +1,6 @@
 /**
  * BalancedLifestyle.jsx
  * Balanced Lifestyle & Investing — full strategy track page.
- *
- * Architecture mirrors FirstPropertyBuilder.jsx:
- *   - Simulation logic is specific to this track (lifestyle spending & investment balance)
- *   - TrackTimeline, TrackProgress, MilestoneStep are shared generic components
- *   - useLocalStorage persists slider inputs, completed stages, dismissed nudges
- *   - useNudges evaluates nudge conditions against live metrics
  */
 import { useState, useMemo, useRef } from "react";
 import styles from "../../Tracks.module.css";
@@ -18,16 +12,12 @@ import TrackProgress from "../../components/TrackProgress";
 import MilestoneStep from "../../components/MilestoneStep";
 import { SliderField } from "../../components/SharedControls";
 
-// ─── Track data ───────────────────────────────────────────────────────────────
-// Stages and nudges are defined inline here since tracksData stubs them as [].
-// Wire them into TRACKS.balancedLifestyle if you prefer centralised data.
-
 const TRACK_META = TRACKS.balancedLifestyle;
 
 const STAGES = [
   {
     id: 1,
-    icon: "🧭",
+    icon: "[N]",
     title: "Know Your Numbers",
     desc: "Map every rand: income, fixed costs, discretionary spending, and what's left to save.",
     badge: "Awareness",
@@ -52,11 +42,11 @@ const STAGES = [
       { term: "50/30/20 rule", def: "A budgeting framework: 50% to needs, 30% to wants, 20% to savings/investments. Treat it as a starting calibration, not a rigid law." },
     ],
     example: "Lerato earned R45 000/month but never felt financially secure. After reviewing her statements, she found R8 200/month going to subscriptions, takeaways, and impulse online shopping — none of which she valued highly. Redirecting just R3 000 of that changed her savings rate from 8% to 15%.",
-    requirement: () => true, // Always active — first stage
+    requirement: () => true,
   },
   {
     id: 2,
-    icon: "⚙️",
+    icon: "[M]",
     title: "Automate the Foundation",
     desc: "Set up automatic savings and investment debit orders so your wealth builds without willpower.",
     badge: "Automation",
@@ -85,7 +75,7 @@ const STAGES = [
   },
   {
     id: 3,
-    icon: "🎯",
+    icon: "[T]",
     title: "Design Your Lifestyle Budget",
     desc: "Deliberately allocate money for experiences and enjoyment — without guilt, without overspend.",
     badge: "Intentional Spend",
@@ -113,7 +103,7 @@ const STAGES = [
   },
   {
     id: 4,
-    icon: "📊",
+    icon: "[D]",
     title: "Diversify Your Investments",
     desc: "Spread risk across asset classes and geographies to smooth long-term returns.",
     badge: "Diversification",
@@ -142,7 +132,7 @@ const STAGES = [
   },
   {
     id: 5,
-    icon: "🔄",
+    icon: "[R]",
     title: "Maintain & Review",
     desc: "Build the quarterly review habit to keep your balance between living well and growing wealth.",
     badge: "Sustainable",
@@ -213,7 +203,6 @@ const STORAGE_KEY = "bl_state_v1";
 const COMPLETED_KEY = "bl_completed_v1";
 const NUDGES_KEY = "bl_nudges_dismissed_v1";
 
-// ─── Info content for sliders ────────────────────────────────────────────────
 const INFO_CONTENT = {
   "Monthly Take-Home Pay": {
     title: "Monthly Take-Home Pay",
@@ -237,13 +226,12 @@ const INFO_CONTENT = {
   },
 };
 
-// ─── Balance Gauge — shows lifestyle vs savings split visually ────────────────
 const BalanceGauge = ({ savingsRate, lifestylePct, needsPct }) => {
   const remaining = Math.max(0, 100 - savingsRate - lifestylePct - needsPct);
   const segments = [
-    { label: "Needs", pct: Math.min(needsPct, 100), color: "rgba(148,163,184,0.5)" },
+    { label: "Needs", pct: Math.min(needsPct, 100), color: "var(--clr-cat-white-dim)" },
     { label: "Lifestyle", pct: Math.min(lifestylePct, 100 - needsPct), color: "var(--clr-gold)" },
-    { label: "Savings", pct: Math.min(savingsRate, 100 - needsPct - lifestylePct), color: "#4ade80" },
+    { label: "Savings", pct: Math.min(savingsRate, 100 - needsPct - lifestylePct), color: "var(--clr-gold)" },
     { label: "Unallocated", pct: remaining, color: "rgba(255,255,255,0.08)" },
   ];
 
@@ -271,18 +259,18 @@ const BalanceGauge = ({ savingsRate, lifestylePct, needsPct }) => {
           })}
         </svg>
         <div className={styles.donutInner}>
-          <span className={styles.donutPct} style={{ color: savingsRate >= 20 ? "#4ade80" : "var(--clr-gold)" }}>
+          <span className={styles.donutPct} style={{ color: savingsRate >= 20 ? "var(--clr-gold)" : "var(--clr-accent)" }}>
             {savingsRate.toFixed(0)}%
           </span>
           <span className={styles.donutLbl}>saved</span>
         </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "12px" }}>
+      <div className={styles.balanceLegend}>
         {segments.filter(s => s.pct > 0).map((seg) => (
-          <div key={seg.label} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)" }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: seg.color, flexShrink: 0 }} />
-            <span>{seg.label}</span>
-            <span style={{ marginLeft: "auto", color: "rgba(255,255,255,0.5)" }}>{seg.pct.toFixed(0)}%</span>
+          <div key={seg.label} className={styles.legendItem}>
+            <span className={styles.legendColor} style={{ background: seg.color }} />
+            <span className={styles.legendLabel}>{seg.label}</span>
+            <span className={styles.legendPercent}>{seg.pct.toFixed(0)}%</span>
           </div>
         ))}
       </div>
@@ -290,13 +278,12 @@ const BalanceGauge = ({ savingsRate, lifestylePct, needsPct }) => {
   );
 };
 
-// ─── Nudge Banner ─────────────────────────────────────────────────────────────
 const NudgeBanner = ({ nudge, onDismiss }) => {
   const cls =
     nudge.severity === "warn" ? `${styles.alert} ${styles.alertWarn}`
     : nudge.severity === "good" ? `${styles.alert} ${styles.alertGood}`
     : `${styles.alert} ${styles.alertInfo}`;
-  const icon = nudge.severity === "warn" ? "⚠" : nudge.severity === "good" ? "✓" : "ℹ";
+  const icon = nudge.severity === "warn" ? "!" : nudge.severity === "good" ? "✓" : "i";
   return (
     <div className={`${cls} ${styles.nudgeBanner}`}>
       <span className={styles.alertIcon}>{icon}</span>
@@ -310,7 +297,6 @@ const NudgeBanner = ({ nudge, onDismiss }) => {
   );
 };
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function BalancedLifestyle() {
   const [sliderState, setSliderState] = useLocalStorage(STORAGE_KEY, {
     takeHome: 38000,
@@ -328,7 +314,6 @@ export default function BalancedLifestyle() {
   const [expandedStage, setExpandedStage] = useState(null);
   const stageRefs = useRef([]);
 
-  // ── Derived calculations ─────────────────────────────────────────────────
   const computed = useMemo(() => {
     const savingsRate = takeHome > 0 ? (monthlySave / takeHome) * 100 : 0;
     const investmentRate = takeHome > 0 ? (monthlyInvest / takeHome) * 100 : 0;
@@ -336,7 +321,6 @@ export default function BalancedLifestyle() {
     const fixedEstimate = Math.max(0, takeHome - monthlySave - monthlyLifestyle);
     const needsPct = takeHome > 0 ? (fixedEstimate / takeHome) * 100 : 0;
 
-    // 10-year investment projection
     const r = returnRate / 100 / 12;
     let balance = 0;
     for (let i = 0; i < 120; i++) {
@@ -344,25 +328,12 @@ export default function BalancedLifestyle() {
     }
     const projected10y = Math.round(balance);
 
-    // 20-year projection
     let bal20 = 0;
     for (let i = 0; i < 240; i++) {
       bal20 = bal20 * (1 + r) + monthlyInvest;
     }
     const projected20y = Math.round(bal20);
 
-    // Lifestyle fund runway — months until lifestyle fund hits R100k
-    let lifeFund = 0;
-    let monthsTo100k = 0;
-    const lifestyleSavePortion = Math.min(monthlyLifestyle * 0.25, monthlySave * 0.3);
-    if (lifestyleSavePortion > 0) {
-      while (lifeFund < 100000 && monthsTo100k < 240) {
-        lifeFund += lifestyleSavePortion;
-        monthsTo100k++;
-      }
-    }
-
-    // Alerts
     const alerts = [];
     if (savingsRate < 15)
       alerts.push({ type: "warn", text: `You're saving ${savingsRate.toFixed(0)}% of income — aim for at least 20% to build meaningful long-term wealth while enjoying life now.` });
@@ -377,7 +348,6 @@ export default function BalancedLifestyle() {
     if (alerts.length === 0)
       alerts.push({ type: "good", text: "Your numbers look solid. Keep reviewing quarterly to catch lifestyle creep early." });
 
-    // Actions
     const actions = [];
     if (investmentRate < 10) actions.push(`Increase your monthly ETF investment by R${Math.round(takeHome * 0.02).toLocaleString()} — direct this from your next raise`);
     actions.push("Review last month's top 3 discretionary categories and confirm each aligns with your 'yes list'");
@@ -386,10 +356,9 @@ export default function BalancedLifestyle() {
     if (monthlyLifestyle > takeHome * 0.35) actions.push("Identify one discretionary category to trim by 15% — redirect it to your investment account");
     actions.push("Schedule your next quarterly financial review — 30 minutes to keep your balance on track");
 
-    return { savingsRate, investmentRate, lifestylePct, needsPct, projected10y, projected20y, alerts, actions, monthsTo100k };
+    return { savingsRate, investmentRate, lifestylePct, needsPct, projected10y, projected20y, alerts, actions };
   }, [takeHome, monthlySave, monthlyLifestyle, monthlyInvest, returnRate]);
 
-  // ── Stage statuses ─────────────────────────────────────────────────────────
   const stageStatuses = useMemo(() => {
     const metrics = {
       savingsRate: computed.savingsRate,
@@ -409,7 +378,6 @@ export default function BalancedLifestyle() {
 
   const doneCount = stageStatuses.filter((s) => s === "done").length;
 
-  // ── Nudges ────────────────────────────────────────────────────────────────
   const nudgeMetrics = useMemo(() => ({
     savingsRate: computed.savingsRate,
     investmentRate: computed.investmentRate,
@@ -437,7 +405,6 @@ export default function BalancedLifestyle() {
 
   return (
     <div className={styles.page}>
-      {/* Back */}
       <button className={styles.backBtn} onClick={() => window.history.back()} aria-label="Go back">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -445,7 +412,6 @@ export default function BalancedLifestyle() {
         Back
       </button>
 
-      {/* Hero */}
       <div className={styles.hero}>
         <div className={styles.trackPill}>
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -469,7 +435,6 @@ export default function BalancedLifestyle() {
         </div>
       </div>
 
-      {/* Nudges */}
       {activeNudges.length > 0 && (
         <div className={styles.nudgesWrap}>
           {activeNudges.map((nudge) => (
@@ -478,7 +443,6 @@ export default function BalancedLifestyle() {
         </div>
       )}
 
-      {/* Learn More */}
       <div className={styles.learnCard}>
         <button className={styles.learnToggle} onClick={() => setLearnOpen((v) => !v)}>
           How this track works
@@ -502,7 +466,6 @@ export default function BalancedLifestyle() {
         )}
       </div>
 
-      {/* Step 1 — Financial Profile */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 1 — Your Situation</span>
         <div className={styles.sectionLabelLine} />
@@ -526,7 +489,6 @@ export default function BalancedLifestyle() {
         </div>
       </div>
 
-      {/* Step 2 — Balance Overview */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 2 — Your Balance</span>
         <div className={styles.sectionLabelLine} />
@@ -584,13 +546,12 @@ export default function BalancedLifestyle() {
             <span className={styles.summaryVal}>{returnRate}% p.a.</span>
           </div>
           <div className={`${styles.alert} ${styles.alertInfo}`} style={{ marginTop: "16px" }}>
-            <span className={styles.alertIcon}>ℹ</span>
+            <span className={styles.alertIcon}>i</span>
             <span>Projections assume consistent contributions and do not account for inflation or tax drag outside a TFSA.</span>
           </div>
         </div>
       </div>
 
-      {/* Step 3 — Stage Journey */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 3 — Your Journey</span>
         <div className={styles.sectionLabelLine} />
@@ -628,7 +589,6 @@ export default function BalancedLifestyle() {
         </div>
       </div>
 
-      {/* Step 4 — Recommendations */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 4 — Recommendations</span>
         <div className={styles.sectionLabelLine} />
@@ -642,7 +602,7 @@ export default function BalancedLifestyle() {
             {computed.alerts.map((a, i) => (
               <div key={i} className={alertClass(a.type)}>
                 <span className={styles.alertIcon}>
-                  {a.type === "warn" ? "⚠" : a.type === "good" ? "✓" : "ℹ"}
+                  {a.type === "warn" ? "!" : a.type === "good" ? "✓" : "i"}
                 </span>
                 <span>{a.text}</span>
               </div>
@@ -664,7 +624,6 @@ export default function BalancedLifestyle() {
         </div>
       </div>
 
-      {/* Step 5 — Summary */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 5 — Summary</span>
         <div className={styles.sectionLabelLine} />

@@ -1,12 +1,6 @@
 /**
  * AggressiveGlobalInvestor.jsx
  * Aggressive Global Investor — full strategy track page.
- *
- * Architecture mirrors FirstPropertyBuilder.jsx:
- *   - Simulation logic is specific to this track (offshore allocation, compounding, tax optimisation)
- *   - TrackTimeline, TrackProgress, MilestoneStep are shared generic components
- *   - useLocalStorage persists slider inputs, completed stages, dismissed nudges
- *   - useNudges evaluates nudge conditions against live metrics
  */
 import { useState, useMemo, useRef } from "react";
 import styles from "../../Tracks.module.css";
@@ -18,13 +12,12 @@ import TrackProgress from "../../components/TrackProgress";
 import MilestoneStep from "../../components/MilestoneStep";
 import { SliderField } from "../../components/SharedControls";
 
-// ─── Track data ───────────────────────────────────────────────────────────────
 const TRACK_META = TRACKS.aggressiveGlobal;
 
 const STAGES = [
   {
     id: 1,
-    icon: "🧱",
+    icon: "[B]",
     title: "Maximise Your Tax-Efficient Base",
     desc: "Fill every tax-advantaged container before deploying capital into taxable accounts.",
     badge: "Tax Foundation",
@@ -54,7 +47,7 @@ const STAGES = [
   },
   {
     id: 2,
-    icon: "🌍",
+    icon: "[G]",
     title: "Build Offshore Exposure",
     desc: "Protect against rand depreciation and access higher-growth global markets.",
     badge: "Offshore",
@@ -84,7 +77,7 @@ const STAGES = [
   },
   {
     id: 3,
-    icon: "📐",
+    icon: "[A]",
     title: "Optimise Your Portfolio Structure",
     desc: "Build a deliberate asset allocation strategy — not just a collection of accounts.",
     badge: "Asset Strategy",
@@ -114,7 +107,7 @@ const STAGES = [
   },
   {
     id: 4,
-    icon: "🔬",
+    icon: "[E]",
     title: "Engage Emerging Opportunities",
     desc: "Allocate a disciplined satellite portion to higher-risk, higher-potential positions.",
     badge: "Satellite",
@@ -143,7 +136,7 @@ const STAGES = [
   },
   {
     id: 5,
-    icon: "⚖️",
+    icon: "[T]",
     title: "Advanced Tax Optimisation",
     desc: "Minimise your effective tax rate through legal structuring, timing, and entity selection.",
     badge: "Tax Strategy",
@@ -173,7 +166,7 @@ const STAGES = [
   },
   {
     id: 6,
-    icon: "🏔️",
+    icon: "[M]",
     title: "Compound and Stay the Course",
     desc: "The terminal stage: protect your system from your own short-term impulses.",
     badge: "Long Game",
@@ -245,7 +238,6 @@ const STORAGE_KEY = "ag_state_v1";
 const COMPLETED_KEY = "ag_completed_v1";
 const NUDGES_KEY = "ag_nudges_dismissed_v1";
 
-// ─── Info content ─────────────────────────────────────────────────────────────
 const INFO_CONTENT = {
   "Monthly Take-Home Pay": {
     title: "Monthly Take-Home Pay",
@@ -273,10 +265,9 @@ const INFO_CONTENT = {
   },
 };
 
-// ─── Compound Growth Chart — stacked bar showing local vs offshore ────────────
 const CompoundChart = ({ monthlyInvest, offshoreAllocation, returnRate }) => {
   const localRate = returnRate / 100 / 12;
-  const offshoreRate = (returnRate + 1.5) / 100 / 12; // offshore gets a slight premium assumption
+  const offshoreRate = (returnRate + 1.5) / 100 / 12;
   const offshoreShare = offshoreAllocation / 100;
   const localShare = 1 - offshoreShare;
 
@@ -294,48 +285,36 @@ const CompoundChart = ({ monthlyInvest, offshoreAllocation, returnRate }) => {
   const maxVal = data[data.length - 1].total;
 
   return (
-    <div style={{ padding: "8px 0" }}>
+    <div className={styles.compoundChart}>
       {data.map((d) => (
-        <div key={d.years} style={{ marginBottom: "16px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px", fontSize: "12px" }}>
-            <span style={{ color: "rgba(255,255,255,0.6)" }}>{d.years} years</span>
-            <span style={{ color: "var(--clr-gold)", fontWeight: 600 }}>R {d.total.toLocaleString()}</span>
+        <div key={d.years} className={styles.chartRow}>
+          <div className={styles.chartHeader}>
+            <span>{d.years} years</span>
+            <span className={styles.chartHeaderValue}>R {d.total.toLocaleString()}</span>
           </div>
-          <div style={{ height: "8px", borderRadius: "4px", background: "rgba(255,255,255,0.06)", overflow: "hidden", display: "flex" }}>
-            <div style={{
-              width: `${(d.local / maxVal) * 100}%`,
-              background: "rgba(148,163,184,0.5)",
-              transition: "width 0.8s cubic-bezier(.4,0,.2,1)",
-              borderRadius: "4px 0 0 4px",
-            }} />
-            <div style={{
-              width: `${(d.offshore / maxVal) * 100}%`,
-              background: "var(--clr-gold)",
-              transition: "width 0.8s cubic-bezier(.4,0,.2,1)",
-              filter: "drop-shadow(0 0 4px rgba(248,210,153,0.4))",
-              borderRadius: "0 4px 4px 0",
-            }} />
+          <div className={styles.chartBarTrack}>
+            <div className={styles.chartBarLocal} style={{ width: `${(d.local / maxVal) * 100}%` }} />
+            <div className={styles.chartBarOffshore} style={{ width: `${(d.offshore / maxVal) * 100}%` }} />
           </div>
         </div>
       ))}
-      <div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "rgba(255,255,255,0.5)" }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: "rgba(148,163,184,0.5)", flexShrink: 0 }} />
-          Local ({(100 - offshoreAllocation).toFixed(0)}%)
+      <div className={styles.chartLegend}>
+        <div className={styles.chartLegendItem}>
+          <span className={styles.chartLegendLocal} />
+          <span>Local ({(100 - offshoreAllocation).toFixed(0)}%)</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "rgba(255,255,255,0.5)" }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: "var(--clr-gold)", flexShrink: 0 }} />
-          Offshore ({offshoreAllocation}%)
+        <div className={styles.chartLegendItem}>
+          <span className={styles.chartLegendOffshore} />
+          <span>Offshore ({offshoreAllocation}%)</span>
         </div>
       </div>
     </div>
   );
 };
 
-// ─── Savings Rate Gauge ───────────────────────────────────────────────────────
 const SavingsRateGauge = ({ rate }) => {
-  const pct = Math.min(rate / 50 * 100, 100); // 50% savings rate = 100% of gauge
-  const color = rate >= 40 ? "#4ade80" : rate >= 30 ? "var(--clr-gold)" : "#f87171";
+  const pct = Math.min(rate / 50 * 100, 100);
+  const color = rate >= 40 ? "var(--clr-gold)" : rate >= 30 ? "var(--clr-gold)" : "var(--clr-accent)";
   const label = rate >= 40 ? "Aggressive" : rate >= 30 ? "High" : rate >= 20 ? "Moderate" : "Low";
   const r = 68;
   const circ = 2 * Math.PI * r;
@@ -346,9 +325,13 @@ const SavingsRateGauge = ({ rate }) => {
       <div className={styles.donutContainer}>
         <svg className={styles.donutSvg} width="160" height="160" viewBox="0 0 160 160">
           <circle cx="80" cy="80" r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="14" />
-          <circle cx="80" cy="80" r={r} fill="none" stroke={color} strokeWidth="14"
-            strokeDasharray={`${dash} ${circ}`} strokeDashoffset={circ * 0.25} strokeLinecap="round"
-            style={{ transition: "stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1)", filter: `drop-shadow(0 0 8px ${color}66)` }}
+          <circle 
+            cx="80" cy="80" r={r} fill="none" 
+            stroke={color} strokeWidth="14"
+            strokeDasharray={`${dash} ${circ}`} 
+            strokeDashoffset={circ * 0.25} 
+            strokeLinecap="round"
+            style={{ transition: "stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1)" }}
           />
         </svg>
         <div className={styles.donutInner}>
@@ -356,15 +339,15 @@ const SavingsRateGauge = ({ rate }) => {
           <span className={styles.donutLbl}>{label}</span>
         </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "12px" }}>
+      <div className={styles.savingsTiers}>
         {[
-          { label: "Entry Level", threshold: 25, color: "#f87171" },
+          { label: "Entry Level", threshold: 25, color: "var(--clr-accent)" },
           { label: "High Rate", threshold: 30, color: "var(--clr-gold)" },
-          { label: "Aggressive", threshold: 40, color: "#4ade80" },
+          { label: "Aggressive", threshold: 40, color: "var(--clr-gold)" },
         ].map((tier) => (
-          <div key={tier.label} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "rgba(255,255,255,0.6)" }}>
+          <div key={tier.label} className={styles.savingsTier}>
             <span>{tier.label}</span>
-            <span style={{ color: rate >= tier.threshold ? tier.color : "rgba(255,255,255,0.3)" }}>
+            <span className={rate >= tier.threshold ? styles.savingsTierMet : styles.savingsTierUnmet}>
               {tier.threshold}%+ {rate >= tier.threshold ? "✓" : ""}
             </span>
           </div>
@@ -374,13 +357,12 @@ const SavingsRateGauge = ({ rate }) => {
   );
 };
 
-// ─── Nudge Banner ─────────────────────────────────────────────────────────────
 const NudgeBanner = ({ nudge, onDismiss }) => {
   const cls =
     nudge.severity === "warn" ? `${styles.alert} ${styles.alertWarn}`
     : nudge.severity === "good" ? `${styles.alert} ${styles.alertGood}`
     : `${styles.alert} ${styles.alertInfo}`;
-  const icon = nudge.severity === "warn" ? "⚠" : nudge.severity === "good" ? "✓" : "ℹ";
+  const icon = nudge.severity === "warn" ? "!" : nudge.severity === "good" ? "✓" : "i";
   return (
     <div className={`${cls} ${styles.nudgeBanner}`}>
       <span className={styles.alertIcon}>{icon}</span>
@@ -394,7 +376,6 @@ const NudgeBanner = ({ nudge, onDismiss }) => {
   );
 };
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function AggressiveGlobalInvestor() {
   const [sliderState, setSliderState] = useLocalStorage(STORAGE_KEY, {
     takeHome: 80000,
@@ -413,17 +394,14 @@ export default function AggressiveGlobalInvestor() {
   const [expandedStage, setExpandedStage] = useState(null);
   const stageRefs = useRef([]);
 
-  // ── Derived calculations ─────────────────────────────────────────────────
   const computed = useMemo(() => {
     const savingsRate = takeHome > 0 ? (monthlySave / takeHome) * 100 : 0;
     const tfsaAnnual = monthlyTfsa * 12;
     const raMonthly = (raContribution / 100) * takeHome;
 
-    // Wealth number (25x annual expenses)
     const monthlyExpenses = Math.max(0, takeHome - monthlySave);
     const wealthNumber = monthlyExpenses * 12 * 25;
 
-    // Years to wealth number at current savings rate
     const r = returnRate / 100 / 12;
     let balance = 0;
     let monthsToWealth = 0;
@@ -435,17 +413,14 @@ export default function AggressiveGlobalInvestor() {
     }
     const yearsToWealth = monthsToWealth < 600 ? (monthsToWealth / 12).toFixed(1) : "40+";
 
-    // 10 and 20 year projections
     let bal10 = 0;
     for (let i = 0; i < 120; i++) bal10 = bal10 * (1 + r) + monthlySave;
     let bal20 = 0;
     for (let i = 0; i < 240; i++) bal20 = bal20 * (1 + r) + monthlySave;
 
-    // Tax saving from RA
     const marginalRate = takeHome > 150000 ? 0.45 : takeHome > 100000 ? 0.41 : takeHome > 60000 ? 0.36 : 0.26;
     const raTaxSaving = Math.round(raMonthly * marginalRate);
 
-    // Alerts
     const alerts = [];
     if (savingsRate < 30)
       alerts.push({ type: "warn", text: `Savings rate of ${savingsRate.toFixed(0)}% is below the 30% entry threshold for this track. Review your fixed costs and largest discretionary categories.` });
@@ -460,7 +435,6 @@ export default function AggressiveGlobalInvestor() {
     if (alerts.length === 0)
       alerts.push({ type: "good", text: "Your aggressive profile is on track. Review your asset allocation structure and offshore tax compliance annually." });
 
-    // Actions
     const actions = [];
     if (tfsaAnnual < 36000) actions.push("Increase TFSA debit order to R3 000/month — max out the annual limit before any other move");
     if (offshoreAllocation < 20) actions.push(`Transfer R${Math.round(takeHome * 0.5).toLocaleString()} offshore this month — use your discretionary allowance proactively`);
@@ -472,7 +446,6 @@ export default function AggressiveGlobalInvestor() {
     return { savingsRate, tfsaAnnual, raMonthly, raTaxSaving, wealthNumber, yearsToWealth, projected10y: Math.round(bal10), projected20y: Math.round(bal20), alerts, actions };
   }, [takeHome, monthlySave, monthlyTfsa, offshoreAllocation, raContribution, returnRate]);
 
-  // ── Stage statuses ─────────────────────────────────────────────────────────
   const stageStatuses = useMemo(() => {
     const metrics = {
       savingsRate: computed.savingsRate,
@@ -492,7 +465,6 @@ export default function AggressiveGlobalInvestor() {
 
   const doneCount = stageStatuses.filter((s) => s === "done").length;
 
-  // ── Nudges ────────────────────────────────────────────────────────────────
   const nudgeMetrics = useMemo(() => ({
     savingsRate: computed.savingsRate,
     offshoreAllocation,
@@ -520,7 +492,6 @@ export default function AggressiveGlobalInvestor() {
 
   return (
     <div className={styles.page}>
-      {/* Back */}
       <button className={styles.backBtn} onClick={() => window.history.back()} aria-label="Go back">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -528,7 +499,6 @@ export default function AggressiveGlobalInvestor() {
         Back
       </button>
 
-      {/* Hero */}
       <div className={styles.hero}>
         <div className={styles.trackPill}>
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -552,7 +522,6 @@ export default function AggressiveGlobalInvestor() {
         </div>
       </div>
 
-      {/* Nudges */}
       {activeNudges.length > 0 && (
         <div className={styles.nudgesWrap}>
           {activeNudges.map((nudge) => (
@@ -561,7 +530,6 @@ export default function AggressiveGlobalInvestor() {
         </div>
       )}
 
-      {/* Learn More */}
       <div className={styles.learnCard}>
         <button className={styles.learnToggle} onClick={() => setLearnOpen((v) => !v)}>
           How this track works
@@ -587,7 +555,6 @@ export default function AggressiveGlobalInvestor() {
         )}
       </div>
 
-      {/* Step 1 — Financial Profile */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 1 — Your Situation</span>
         <div className={styles.sectionLabelLine} />
@@ -612,7 +579,6 @@ export default function AggressiveGlobalInvestor() {
         </div>
       </div>
 
-      {/* Step 2 — Portfolio Overview */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 2 — Your Portfolio</span>
         <div className={styles.sectionLabelLine} />
@@ -658,7 +624,6 @@ export default function AggressiveGlobalInvestor() {
         </div>
       </div>
 
-      {/* Step 3 — Stage Journey */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 3 — Your Journey</span>
         <div className={styles.sectionLabelLine} />
@@ -696,7 +661,6 @@ export default function AggressiveGlobalInvestor() {
         </div>
       </div>
 
-      {/* Step 4 — Recommendations */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 4 — Recommendations</span>
         <div className={styles.sectionLabelLine} />
@@ -710,7 +674,7 @@ export default function AggressiveGlobalInvestor() {
             {computed.alerts.map((a, i) => (
               <div key={i} className={alertClass(a.type)}>
                 <span className={styles.alertIcon}>
-                  {a.type === "warn" ? "⚠" : a.type === "good" ? "✓" : "ℹ"}
+                  {a.type === "warn" ? "!" : a.type === "good" ? "✓" : "i"}
                 </span>
                 <span>{a.text}</span>
               </div>
@@ -732,7 +696,6 @@ export default function AggressiveGlobalInvestor() {
         </div>
       </div>
 
-      {/* Step 5 — Summary */}
       <div className={styles.sectionLabel}>
         <span className={styles.sectionLabelText}>Step 5 — Summary</span>
         <div className={styles.sectionLabelLine} />

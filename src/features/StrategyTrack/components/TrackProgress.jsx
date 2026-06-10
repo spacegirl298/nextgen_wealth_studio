@@ -1,7 +1,7 @@
 /**
  * TrackProgress.jsx
  * Generic progress summary used by all three track pages.
- * Props: totalStages, completedStages, onCelebrate (optional callback when stage completes)
+ * Props: totalStages, completedStages
  */
 import styles from "../Tracks.module.css";
 

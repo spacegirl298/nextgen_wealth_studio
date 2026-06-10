@@ -43,7 +43,7 @@ export const TRACKS = {
     stages: [
       {
         id: 1,
-        icon: "🏁",
+        icon: "→",
         title: "Build Your Financial Foundation",
         desc: "Emergency fund in place, budget tracked monthly, short-term debt under control.",
         badge: "Foundation",
@@ -71,7 +71,7 @@ export const TRACKS = {
       },
       {
         id: 2,
-        icon: "📈",
+        icon: "[C]",
         title: "Crack the Credit Score",
         desc: "Achieve 670+ for standard bond approval. Pay every account on time for 12+ consecutive months.",
         badge: "Credit Ready",
@@ -101,7 +101,7 @@ export const TRACKS = {
       },
       {
         id: 3,
-        icon: "💰",
+        icon: "[$]",
         title: "Save Your Deposit",
         desc: "Target 10–20% of property value in a TFSA to maximise after-tax returns.",
         badge: "Deposit Building",
@@ -131,7 +131,7 @@ export const TRACKS = {
       },
       {
         id: 4,
-        icon: "🏆",
+        icon: "[T]",
         title: "Bond Pre-Approval",
         desc: "Know your exact borrowing capacity before you start property hunting.",
         badge: "Pre-Qualified",
@@ -160,7 +160,7 @@ export const TRACKS = {
       },
       {
         id: 5,
-        icon: "🔑",
+        icon: "[K]",
         title: "Property Search",
         desc: "Research, due diligence, and making a watertight offer.",
         badge: "Searching",
@@ -188,7 +188,7 @@ export const TRACKS = {
       },
       {
         id: 6,
-        icon: "🏠",
+        icon: "[H]",
         title: "Bond Application & Transfer",
         desc: "Formal application, legal transfer, and collecting your keys.",
         badge: "Apply Now",
@@ -216,7 +216,6 @@ export const TRACKS = {
         requirement: (s) => s.savings >= s.targetDeposit && s.creditScore >= 700,
       },
     ],
-    // Contextual nudges — evaluated by useNudges. Dismissed state is persisted per-user per-track.
     nudges: [
       {
         id: "fp_low_savings_rate",

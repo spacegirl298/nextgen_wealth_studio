@@ -92,7 +92,7 @@
   border-radius: 50%;
   border: 1px solid var(--clr-border);
   background: var(--clr-accent-soft);
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,7 +117,7 @@
 .hamburger span {
   display: block;
   height: 2px;
-  background: var(--clr-text-muted);
+  background: var(--clr-text-light);
   border-radius: 2px;
   transition: all 0.3s ease;
   transform-origin: center;
@@ -146,7 +146,7 @@
 .mobileLink {
   font-family: var(--font-body);
   font-size: 1rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--clr-border);
   transition: color var(--transition);

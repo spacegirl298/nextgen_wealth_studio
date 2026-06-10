@@ -63,7 +63,7 @@
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 580px;
   text-align: center;
@@ -162,7 +162,7 @@
 .assessmentCloseBtn {
   background: none;
   border: none;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   cursor: pointer;
   font-size: 1rem;
   padding: 0.25rem 0.5rem;
@@ -240,7 +240,7 @@
 
 .summaryQuestion {
   font-weight: 600;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   min-width: 180px;
 }
 
@@ -336,7 +336,7 @@
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.65;
   margin: 0;
 }
@@ -465,7 +465,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 400;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.5;
   margin: 0;
 }
@@ -497,7 +497,7 @@
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 400;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -528,7 +528,7 @@
   justify-content: space-between;
   font-family: var(--font-body);
   font-size: 0.7rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
 }
 
 .progressLabelCount {

@@ -44,7 +44,7 @@
   font-family: var(--font-body);
   font-size: 0.92rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 580px;
   text-align: center;
@@ -123,7 +123,7 @@
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.8;
 }
 
@@ -177,7 +177,7 @@
 .personaTagline {
   font-family: var(--font-body);
   font-size: 0.78rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   font-weight: 300;
 }
 
@@ -243,7 +243,7 @@
 .levelIntroDesc {
   font-family: var(--font-body);
   font-size: 0.64rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.5;
   display: none;
 }
@@ -283,7 +283,7 @@
 
 .retakeBtn {
   background: transparent;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   border: 1px solid var(--clr-border);
   border-radius: 40px;
   padding: 0.75rem 2.5rem;
@@ -330,7 +330,7 @@
 .quizProgressLabel {
   font-family: var(--font-body);
   font-size: 0.72rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   text-align: right;
 }
 
@@ -402,7 +402,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   flex-shrink: 0;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
 }
 
 .quizOptionSelected .quizOptionLetter {
@@ -420,7 +420,7 @@
 .quizBack {
   background: none;
   border: none;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   font-family: var(--font-body);
   font-size: 0.85rem;
   cursor: pointer;
@@ -488,7 +488,7 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   position: relative;
 }
 
@@ -505,7 +505,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 560px;
   text-align: center;
@@ -581,7 +581,7 @@
 .levelName {
   font-family: var(--font-body);
   font-size: 0.62rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   text-align: center;
   transition: color 0.3s;
   letter-spacing: 0.02em;
@@ -613,7 +613,7 @@
   justify-content: space-between;
   font-family: var(--font-body);
   font-size: 0.72rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
 }
 
 .levelDescBox {
@@ -622,7 +622,7 @@
   padding: 0.6rem 0.9rem;
   font-family: var(--font-body);
   font-size: 0.8rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.6;
   background: var(--clr-bg-card);
 }
@@ -736,7 +736,7 @@
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   line-height: 1.6;
   margin: 0;
 }
@@ -748,7 +748,7 @@
 .xpNeeded {
   font-family: var(--font-body);
   font-size: 0.72rem;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
 }
 
 /* XP Earn Tips */
@@ -764,7 +764,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   margin-bottom: 0.5rem;
 }
 
@@ -775,7 +775,7 @@
   font-family: var(--font-body);
   font-size: 0.77rem;
   font-weight: 300;
-  color: var(--clr-text-muted);
+  color: var(--clr-text-light);
   padding: 0.45rem 0;
   border-bottom: 1px solid var(--clr-border);
   gap: 0.5rem;

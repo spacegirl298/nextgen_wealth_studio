@@ -76,7 +76,6 @@ export default function MilestoneStep({
         .filter(Boolean)
         .join(" ")}
     >
-      {/* Summary row — always visible, clickable to expand */}
       <button
         className={styles.milestoneCardHeader}
         onClick={isLocked ? undefined : onToggle}
@@ -119,13 +118,11 @@ export default function MilestoneStep({
         </div>
       </button>
 
-      {/* Expanded detail */}
       {isExpanded && !isLocked && (
         <div
           id={`stage-detail-${stage.id}`}
           className={styles.milestoneCardBody}
         >
-          {/* Actions */}
           <div className={styles.milestoneSection}>
             <div className={styles.milestoneSectionTitle}>Action Items</div>
             <ul className={styles.actionsList}>
@@ -138,7 +135,6 @@ export default function MilestoneStep({
             </ul>
           </div>
 
-          {/* Tradeoffs */}
           {stage.tradeoffs && stage.tradeoffs.length > 0 && (
             <div className={styles.milestoneSection}>
               <div className={styles.milestoneSectionTitle}>Trade-Offs to Know</div>
@@ -157,7 +153,6 @@ export default function MilestoneStep({
             </div>
           )}
 
-          {/* Warnings */}
           {stage.warnings && stage.warnings.length > 0 && (
             <div className={styles.milestoneSection}>
               {stage.warnings.map((w, i) => (
@@ -169,7 +164,6 @@ export default function MilestoneStep({
             </div>
           )}
 
-          {/* Glossary */}
           {stage.glossary && stage.glossary.length > 0 && (
             <div className={styles.milestoneSection}>
               <div className={styles.milestoneSectionTitle}>Key Terms</div>
@@ -181,7 +175,6 @@ export default function MilestoneStep({
             </div>
           )}
 
-          {/* Example */}
           {stage.example && (
             <div className={styles.milestoneSection}>
               <div className={styles.milestoneSectionTitle}>Real Example</div>
@@ -189,7 +182,6 @@ export default function MilestoneStep({
             </div>
           )}
 
-          {/* Complete button */}
           {!isDone && (
             <div className={styles.milestoneCompleteWrap}>
               <button className={styles.completeBtn} onClick={onComplete}>
@@ -200,7 +192,7 @@ export default function MilestoneStep({
 
           {isDone && (
             <div className={styles.milestoneCompleteWrap}>
-              <div className={`${styles.alert} ${styles.alertGood}`} style={{ justifyContent: "center" }}>
+              <div className={`${styles.alert} ${styles.alertGood}`}>
                 <span className={styles.alertIcon}>✓</span>
                 <span>Stage complete — well done. Move to the next stage when you're ready.</span>
               </div>

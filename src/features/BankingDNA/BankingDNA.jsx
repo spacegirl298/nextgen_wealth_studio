@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./BankingDNA.module.css";
 import { useLocalStorage } from "../../hooks/userLocalStorage";
+import { useUser } from "../../context/UserContext";
 
 //Personality Types
 const PERSONALITY_TYPES = {
@@ -484,8 +485,13 @@ const LevelTrack = ({ currentLevel }) => (
 
 // Main 
 export default function BankingDNA() {
+  const { getUserStorageKey } = useUser();
+  const storageKey = getUserStorageKey
+    ? getUserStorageKey("bankingDNA_result_v1")
+    : "bankingDNA_result_v1";
+
   // Persisted quiz result — survives page refresh
-  const [savedResult, setSavedResult] = useLocalStorage("bankingDNA_result_v1", null);
+  const [savedResult, setSavedResult] = useLocalStorage(storageKey, null);
 
   // Derive initial phase from saved result
   const [phase, setPhase] = useState(() => savedResult ? "result" : "intro");

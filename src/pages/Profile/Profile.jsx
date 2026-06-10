@@ -16,6 +16,7 @@ import styles from "./Profile.module.css";
 import { useSnapshotStore } from "../../hooks/usesSnapshotStore";
 import { useLocalStorage } from "../../hooks/userLocalStorage";
 import { useUser } from "../../context/UserContext";
+import { clearAllAppData } from "../../utils/appStorage";
 
 /* ── Icons ─────────────────────────────────────────────────── */
 const EditIcon = () => (
@@ -101,6 +102,7 @@ export default function ProfilePage() {
     getUserStorageKey ? getUserStorageKey("bankingDNA_result_v1") : "bankingDNA_result_v1",
     null
   );
+  const [legacyQuizResult] = useLocalStorage("bankingDNA_result_v1", null);
 
   const [modalOpen, setModalOpen]   = useState(false);
   const [clearModal, setClearModal] = useState(false);
@@ -113,7 +115,8 @@ export default function ProfilePage() {
     bio: profile.bio || "",
   });
 
-  const dna = getBankingDNA(metrics, healthScore, quizResult);
+  const dnaResult = quizResult || legacyQuizResult;
+  const dna = getBankingDNA(metrics, healthScore, dnaResult);
   const scoreColor = healthScore >= 75 ? "#4ade80" : healthScore >= 50 ? "#f59e0b" : "#f87171";
   const circ = 2 * Math.PI * 44;
 
@@ -141,15 +144,7 @@ export default function ProfilePage() {
   };
 
   const handleClearData = () => {
-    // Only clear this user's scoped data — other users' data is untouched
-    const prefix = userId ? `_${userId}` : "";
-    [
-      `moneySnapshot_v3${prefix}`,
-      `moneySnapshot_history_v3${prefix}`,
-      `moneySnapshot_dismissed_nudges_v3${prefix}`,
-      `bankingDNA_result_v1${prefix}`,
-      `userProfile_v1${prefix}`,
-    ].forEach(k => localStorage.removeItem(k));
+    clearAllAppData();
     window.location.reload();
   };
 
@@ -204,7 +199,7 @@ export default function ProfilePage() {
         <div className={styles.dnaCard} style={{ "--dna-color": dna.color }}>
           <div className={styles.dnaHeader}>
             <span className={styles.dnaEyebrow}>
-              Banking DNA{quizResult ? "" : " · Not yet assessed"}
+              Banking DNA{dnaResult ? "" : " · Not yet assessed"}
             </span>
             <span className={styles.dnaBadgeIcon}>{dna.badge}</span>
           </div>

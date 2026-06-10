@@ -13,6 +13,7 @@
  */
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { useUser } from "../context/UserContext";
 
 // ─── Storage keys (versioned so old data doesn't break new shape) ───
 export const STORAGE_KEY     = "moneySnapshot_v3";
@@ -95,27 +96,27 @@ export const ALL_NUDGES = [
 // ─── DEFAULT STATE ───────────────────────────────────────────────────
 export const DEFAULT_STATE = {
   // Income
-  salary:               35000,
+  salary:               0,
   investIncome:         0,
   rentalIncome:         0,
   bonuses:              0,
   sideIncome:           0,
-  medDependants:        1,
+  medDependants:        0,
   // Housing
-  rentBond:             9000,
+  rentBond:             0,
   levies:               0,
   rates:                0,
   // Mobility
   carPayment:           0,
-  petrol:               1500,
-  insurance:            800,
+  petrol:               0,
+  insurance:            0,
   // Lifestyle
-  medicalAid:           1800,
-  groceries:            4000,
-  dining:               1500,
-  subscriptions:        500,
-  entertainment:        1000,
-  shopping:             1000,
+  medicalAid:           0,
+  groceries:            0,
+  dining:               0,
+  subscriptions:        0,
+  entertainment:        0,
+  shopping:             0,
   // Debt
   studentLoan:          0,
   personalLoan:         0,
@@ -123,20 +124,20 @@ export const DEFAULT_STATE = {
   creditCard:           0,
   totalDebt:            0,
   minPayments:          0,
-  avgInterest:          12,
+  avgInterest:          0,
   // Savings
-  emergencyFund:        10000,
+  emergencyFund:        0,
   tfsa:                 0,
   preAnnuity:           0,
   offshoreInv:          0,
   localInv:             0,
-  monthlySavingsContrib: 2000,
+  monthlySavingsContrib: 0,
   // Goals
   goals: [
-    { name: "Emergency Fund",    target: 60000,  saved: 10000, monthly: 1000 },
-    { name: "TFSA",              target: 36000,  saved: 0,     monthly: 500  },
-    { name: "Travel Fund",       target: 25000,  saved: 0,     monthly: 500  },
-    { name: "Retirement Annuity",target: 500000, saved: 0,     monthly: 0    },
+    { name: "Emergency Fund", target: 0, saved: 0, monthly: 0 },
+    { name: "TFSA", target: 0, saved: 0, monthly: 0 },
+    { name: "Travel Fund", target: 0, saved: 0, monthly: 0 },
+    { name: "Retirement Annuity", target: 0, saved: 0, monthly: 0 },
   ],
 };
 
@@ -155,19 +156,31 @@ function write(key, value) {
 
 // ─── MAIN HOOK ───────────────────────────────────────────────────────
 export function useSnapshotStore() {
+  const { getUserStorageKey } = useUser();
+  const storageKey = getUserStorageKey ? getUserStorageKey(STORAGE_KEY) : STORAGE_KEY;
+  const historyKey = getUserStorageKey ? getUserStorageKey(HISTORY_KEY) : HISTORY_KEY;
+  const dismissedKey = getUserStorageKey ? getUserStorageKey(DISMISSED_KEY) : DISMISSED_KEY;
+
   const [state, setState] = useState(() => {
-    const saved = read(STORAGE_KEY, null);
+    const saved = read(storageKey, null);
     return saved ? { ...DEFAULT_STATE, ...saved } : DEFAULT_STATE;
   });
 
-  const [history, setHistory]         = useState(() => read(HISTORY_KEY, []));
-  const [dismissed, setDismissed]     = useState(() => read(DISMISSED_KEY, []));
+  const [history, setHistory]         = useState(() => read(historyKey, []));
+  const [dismissed, setDismissed]     = useState(() => read(dismissedKey, []));
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  useEffect(() => {
+    const saved = read(storageKey, null);
+    setState(saved ? { ...DEFAULT_STATE, ...saved } : DEFAULT_STATE);
+    setHistory(read(historyKey, []));
+    setDismissed(read(dismissedKey, []));
+  }, [storageKey, historyKey, dismissedKey]);
 
   // Auto-save state to localStorage on every change
   useEffect(() => {
-    write(STORAGE_KEY, state);
-  }, [state]);
+    write(storageKey, state);
+  }, [storageKey, state]);
 
   const lastSaved = new Date();
 
@@ -191,10 +204,10 @@ export function useSnapshotStore() {
   const dismissNudge = useCallback((id) => {
     setDismissed(prev => {
       const next = [...prev, id];
-      write(DISMISSED_KEY, next);
+      write(dismissedKey, next);
       return next;
     });
-  }, []);
+  }, [dismissedKey]);
 
   // Save a named snapshot to history
   const saveSnapshot = useCallback(() => {
@@ -225,10 +238,10 @@ export function useSnapshotStore() {
     };
     const updated = [snap, ...history].slice(0, 12);
     setHistory(updated);
-    write(HISTORY_KEY, updated);
+    write(historyKey, updated);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 2500);
-  }, [state, history]);
+  }, [state, history, historyKey]);
 
   // ─── All derived values, computed once here ─────────────────────
   const derived = useMemo(() => {

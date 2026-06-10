@@ -9,6 +9,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUsers, saveUsers } from "../../../utils/authStorage";
+import { clearAllAppData } from "../../../utils/appStorage";
 import styles from "../Auth.module.css";
 
 function EyeIcon({ open }) {
@@ -119,6 +120,9 @@ export default function SignupForm() {
     };
 
     saveUsers(users);
+
+    // Start this new account with a clean zeroed snapshot state.
+    clearAllAppData();
 
     // Redirect to login so user signs in with their new credentials
     navigate("/login", { state: { justRegistered: true, email: emailKey } });

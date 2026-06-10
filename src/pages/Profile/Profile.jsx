@@ -52,12 +52,12 @@ const LogOutIcon = () => (
   </svg>
 );
 
-/* ── Banking DNA personas (unchanged) ──────────────────────── */
+/* ── Banking DNA personas (gold/purple palette only) ───────── */
 const QUIZ_PERSONAS = {
-  spender:   { name: "The Spender",           badge: "◈", color: "#c84bff", description: "You have strong earning potential but tend to prioritise immediate lifestyle gratification. Savings and investments are inconsistent — making habits more intentional is the key unlock." },
-  builder:   { name: "The Future Builder",     badge: "◆", color: "#ff4bba", description: "Focused on long-term milestones. You save aggressively and delay lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in tomorrow's foundation." },
-  maximiser: { name: "The Lifestyle Maximiser",badge: "◉", color: "#4bbdff", description: "You use income for the enjoyment of life — travel, dining, experiences. Finding a sustainable balance between spending and saving is your key lever." },
-  balancer:  { name: "The Strategic Balancer", badge: "◇", color: "#4bffab", description: "You maintain a middle ground between saving, investing, and living well. Progress feels steady and manageable. You're the rarest profile — the one most likely to win over time." },
+  spender:   { name: "The Spender",           badge: "◈", color: "var(--clr-accent)", description: "You have strong earning potential but tend to prioritise immediate lifestyle gratification. Savings and investments are inconsistent — making habits more intentional is the key unlock." },
+  builder:   { name: "The Future Builder",     badge: "◆", color: "var(--clr-accent)", description: "Focused on long-term milestones. You save aggressively and delay lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in tomorrow's foundation." },
+  maximiser: { name: "The Lifestyle Maximiser",badge: "◉", color: "var(--clr-accent)", description: "You use income for the enjoyment of life — travel, dining, experiences. Finding a sustainable balance between spending and saving is your key lever." },
+  balancer:  { name: "The Strategic Balancer", badge: "◇", color: "var(--clr-accent)", description: "You maintain a middle ground between saving, investing, and living well. Progress feels steady and manageable. You're the rarest profile — the one most likely to win over time." },
 };
 
 function getBankingDNA(metrics, healthScore, quizResult) {
@@ -67,11 +67,11 @@ function getBankingDNA(metrics, healthScore, quizResult) {
     const topType = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
     return QUIZ_PERSONAS[topType];
   }
-  if (healthScore >= 75 && metrics.savingsRate >= 15) return { name: "Wealth Builder",  badge: "🏆", color: "#4ade80", description: "You consistently save above the 15% benchmark and keep debt under control. You're compounding wealth, not just managing it." };
-  if (metrics.dti > 50)                               return { name: "Debt Climber",    badge: "⚡", color: "#f87171", description: "More than half your income services debt. Your priority is aggressive repayment — every extra rand clears the path faster." };
-  if (metrics.emergencyMonths < 1)                    return { name: "Exposed Earner",  badge: "🛡️", color: "#f59e0b", description: "You're earning, but one unexpected bill could tip the balance. Building even a small emergency fund is your most urgent move." };
-  if (metrics.savingsRate >= 5 && metrics.dti < 36)   return { name: "Steady Climber",  badge: "📈", color: "#c84bff", description: "Your fundamentals are solid — debt is manageable and you're saving. Pushing your savings rate above 15% is the next unlock." };
-  return { name: "Finding Footing", badge: "🔍", color: "#f8d299", description: "You're getting a clear picture of your finances. Use the Insights tab to identify your highest-leverage improvement." };
+  if (healthScore >= 75 && metrics.savingsRate >= 15) return { name: "Wealth Builder",  badge: "🏆", color: "var(--clr-gold)", description: "You consistently save above the 15% benchmark and keep debt under control. You're compounding wealth, not just managing it." };
+  if (metrics.dti > 50)                               return { name: "Debt Climber",    badge: "⚡", color: "var(--clr-accent)", description: "More than half your income services debt. Your priority is aggressive repayment — every extra rand clears the path faster." };
+  if (metrics.emergencyMonths < 1)                    return { name: "Exposed Earner",  badge: "🛡️", color: "var(--clr-accent)", description: "You're earning, but one unexpected bill could tip the balance. Building even a small emergency fund is your most urgent move." };
+  if (metrics.savingsRate >= 5 && metrics.dti < 36)   return { name: "Steady Climber",  badge: "📈", color: "var(--clr-accent)", description: "Your fundamentals are solid — debt is manageable and you're saving. Pushing your savings rate above 15% is the next unlock." };
+  return { name: "Finding Footing", badge: "🔍", color: "var(--clr-gold)", description: "You're getting a clear picture of your finances. Use the Insights tab to identify your highest-leverage improvement." };
 }
 
 function formatDate(iso) {
@@ -117,7 +117,7 @@ export default function ProfilePage() {
 
   const dnaResult = quizResult || legacyQuizResult;
   const dna = getBankingDNA(metrics, healthScore, dnaResult);
-  const scoreColor = healthScore >= 75 ? "#4ade80" : healthScore >= 50 ? "#f59e0b" : "#f87171";
+  const scoreColor = healthScore >= 75 ? "var(--clr-gold)" : healthScore >= 50 ? "var(--clr-accent)" : "var(--clr-accent)";
   const circ = 2 * Math.PI * 44;
 
   const openModal = () => {
@@ -149,12 +149,12 @@ export default function ProfilePage() {
   };
 
   const snapshotMetrics = [
-    { label: "Gross Monthly",  value: fmt(grossMonthly),  accent: "#c84bff" },
-    { label: "Take-Home Pay",  value: fmt(takeHome),      accent: "#f8d299" },
-    { label: "Monthly PAYE",   value: fmt(paye),          accent: "#f87171" },
-    { label: "Total Expenses", value: fmt(totalExpenses), accent: "#f87171" },
-    { label: "Savings Rate",   value: `${metrics.savingsRate ?? 0}%`,    accent: "#4bffab" },
-    { label: "Emergency Fund", value: `${metrics.emergencyMonths ?? 0}mo`, accent: "#4bbdff" },
+    { label: "Gross Monthly",  value: fmt(grossMonthly),  accent: "var(--clr-accent)" },
+    { label: "Take-Home Pay",  value: fmt(takeHome),      accent: "var(--clr-gold)" },
+    { label: "Monthly PAYE",   value: fmt(paye),          accent: "var(--clr-accent)" },
+    { label: "Total Expenses", value: fmt(totalExpenses), accent: "var(--clr-accent)" },
+    { label: "Savings Rate",   value: `${metrics.savingsRate ?? 0}%`,    accent: "var(--clr-gold)" },
+    { label: "Emergency Fund", value: `${metrics.emergencyMonths ?? 0}mo`, accent: "var(--clr-accent)" },
   ];
 
   /* ── Derived display values ──────────────────────────────── */
@@ -184,7 +184,7 @@ export default function ProfilePage() {
           <p className={styles.profileHandle}>@{handle}</p>
           <p className={styles.profileEmail}>{email || "—"}</p>
           {user?.lastLogin && (
-            <p style={{ fontSize: "0.72rem", color: "var(--clr-text-muted)", margin: 0 }}>
+            <p className={styles.lastLoginText}>
               Last sign-in: {formatDate(user.lastLogin)}
             </p>
           )}
@@ -241,7 +241,7 @@ export default function ProfilePage() {
             { label: "Cash Flow",      score: metrics.disposable > 0 ? 15 : 0, max: 15 },
             { label: "TFSA",           score: state.tfsa > 0 ? 10 : 0, max: 10 },
           ].map(row => {
-            const c = row.score === row.max ? "#4ade80" : row.score > 0 ? "#f59e0b" : "#f87171";
+            const c = row.score === row.max ? "var(--clr-gold)" : row.score > 0 ? "var(--clr-accent)" : "var(--clr-accent)";
             return (
               <div key={row.label} className={styles.scoreRow}>
                 <span className={styles.scoreLabel}>{row.label}</span>
@@ -281,12 +281,12 @@ export default function ProfilePage() {
               <div className={styles.settingLabel}>Sign out</div>
               <div className={styles.settingDesc}>You'll need your email and password to sign back in.</div>
             </div>
-            <button className={styles.dangerBtn} style={{ borderColor: "rgba(201,168,76,0.3)", color: "#c9a84c", background: "rgba(201,168,76,0.06)" }} onClick={() => setLogoutModal(true)}>
+            <button className={styles.dangerBtn} onClick={() => setLogoutModal(true)}>
               <LogOutIcon /> Sign out
             </button>
           </div>
 
-          <div style={{ borderTop: "1px solid var(--clr-border)" }} />
+          <div className={styles.settingsDivider} />
 
           {/* Clear data */}
           <div className={styles.settingRow}>
@@ -321,8 +321,7 @@ export default function ProfilePage() {
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Email address</label>
-                {/* Email is read-only — it's the account identifier */}
-                <input className={styles.formInput} value={email || ""} readOnly disabled style={{ opacity: 0.5, cursor: "not-allowed" }} />
+                <input className={styles.formInput} value={email || ""} readOnly disabled />
               </div>
             </div>
             <div className={styles.modalFooter}>
@@ -336,13 +335,13 @@ export default function ProfilePage() {
       {/* ── Sign-out confirmation modal ──────────────────────── */}
       {logoutModal && (
         <div className={styles.modalOverlay} onClick={() => setLogoutModal(false)}>
-          <div className={styles.modalCard} onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
+          <div className={styles.modalCard} onClick={e => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <span className={styles.modalTitle}>Sign out?</span>
               <button className={styles.modalClose} onClick={() => setLogoutModal(false)}><CloseIcon /></button>
             </div>
             <div className={styles.modalBody}>
-              <p style={{ color: "var(--clr-text-muted)", fontSize: "0.9rem", lineHeight: 1.6, margin: 0 }}>
+              <p className={styles.modalText}>
                 You'll be returned to the sign-in page. Your data stays saved and will be here when you come back.
               </p>
             </div>
@@ -357,13 +356,13 @@ export default function ProfilePage() {
       {/* ── Clear data confirmation modal ───────────────────────── */}
       {clearModal && (
         <div className={styles.modalOverlay} onClick={() => setClearModal(false)}>
-          <div className={styles.modalCard} onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
+          <div className={styles.modalCard} onClick={e => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <span className={styles.modalTitle}>Clear all data?</span>
               <button className={styles.modalClose} onClick={() => setClearModal(false)}><CloseIcon /></button>
             </div>
             <div className={styles.modalBody}>
-              <p style={{ color: "var(--clr-text-muted)", fontSize: "0.9rem", lineHeight: 1.6, margin: 0 }}>
+              <p className={styles.modalText}>
                 This will permanently delete all your saved snapshot data, history, and settings from this device. This cannot be undone.
               </p>
             </div>

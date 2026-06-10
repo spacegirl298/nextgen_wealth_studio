@@ -162,28 +162,41 @@ export default function CarSim() {
       <CarChart chartData={results.chart} breakevenYear={results.breakevenYear} />
 
       <div className={styles.resultsGrid}>
-        <div className={styles.sectionCard}>
-          <h2 className={styles.cardTitle} style={{ marginBottom: "1rem" }}>
-            After {horizon} {horizon === 1 ? "year" : "years"}
-          </h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "left" }}></th>
-                <th>Luxury Car</th>
-                <th>Investing</th>
-              </tr>
-            </thead>
-            <tbody>
-              {TABLE_ROWS.map(([label, carVal, investVal]) => (
-                <tr key={label}>
-                  <td className={styles.rowLabel}>{label}</td>
-                  <td style={{ textAlign: "right" }}>{carVal}</td>
-                  <td style={{ textAlign: "right" }}>{investVal}</td>
+        <div className={styles.verdictCol}>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle} style={{ marginBottom: "1rem" }}>
+              After {horizon} {horizon === 1 ? "year" : "years"}
+            </h2>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}></th>
+                  <th>Luxury Car</th>
+                  <th>Investing</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {TABLE_ROWS.map(([label, carVal, investVal]) => (
+                  <tr key={label}>
+                    <td className={styles.rowLabel}>{label}</td>
+                    <td style={{ textAlign: "right" }}>{carVal}</td>
+                    <td style={{ textAlign: "right" }}>{investVal}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle}>Things to Consider</h2>
+            <ul className={styles.considerList}>
+              <li><strong>Depreciation is front-loaded.</strong> A luxury car loses roughly 20% of its value in the first year alone, and ~35–50% over three years. The asset declines fastest when it's most expensive to finance.</li>
+              <li><strong>Insurance on luxury vehicles</strong> is significantly higher than on standard cars — especially for drivers under 35. Factor in excess amounts and how a claim could affect your premium.</li>
+              <li><strong>Fuel efficiency matters at scale.</strong> Larger-engined vehicles can cost R2 000–R4 000 more per month in fuel versus a comparable everyday car. Over five years, that difference compounds.</li>
+              <li><strong>Service plans end.</strong> Many luxury vehicles include a plan for the first 3–5 years. After that, labour and parts costs on premium marques are substantially higher than on mainstream brands.</li>
+              <li><strong>Opportunity cost is real.</strong> Every rand tied up in a depreciating asset is a rand not compounding in an investment portfolio. The longer the horizon, the wider this gap becomes.</li>
+              <li><strong>The car does provide utility.</strong> Reliability, comfort, safety features, and status all have genuine value not captured by this model — only you can weigh how much that's worth to you.</li>
+            </ul>
+          </div>
         </div>
 
         <div className={styles.verdictCol}>

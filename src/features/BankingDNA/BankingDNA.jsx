@@ -3,7 +3,7 @@ import styles from "./BankingDNA.module.css";
 import { useLocalStorage } from "../../hooks/userLocalStorage";
 import { useUser } from "../../context/UserContext";
 
-//Personality Types
+// Personality Types
 const PERSONALITY_TYPES = {
   spender: {
     id: "spender",
@@ -11,7 +11,7 @@ const PERSONALITY_TYPES = {
     tagline: "Strong earner. Lifestyle-first.",
     description:
       "You have strong earning potential but tend to prioritise immediate lifestyle gratification and frequent purchases. Savings and investments are inconsistent, which may slow progress toward financial goals — unless spending habits become more intentional.",
-    color: "#c84bff",
+    color: "var(--clr-accent)",
     glow: "rgba(200, 75, 255, 0.35)",
     icon: "◈",
     traits: [
@@ -30,8 +30,8 @@ const PERSONALITY_TYPES = {
     tagline: "Disciplined. Long-term focused.",
     description:
       "You are focused on long-term milestones. You save aggressively and are comfortable delaying lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in the foundation of tomorrow.",
-    color: "#ff4bba",
-    glow: "rgba(255, 75, 183, 0.35)",
+    color: "var(--clr-gold)",
+    glow: "rgba(248, 210, 153, 0.35)",
     icon: "◆",
     traits: [
       "Goal-driven",
@@ -49,8 +49,8 @@ const PERSONALITY_TYPES = {
     tagline: "Life is for living. Balance is key.",
     description:
       "You utilise income for the enjoyment of life — travel, dining, experiences. Financial progress still happens, but major asset goals may take longer. The key is finding a sustainable balance.",
-    color: "#4bbdff",
-    glow: "rgba(75, 96, 255, 0.35)",
+    color: "var(--clr-accent)",
+    glow: "rgba(200, 75, 255, 0.35)",
     icon: "◉",
     traits: [
       "Experience-seeker",
@@ -68,8 +68,8 @@ const PERSONALITY_TYPES = {
     tagline: "Steady. Intentional. Resilient.",
     description:
       "You maintain a middle ground between saving, investing, and living well. Progress feels steady and manageable. You are the rarest profile — the one most likely to win over time.",
-    color: "#4bffab",
-    glow: "rgba(75, 255, 165, 0.35)",
+    color: "var(--clr-gold)",
+    glow: "rgba(248, 210, 153, 0.35)",
     icon: "◇",
     traits: [
       "Balanced approach",
@@ -82,7 +82,8 @@ const PERSONALITY_TYPES = {
     startLevel: 4,
   },
 };
-// Levels 
+
+// Levels
 const LEVELS = [
   {
     level: 1,
@@ -116,26 +117,26 @@ const LEVELS = [
     level: 5,
     name: "Canopy",
     xpRequired: 1400,
-    color: "#c84bff",
+    color: "var(--clr-accent)",
     desc: "Financial habits are strong and diversified.",
   },
   {
     level: 6,
     name: "Summit",
     xpRequired: 2000,
-    color: "#f8d299",
+    color: "var(--clr-gold)",
     desc: "Wealth-building is systematic and intentional.",
   },
   {
     level: 7,
     name: "Apex",
     xpRequired: 2800,
-    color: "#f1b862",
+    color: "var(--clr-gold)",
     desc: "You operate like a seasoned wealth builder.",
   },
 ];
 
-// Quiz Questions 
+// Quiz Questions
 const QUIZ = [
   {
     id: "q1",
@@ -256,7 +257,7 @@ const QUIZ = [
   },
 ];
 
-//Behaviour Signals
+// Behaviour Signals
 const BEHAVIOUR_SIGNALS = [
   { label: "Budget Consistency", key: "budget", max: 100 },
   { label: "Savings Rate", key: "savings", max: 100 },
@@ -265,7 +266,7 @@ const BEHAVIOUR_SIGNALS = [
   { label: "Investment Activity", key: "investment", max: 100 },
 ];
 
-//Improvement Nudges 
+// Improvement Nudges
 const NUDGES = {
   spender: [
     "Set up an automatic debit order to savings on pay day — pay yourself first.",
@@ -297,7 +298,7 @@ const NUDGES = {
   ],
 };
 
-//Utility 
+// Utility functions
 function calcPersonality(answers) {
   const counts = { spender: 0, builder: 0, maximiser: 0, balancer: 0 };
   answers.forEach((a) => {
@@ -323,7 +324,7 @@ function getNextLevel(xp) {
   return LEVELS.find((l) => l.xpRequired > xp) || null;
 }
 
-//Components 
+// Components
 const RadarChart = ({ scores, color }) => {
   const cx = 120;
   const cy = 120;
@@ -427,7 +428,7 @@ const XPBar = ({ xp, current, next }) => {
         />
       </div>
       <div className={styles.xpBarMeta}>
-        <span style={{ color: current.color }}>
+        <span className={styles.xpBarMetaLevel}>
           {current.name} · Lv {current.level}
         </span>
         <span>
@@ -445,36 +446,20 @@ const LevelTrack = ({ currentLevel }) => (
     {LEVELS.map((lvl, i) => {
       const isReached = currentLevel.level >= lvl.level;
       const isCurrent = currentLevel.level === lvl.level;
+      const isLast = i === LEVELS.length - 1;
       return (
         <div key={lvl.level} className={styles.levelStep}>
-          {i < LEVELS.length - 1 && (
+          {!isLast && (
             <div
               className={`${styles.levelConnector} ${isReached ? styles.levelConnectorActive : ""}`}
-              style={isReached ? { background: lvl.color } : {}}
             />
           )}
           <div
             className={`${styles.levelNode} ${isReached ? styles.levelNodeActive : ""} ${isCurrent ? styles.levelNodeCurrent : ""}`}
-            style={
-              isReached
-                ? {
-                    borderColor: lvl.color,
-                    boxShadow: isCurrent ? `0 0 18px ${lvl.color}55` : "none",
-                  }
-                : {}
-            }
           >
-            <span
-              className={styles.levelNum}
-              style={isReached ? { color: lvl.color } : {}}
-            >
-              {lvl.level}
-            </span>
+            <span className={styles.levelNum}>{lvl.level}</span>
           </div>
-          <span
-            className={styles.levelName}
-            style={isCurrent ? { color: lvl.color } : {}}
-          >
+          <span className={`${styles.levelName} ${isCurrent ? styles.levelNameCurrent : ""}`}>
             {lvl.name}
           </span>
         </div>
@@ -483,17 +468,15 @@ const LevelTrack = ({ currentLevel }) => (
   </div>
 );
 
-// Main 
+// Main Component
 export default function BankingDNA() {
   const { getUserStorageKey } = useUser();
   const storageKey = getUserStorageKey
     ? getUserStorageKey("bankingDNA_result_v1")
     : "bankingDNA_result_v1";
 
-  // Persisted quiz result — survives page refresh
   const [savedResult, setSavedResult] = useLocalStorage(storageKey, null);
 
-  // Derive initial phase from saved result
   const [phase, setPhase] = useState(() => savedResult ? "result" : "intro");
   const [qIndex, setQIndex] = useState(0);
   const [answers, setAnswers] = useState(() => savedResult?.answers || []);
@@ -530,7 +513,6 @@ export default function BankingDNA() {
     if (qIndex < QUIZ.length - 1) {
       setQIndex(qIndex + 1);
     } else {
-     
       const type = calcPersonality(newAnswers);
       const defaults = {
         spender: {
@@ -630,7 +612,7 @@ export default function BankingDNA() {
         )}
       </div>
 
-      {/*Intro*/}
+      {/* Intro */}
       {phase === "intro" && (
         <>
           <div className={styles.twoCol}>
@@ -638,22 +620,17 @@ export default function BankingDNA() {
               <div
                 key={p.id}
                 className={styles.personaCard}
-                style={{ "--persona-color": p.color, "--persona-glow": p.glow }}
               >
-                <div className={styles.personaIcon} style={{ color: p.color }}>
+                <div className={styles.personaIcon}>
                   {p.icon}
                 </div>
-                <div className={styles.personaLabel} style={{ color: p.color }}>
+                <div className={styles.personaLabel}>
                   {p.label}
                 </div>
                 <div className={styles.personaTagline}>{p.tagline}</div>
                 <div className={styles.personaTraits}>
                   {p.traits.map((t) => (
-                    <span
-                      key={t}
-                      className={styles.trait}
-                      style={{ borderColor: `${p.color}40`, color: p.color }}
-                    >
+                    <span key={t} className={styles.trait}>
                       {t}
                     </span>
                   ))}
@@ -671,16 +648,10 @@ export default function BankingDNA() {
             <div className={styles.levelGridIntro}>
               {LEVELS.map((lvl) => (
                 <div key={lvl.level} className={styles.levelIntroItem}>
-                  <div
-                    className={styles.levelIntroNum}
-                    style={{ color: lvl.color, borderColor: `${lvl.color}40` }}
-                  >
+                  <div className={styles.levelIntroNum}>
                     {lvl.level}
                   </div>
-                  <div
-                    className={styles.levelIntroName}
-                    style={{ color: lvl.color }}
-                  >
+                  <div className={styles.levelIntroName}>
                     {lvl.name}
                   </div>
                   <div className={styles.levelIntroDesc}>{lvl.desc}</div>
@@ -697,7 +668,7 @@ export default function BankingDNA() {
         </>
       )}
 
-      {/* Quiz*/}
+      {/* Quiz */}
       {phase === "quiz" && (
         <div className={styles.quizWrap}>
           <div className={styles.quizProgress}>
@@ -754,71 +725,44 @@ export default function BankingDNA() {
         </div>
       )}
 
-      {/* resultd*/}
+      {/* Result */}
       {phase === "result" && personality && (
         <div
           className={`${styles.resultWrap} ${revealed ? styles.resultVisible : ""}`}
         >
-          
-          <div
-            className={styles.dnaHero}
-            style={{
-              "--persona-color": persona.color,
-              "--persona-glow": persona.glow,
-            }}
-          >
+          {/* DNA Hero */}
+          <div className={styles.dnaHero}>
             <div className={styles.dnaGlowOrb} />
             <div className={styles.dnaIconLarge}>{persona.icon}</div>
             <div className={styles.dnaPersonaLabel}>YOUR FINANCIAL DNA</div>
-            <div
-              className={styles.dnaPersonaName}
-              style={{ color: persona.color }}
-            >
+            <div className={styles.dnaPersonaName}>
               {persona.label}
             </div>
             <p className={styles.dnaPersonaDesc}>{persona.description}</p>
-            <div
-              className={styles.personaTraits}
-              style={{ justifyContent: "center" }}
-            >
+            <div className={styles.personaTraits}>
               {persona.traits.map((t) => (
-                <span
-                  key={t}
-                  className={styles.trait}
-                  style={{
-                    borderColor: `${persona.color}40`,
-                    color: persona.color,
-                  }}
-                >
+                <span key={t} className={styles.trait}>
                   {t}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Lvel*/}
+          {/* Level */}
           <div className={styles.sectionCard}>
             <h2 className={styles.cardTitle}>Your Level</h2>
             <p className={styles.cardSub}>
               Based on your financial behaviours and quiz responses.
             </p>
-            <LevelTrack
-              currentLevel={currentLevel}
-              personalityColor={persona.color}
-            />
+            <LevelTrack currentLevel={currentLevel} />
             <XPBar xp={xp} current={currentLevel} next={nextLevel} />
-            <div
-              className={styles.levelDescBox}
-              style={{ borderColor: `${currentLevel.color}40` }}
-            >
-              <span style={{ color: currentLevel.color, fontWeight: 700 }}>
-                {currentLevel.name}
-              </span>
+            <div className={styles.levelDescBox}>
+              <span className={styles.levelDescName}>{currentLevel.name}</span>
               <span> — {currentLevel.desc}</span>
             </div>
           </div>
 
-         
+          {/* Behavioural Profile */}
           <div className={styles.twoCol}>
             <div className={styles.sectionCard}>
               <h2 className={styles.cardTitle}>Behavioural Profile</h2>
@@ -846,10 +790,7 @@ export default function BankingDNA() {
                       }}
                     />
                   </div>
-                  <span
-                    className={styles.signalPct}
-                    style={{ color: persona.color }}
-                  >
+                  <span className={styles.signalPct}>
                     {signals[sig.key]}%
                   </span>
                 </div>
@@ -865,10 +806,7 @@ export default function BankingDNA() {
               <ul className={styles.nudgeList}>
                 {NUDGES[persona.id].map((n, i) => (
                   <li key={i} className={styles.nudgeItem}>
-                    <span
-                      className={styles.nudgeBullet}
-                      style={{ color: persona.color }}
-                    >
+                    <span className={styles.nudgeBullet}>
                       →
                     </span>
                     {n}
@@ -883,25 +821,15 @@ export default function BankingDNA() {
                 <>
                   <p className={styles.cardSub}>
                     What awaits you at{" "}
-                    <span style={{ color: nextLevel.color }}>
+                    <span className={styles.nextLevelPreviewName}>
                       {nextLevel.name}
-                    </span>
-                    .
+                    </span>.
                   </p>
-                  <div
-                    className={styles.nextLevelCard}
-                    style={{ borderColor: `${nextLevel.color}40` }}
-                  >
-                    <div
-                      className={styles.nextLevelNum}
-                      style={{ color: nextLevel.color }}
-                    >
+                  <div className={styles.nextLevelCard}>
+                    <div className={styles.nextLevelNum}>
                       Lv {nextLevel.level}
                     </div>
-                    <div
-                      className={styles.nextLevelName}
-                      style={{ color: nextLevel.color }}
-                    >
+                    <div className={styles.nextLevelName}>
                       {nextLevel.name}
                     </div>
                     <p className={styles.nextLevelDesc}>{nextLevel.desc}</p>
@@ -922,10 +850,7 @@ export default function BankingDNA() {
                     ].map(([action, reward]) => (
                       <div key={action} className={styles.xpEarnRow}>
                         <span>{action}</span>
-                        <span
-                          className={styles.xpReward}
-                          style={{ color: nextLevel.color }}
-                        >
+                        <span className={styles.xpReward}>
                           {reward}
                         </span>
                       </div>
@@ -934,13 +859,7 @@ export default function BankingDNA() {
                 </>
               ) : (
                 <div className={styles.maxLevelWrap}>
-                  <div
-                    className={styles.maxLevelBadge}
-                    style={{
-                      color: "#f8d299",
-                      borderColor: "rgba(180, 100, 255, 0.325)",
-                    }}
-                  >
+                  <div className={styles.maxLevelBadge}>
                     ◆ APEX ACHIEVED
                   </div>
                   <p className={styles.cardSub}>

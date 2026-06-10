@@ -1,8 +1,8 @@
 .page {
   width: 100%;
-  max-width: 900px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: var(--page-padding-y) var(--page-padding-x) 4rem;
   overflow: visible;
   position: relative;
 }
@@ -17,22 +17,10 @@
   margin-bottom: 40px;
 }
 
-.heroBadge {
-  font-family: var(--font-body);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--clr-gold);
-  border: 1px solid rgba(248, 210, 153, 0.3);
-  border-radius: 20px;
-  padding: 0.3rem 0.9rem;
-}
-
 .heroTitle {
   font-family: var(--font-main);
-  font-size: clamp(3rem, 6vw, 4rem);
-  font-weight: 700;
+  font-size: var(--text-hero);
+  font-weight: var(--weight-bold);
   line-height: 1.08;
   color: var(--clr-text);
   letter-spacing: -0.02em;
@@ -42,8 +30,8 @@
 
 .heroSub {
   font-family: var(--font-body);
-  font-size: 0.92rem;
-  font-weight: 300;
+  font-size: var(--text-base);
+  font-weight: var(--weight-light);
   color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 580px;
@@ -64,9 +52,10 @@
   width: 100%;
   background: none;
   border: none;
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 600;
+  color: var(--clr-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semi);
   padding: 0.9rem 1.25rem;
   cursor: pointer;
   display: flex;
@@ -89,8 +78,8 @@
 .learnBody {
   padding: 0 1.25rem 1rem;
   font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 300;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-light);
   color: var(--clr-text);
   line-height: 1.8;
 }
@@ -98,10 +87,10 @@
 /* Cards */
 .sectionCard {
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--clr-bg-card);
   backdrop-filter: blur(10px);
-  padding: 1.5rem;
+  padding: var(--space-lg);
   margin-bottom: 1.25rem;
   overflow: visible;
   position: relative;
@@ -109,8 +98,8 @@
 
 .cardTitle {
   font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
   letter-spacing: 0.05em;
   color: var(--clr-text);
   margin: 0 0 0.35rem;
@@ -121,13 +110,13 @@
   text-align: center;
   margin: 0 0 1rem;
   font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 300;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-light);
   color: var(--clr-text-light);
   line-height: 1.8;
 }
 
-/*Two Col */
+/* Two Column Grid */
 .twoCol {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -142,11 +131,11 @@
   }
 }
 
-/*Persona Cards */
+/* Persona Cards */
 .personaCard {
   border: 1px solid var(--clr-border);
   backdrop-filter: blur(10px);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--clr-bg-card);
   padding: 1.5rem 1.25rem;
   display: flex;
@@ -154,31 +143,46 @@
   gap: 0.5rem;
   cursor: default;
   margin-bottom: 0;
+  transition: all var(--transition);
 }
 
 .personaCard:hover {
-  border-color: var(--persona-color);
-  box-shadow: 0 0 24px var(--persona-glow);
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 24px var(--clr-accent-glow);
 }
 
 .personaIcon {
   font-size: 2rem;
   line-height: 1;
   margin-bottom: 0.25rem;
+  color: var(--clr-accent);
+}
+
+.personaCard:nth-child(even) .personaIcon {
+  color: var(--clr-gold);
+}
+
+.personaCard:hover .personaIcon {
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
 .personaLabel {
   font-family: var(--font-display);
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.04em;
+  color: var(--clr-accent);
+}
+
+.personaCard:nth-child(even) .personaLabel {
+  color: var(--clr-gold);
 }
 
 .personaTagline {
   font-family: var(--font-body);
   font-size: 0.78rem;
   color: var(--clr-text-light);
-  font-weight: 300;
+  font-weight: var(--weight-light);
 }
 
 .personaTraits {
@@ -191,14 +195,20 @@
 .trait {
   font-family: var(--font-body);
   font-size: 0.68rem;
-  font-weight: 500;
-  border: 1px solid;
+  font-weight: var(--weight-semi);
+  border: 1px solid var(--clr-border);
   border-radius: 20px;
   padding: 0.18rem 0.6rem;
   letter-spacing: 0.03em;
+  color: var(--clr-accent);
 }
 
-/* Level Grid  */
+.personaCard:nth-child(even) .trait {
+  color: var(--clr-gold);
+  border-color: rgba(248, 210, 153, 0.4);
+}
+
+/* Level Grid Intro */
 .levelGridIntro {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -224,20 +234,26 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid;
+  border: 1px solid var(--clr-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
+  color: var(--clr-accent);
+}
+
+.levelIntroItem:nth-child(even) .levelIntroNum {
+  color: var(--clr-gold);
 }
 
 .levelIntroName {
   font-family: var(--font-body);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   letter-spacing: 0.03em;
+  color: var(--clr-text);
 }
 
 .levelIntroDesc {
@@ -248,7 +264,7 @@
   display: none;
 }
 
-/*CTA  */
+/* CTA Buttons */
 .ctaWrap {
   display: flex;
   justify-content: center;
@@ -259,19 +275,18 @@
   background: var(--clr-gold);
   color: #180016;
   border: none;
-  border-radius: 40px;
+  border-radius: var(--radius-round);
   padding: 0.85rem 3rem;
+  font-family: var(--font-body);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   letter-spacing: 0.04em;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
+  transition: all var(--transition-fast);
 }
 
 .ctaBtn:hover:not(:disabled) {
-  background: #5535a0;
+  background: var(--clr-accent);
   transform: scale(0.98);
   color: var(--clr-text);
 }
@@ -285,14 +300,12 @@
   background: transparent;
   color: var(--clr-text-light);
   border: 1px solid var(--clr-border);
-  border-radius: 40px;
+  border-radius: var(--radius-round);
   padding: 0.75rem 2.5rem;
   font-size: 0.88rem;
-  font-weight: 500;
+  font-weight: var(--weight-semi);
   cursor: pointer;
-  transition:
-    border-color 0.2s,
-    color 0.2s;
+  transition: all var(--transition);
 }
 
 .retakeBtn:hover {
@@ -300,7 +313,7 @@
   color: var(--clr-gold);
 }
 
-/* Qui*/
+/* Quiz */
 .quizWrap {
   display: flex;
   flex-direction: column;
@@ -337,7 +350,7 @@
 .quizQNum {
   font-family: var(--font-body);
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--clr-gold);
@@ -347,7 +360,7 @@
 .quizQuestion {
   font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   color: var(--clr-text);
   line-height: 1.4;
   margin: 0 0 1.25rem;
@@ -367,22 +380,20 @@
   gap: 0.75rem;
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   color: var(--clr-text);
   font-family: var(--font-body);
   font-size: 0.85rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   padding: 0.75rem 1rem;
   cursor: pointer;
   text-align: left;
-  transition:
-    border-color 0.15s,
-    background 0.15s;
+  transition: all var(--transition-fast);
   line-height: 1.4;
 }
 
 .quizOption:hover {
-  border-color: rgba(248, 210, 153, 0.4);
+  border-color: var(--clr-gold);
   background: var(--clr-bg-card);
 }
 
@@ -400,7 +411,7 @@
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   flex-shrink: 0;
   color: var(--clr-text-light);
 }
@@ -424,20 +435,18 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color var(--transition);
 }
 
 .quizBack:hover {
   color: var(--clr-text);
 }
 
-/* Result*/
+/* Result */
 .resultWrap {
   opacity: 0;
   transform: translateY(12px);
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .resultVisible {
@@ -445,10 +454,10 @@
   transform: translateY(0);
 }
 
-/*  DNA Hero Card */
+/* DNA Hero Card */
 .dnaHero {
   border: 1px solid var(--clr-border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   background: var(--clr-bg-card);
   padding: 2.5rem 2rem;
   margin-bottom: 1.25rem;
@@ -458,8 +467,21 @@
   gap: 0.75rem;
   position: relative;
   overflow: hidden;
-  border-color: rgba(var(--persona-color-raw), 0.25);
-  box-shadow: 0 0 40px var(--persona-glow);
+  box-shadow: 0 0 40px var(--clr-accent-glow);
+}
+
+.dnaHero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 1px;
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-gold));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .dnaGlowOrb {
@@ -467,7 +489,7 @@
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: var(--persona-glow);
+  background: var(--clr-accent-glow);
   filter: blur(80px);
   top: -100px;
   left: 50%;
@@ -477,15 +499,24 @@
 
 .dnaIconLarge {
   font-size: 3.5rem;
-  color: var(--persona-color);
+  color: var(--clr-accent);
   line-height: 1;
   position: relative;
+}
+
+.dnaHero .dnaIconLarge {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 .dnaPersonaLabel {
   font-family: var(--font-body);
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--clr-text-light);
@@ -495,16 +526,20 @@
 .dnaPersonaName {
   font-family: var(--font-main);
   font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: -0.01em;
   position: relative;
   text-align: center;
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .dnaPersonaDesc {
   font-family: var(--font-body);
   font-size: 0.85rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 560px;
@@ -543,6 +578,7 @@
 }
 
 .levelConnectorActive {
+  background: linear-gradient(90deg, var(--clr-accent), var(--clr-gold));
   opacity: 0.7;
 }
 
@@ -557,25 +593,33 @@
   justify-content: center;
   position: relative;
   z-index: 1;
-  transition:
-    border-color 0.3s,
-    box-shadow 0.3s;
+  transition: all var(--transition);
 }
 
 .levelNodeActive {
-  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--clr-accent);
+  background: rgba(200, 75, 255, 0.1);
 }
 
 .levelNodeCurrent {
-  background: var(--clr-bg-card);
+  border-color: var(--clr-gold);
+  box-shadow: 0 0 18px rgba(248, 210, 153, 0.55);
 }
 
 .levelNum {
   font-family: var(--font-display);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   color: rgba(255, 255, 255, 0.25);
-  transition: color 0.3s;
+  transition: color var(--transition);
+}
+
+.levelNodeActive .levelNum {
+  color: var(--clr-accent);
+}
+
+.levelNodeCurrent .levelNum {
+  color: var(--clr-gold);
 }
 
 .levelName {
@@ -583,11 +627,16 @@
   font-size: 0.62rem;
   color: var(--clr-text-light);
   text-align: center;
-  transition: color 0.3s;
+  transition: color var(--transition);
   letter-spacing: 0.02em;
 }
 
-/* XP Bar*/
+.levelNameCurrent {
+  color: var(--clr-gold);
+  font-weight: var(--weight-bold);
+}
+
+/* XP Bar */
 .xpBarWrap {
   display: flex;
   flex-direction: column;
@@ -616,9 +665,13 @@
   color: var(--clr-text-light);
 }
 
+.xpBarMetaLevel {
+  font-weight: var(--weight-semi);
+}
+
 .levelDescBox {
-  border: 1px solid;
-  border-radius: 8px;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
   padding: 0.6rem 0.9rem;
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -627,7 +680,12 @@
   background: var(--clr-bg-card);
 }
 
-/*Radar */
+.levelDescName {
+  font-weight: var(--weight-bold);
+  color: var(--clr-accent);
+}
+
+/* Radar Chart */
 .radar {
   width: 100%;
   max-width: 240px;
@@ -635,7 +693,7 @@
   margin: 0 auto;
 }
 
-/*Signal Bars */
+/* Signal Bars */
 .signalRow {
   display: flex;
   align-items: center;
@@ -646,7 +704,7 @@
 .signalLabel {
   font-family: var(--font-body);
   font-size: 0.77rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text);
   min-width: 130px;
   flex-shrink: 0;
@@ -669,7 +727,7 @@
 .signalPct {
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   min-width: 32px;
   text-align: right;
 }
@@ -689,7 +747,7 @@
   gap: 0.6rem;
   font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text);
   line-height: 1.6;
   padding: 0.55rem 0;
@@ -701,15 +759,16 @@
 }
 
 .nudgeBullet {
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   flex-shrink: 0;
   margin-top: 0.05rem;
+  color: var(--clr-accent);
 }
 
-/* Next Level*/
+/* Next Level */
 .nextLevelCard {
-  border: 1px solid;
-  border-radius: 12px;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
   padding: 1.25rem;
   background: var(--clr-bg-card);
   display: flex;
@@ -721,21 +780,26 @@
 .nextLevelNum {
   font-family: var(--font-body);
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--clr-accent);
 }
 
 .nextLevelName {
   font-family: var(--font-display);
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .nextLevelDesc {
   font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text-light);
   line-height: 1.6;
   margin: 0;
@@ -751,6 +815,11 @@
   color: var(--clr-text-light);
 }
 
+.nextLevelPreviewName {
+  color: var(--clr-gold);
+  font-weight: var(--weight-semi);
+}
+
 /* XP Earn Tips */
 .xpEarnTip {
   display: flex;
@@ -761,7 +830,7 @@
 .xpEarnTitle {
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--clr-text-light);
@@ -774,7 +843,7 @@
   align-items: center;
   font-family: var(--font-body);
   font-size: 0.77rem;
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--clr-text-light);
   padding: 0.45rem 0;
   border-bottom: 1px solid var(--clr-border);
@@ -786,12 +855,13 @@
 }
 
 .xpReward {
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   font-size: 0.72rem;
   flex-shrink: 0;
+  color: var(--clr-gold);
 }
 
-/* Max Level  */
+/* Max Level */
 .maxLevelWrap {
   display: flex;
   flex-direction: column;
@@ -803,9 +873,11 @@
 .maxLevelBadge {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: 700;
-  border: 1px solid;
-  border-radius: 8px;
+  font-weight: var(--weight-bold);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
   padding: 0.5rem 1.25rem;
   letter-spacing: 0.08em;
+  color: var(--clr-gold);
+  background: rgba(248, 210, 153, 0.1);
 }

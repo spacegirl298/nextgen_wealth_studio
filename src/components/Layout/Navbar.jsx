@@ -72,8 +72,8 @@ export default function Navbar() {
   return (
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.inner}>
-        {/* Logo */}
-        <div className={styles.logo}>
+        {/* Logo - clickable to home */}
+        <div className={styles.logo} onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           <div className={styles.logoMark}>
             <span>absa</span>
           </div>

@@ -175,29 +175,42 @@ export default function PropertySim() {
 
       {/* Results grid: comparison table + verdict column */}
       <div className={styles.resultsGrid}>
-        {/* Left: comparison table */}
-        <div className={styles.sectionCard}>
-          <h2 className={styles.cardTitle} style={{ marginBottom: "1rem" }}>
-            After {horizon} {horizon === 1 ? "year" : "years"}
-          </h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "left" }}></th>
-                <th>Renting</th>
-                <th>Buying</th>
-              </tr>
-            </thead>
-            <tbody>
-              {TABLE_ROWS.map(([label, rent, buy]) => (
-                <tr key={label}>
-                  <td className={styles.rowLabel}>{label}</td>
-                  <td style={{ textAlign: "right" }}>{rent}</td>
-                  <td style={{ textAlign: "right" }}>{buy}</td>
+        {/* Left: comparison table + things to consider */}
+        <div className={styles.verdictCol}>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle} style={{ marginBottom: "1rem" }}>
+              After {horizon} {horizon === 1 ? "year" : "years"}
+            </h2>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}></th>
+                  <th>Renting</th>
+                  <th>Buying</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {TABLE_ROWS.map(([label, rent, buy]) => (
+                  <tr key={label}>
+                    <td className={styles.rowLabel}>{label}</td>
+                    <td style={{ textAlign: "right" }}>{rent}</td>
+                    <td style={{ textAlign: "right" }}>{buy}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle}>Things to Consider</h2>
+            <ul className={styles.considerList}>
+              <li><strong>Transfer duty</strong> is a government tax on property transfers above R1.1m — it's non-negotiable and can add R12k–R97k+ to your upfront costs.</li>
+              <li><strong>Bond registration</strong> is paid to your bank's attorneys to register the bond at the Deeds Office — a once-off cost of roughly R8k–R32k.</li>
+              <li><strong>Maintenance</strong> is estimated at 1% of property value per year — for a R1.5m home that's R15 000/year (R1 250/month) in unplanned repairs.</li>
+              <li><strong>Liquidity trade-off:</strong> property is illiquid. Selling takes 3–6 months and costs ~5% in agent commissions.</li>
+              <li><strong>Property growth varies by suburb.</strong> Area decline in Joburg can be rapid — crime, service delivery, and business migration all affect values.</li>
+              <li><strong>Investment returns are not guaranteed.</strong> The 10% default is a JSE long-run average — actual returns depend on your fund selection and market conditions.</li>
+            </ul>
+          </div>
         </div>
 
         {/* Right: verdict stack */}

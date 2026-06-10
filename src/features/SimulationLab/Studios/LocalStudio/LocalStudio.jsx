@@ -160,30 +160,43 @@ export default function OffshoreSim() {
       />
 
       <div className={styles.resultsGrid}>
-        <div className={styles.sectionCard}>
-          <h2 className={styles.cardTitle} style={{ marginBottom: "1rem" }}>
-            After {horizon} {horizon === 1 ? "year" : "years"}
-          </h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "left" }}></th>
-                <th>Blend</th>
-                <th>Local</th>
-                <th>Offshore</th>
-              </tr>
-            </thead>
-            <tbody>
-              {TABLE_ROWS.map(([label, blend, local, offshore]) => (
-                <tr key={label}>
-                  <td className={styles.rowLabel}>{label}</td>
-                  <td style={{ textAlign: "right" }}>{blend}</td>
-                  <td style={{ textAlign: "right" }}>{local}</td>
-                  <td style={{ textAlign: "right" }}>{offshore}</td>
+        <div className={styles.verdictCol}>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle} style={{ marginBottom: "1rem" }}>
+              After {horizon} {horizon === 1 ? "year" : "years"}
+            </h2>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}></th>
+                  <th>Blend</th>
+                  <th>Local</th>
+                  <th>Offshore</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {TABLE_ROWS.map(([label, blend, local, offshore]) => (
+                  <tr key={label}>
+                    <td className={styles.rowLabel}>{label}</td>
+                    <td style={{ textAlign: "right" }}>{blend}</td>
+                    <td style={{ textAlign: "right" }}>{local}</td>
+                    <td style={{ textAlign: "right" }}>{offshore}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle}>Things to Consider</h2>
+            <ul className={styles.considerList}>
+              <li><strong>Rand depreciation is the key variable.</strong> Over the past 30 years, the rand has averaged ~6–8% annual depreciation against the dollar. In good years it strengthens; in crisis years (2001, 2008, 2020) it can move 20–30% in a matter of weeks.</li>
+              <li><strong>Tax-Free Savings Accounts (TFSAs)</strong> let you contribute up to R36 000/year tax-free. Using a TFSA for your offshore ETF eliminates dividends tax and CGT, significantly improving after-tax returns — prioritise this wrapper first.</li>
+              <li><strong>SARS exchange control allowances:</strong> SA residents get a R1m single discretionary allowance and up to R10m per year with tax clearance (TCC). Global ETFs listed on the JSE (like Satrix MSCI World) give offshore exposure without these limits.</li>
+              <li><strong>Diversification reduces country risk.</strong> South Africa makes up less than 0.5% of global market cap. A portfolio with no offshore exposure is highly concentrated — both in rand and in a single economy's fortunes.</li>
+              <li><strong>Currency risk cuts both ways.</strong> Rand depreciation boosts offshore returns when converted back to ZAR — but if the rand strengthens unexpectedly, your offshore portfolio loses value in local terms. Rebalancing annually helps manage this.</li>
+              <li><strong>Platform and fund fees matter.</strong> This model assumes gross-of-fee returns. Actively managed funds often charge 1–1.5% annually — a drag that compounds significantly. Low-cost index ETFs (0.1–0.3% TER) are a meaningful structural advantage.</li>
+            </ul>
+          </div>
         </div>
 
         <div className={styles.verdictCol}>

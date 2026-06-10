@@ -1,16 +1,13 @@
 /*
   SignupForm.jsx
-  – Controlled signup form
+  – Creates user in localStorage, then redirects to /login (not auto-login)
   – Name, email, password, confirm-password fields
   – Password strength indicator
-  – Validation: email format, password length (≥8), passwords match
-  – Submit creates user in localStorage and calls UserContext login()
-  – Loading state
+  – Dark theme via Auth.module.css
 */
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../../context/UserContext";
 import { getUsers, saveUsers } from "../../../utils/authStorage";
 import styles from "../Auth.module.css";
 
@@ -52,14 +49,13 @@ function passwordStrength(pw) {
 
 const STRENGTH_MAP = {
   0: { label: "", color: "transparent", width: 0 },
-  1: { label: "Weak — try adding numbers or symbols", color: "#e24b4a", width: 25 },
-  2: { label: "Fair — add uppercase letters or symbols", color: "#ef9f27", width: 50 },
-  3: { label: "Good — nearly there", color: "#1d9e75", width: 75 },
-  4: { label: "Strong password", color: "#0f6e56", width: 100 },
+  1: { label: "Weak — try adding numbers or symbols", color: "#f87171", width: 25 },
+  2: { label: "Fair — add uppercase letters or symbols", color: "#f59e0b", width: 50 },
+  3: { label: "Good — nearly there", color: "#4bffab", width: 75 },
+  4: { label: "Strong password", color: "#c9a84c", width: 100 },
 };
 
 export default function SignupForm() {
-  const { login } = useUser();
   const navigate = useNavigate();
 
   const [fields, setFields] = useState({ name: "", email: "", password: "", confirm: "" });
@@ -124,15 +120,8 @@ export default function SignupForm() {
 
     saveUsers(users);
 
-    login({
-      userId,
-      displayName: fields.name.trim(),
-      email: emailKey,
-      joinedDate,
-      lastLogin: joinedDate,
-    });
-
-    navigate("/");
+    // Redirect to login so user signs in with their new credentials
+    navigate("/login", { state: { justRegistered: true, email: emailKey } });
   }
 
   return (
@@ -186,12 +175,7 @@ export default function SignupForm() {
             onChange={set("password")}
             autoComplete="new-password"
           />
-          <button
-            type="button"
-            className={styles.eyeBtn}
-            onClick={() => setShowPw((v) => !v)}
-            aria-label={showPw ? "Hide password" : "Show password"}
-          >
+          <button type="button" className={styles.eyeBtn} onClick={() => setShowPw((v) => !v)} aria-label={showPw ? "Hide password" : "Show password"}>
             <EyeIcon open={showPw} />
           </button>
         </div>
@@ -218,21 +202,12 @@ export default function SignupForm() {
             onChange={set("confirm")}
             autoComplete="new-password"
           />
-          <button
-            type="button"
-            className={styles.eyeBtn}
-            onClick={() => setShowConfirm((v) => !v)}
-            aria-label={showConfirm ? "Hide password" : "Show password"}
-          >
+          <button type="button" className={styles.eyeBtn} onClick={() => setShowConfirm((v) => !v)} aria-label={showConfirm ? "Hide password" : "Show password"}>
             <EyeIcon open={showConfirm} />
           </button>
         </div>
         {passwordsMismatch && <p className={styles.fieldError}>Passwords don't match.</p>}
-        {passwordsMatch && (
-          <p className={styles.fieldSuccess}>
-            <CheckIcon /> Passwords match
-          </p>
-        )}
+        {passwordsMatch && <p className={styles.fieldSuccess}><CheckIcon /> Passwords match</p>}
         {errors.confirm && !passwordsMismatch && <p className={styles.fieldError}>{errors.confirm}</p>}
       </div>
 

@@ -1,15 +1,12 @@
 /*
   LoginForm.jsx
-  – Controlled login form
-  – Email and password fields with validation
-  – Show/hide password toggle
-  – Inline error messages (wrong credentials, empty fields)
-  – Submit calls UserContext login()
-  – Loading state on submit button
+  – Shows a success banner when arriving from signup (justRegistered state)
+  – Pre-fills email if passed via navigation state
+  – Dark theme via Auth.module.css
 */
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../../../context/UserContext";
 import { getUsers } from "../../../utils/authStorage";
 import styles from "../Auth.module.css";
@@ -36,8 +33,13 @@ function isValidEmail(email) {
 export default function LoginForm({ onForgotPassword }) {
   const { login } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [fields, setFields] = useState({ email: "", password: "" });
+  // Pick up state passed from Signup redirect
+  const justRegistered = location.state?.justRegistered ?? false;
+  const prefillEmail = location.state?.email ?? "";
+
+  const [fields, setFields] = useState({ email: prefillEmail, password: "" });
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -64,7 +66,6 @@ export default function LoginForm({ onForgotPassword }) {
     if (Object.keys(errs).length) { setErrors(errs); return; }
 
     setLoading(true);
-    // Small delay so the loading state is visible
     await new Promise((r) => setTimeout(r, 700));
 
     const users = getUsers();
@@ -94,11 +95,22 @@ export default function LoginForm({ onForgotPassword }) {
       lastLogin: new Date().toISOString(),
     });
 
-    navigate("/");
+    // Redirect to the page they were trying to reach, or home
+    const from = location.state?.from?.pathname || "/";
+    navigate(from, { replace: true });
   }
 
   return (
     <form onSubmit={handleSubmit} noValidate>
+      {justRegistered && (
+        <div className={`${styles.alert} ${styles.alertSuccess}`} role="status">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          Account created! Sign in to get started.
+        </div>
+      )}
+
       {formError && (
         <div className={`${styles.alert} ${styles.alertDanger}`} role="alert">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
@@ -134,12 +146,7 @@ export default function LoginForm({ onForgotPassword }) {
             onChange={set("password")}
             autoComplete="current-password"
           />
-          <button
-            type="button"
-            className={styles.eyeBtn}
-            onClick={() => setShowPw((v) => !v)}
-            aria-label={showPw ? "Hide password" : "Show password"}
-          >
+          <button type="button" className={styles.eyeBtn} onClick={() => setShowPw((v) => !v)} aria-label={showPw ? "Hide password" : "Show password"}>
             <EyeIcon open={showPw} />
           </button>
         </div>

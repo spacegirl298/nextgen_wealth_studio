@@ -2,18 +2,20 @@
  * Profile.jsx
  * ─────────────────────────────────────────────────────────────
  * User profile page — wired to useSnapshotStore for live metrics.
- * Sections:
- *   · Hero + avatar card with edit modal
- *   · Money Snapshot summary (6 key metrics, read-only)
- *   · Financial Health Score gauge
- *   · Banking DNA badge (derived from health profile)
- *   · Settings — clear all data with confirmation modal
+ * Changes from original:
+ *   · Pulls displayName, email, joinedDate, lastLogin from UserContext
+ *     (auth data is shown on the profile card automatically)
+ *   · Edit modal updates UserContext + localStorage so data persists
+ *   · Logout button in Settings section
+ *   · "Clear data" only removes the current user's scoped keys
  * ─────────────────────────────────────────────────────────────
  */
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Profile.module.css";
 import { useSnapshotStore } from "../../hooks/usesSnapshotStore";
 import { useLocalStorage } from "../../hooks/userLocalStorage";
+import { useUser } from "../../context/UserContext";
 
 /* ── Icons ─────────────────────────────────────────────────── */
 const EditIcon = () => (
@@ -41,166 +43,164 @@ const TrashIcon = () => (
   </svg>
 );
 
-/* ── Banking DNA: prefer saved quiz result, fall back to metric-derived ── */
+const LogOutIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <polyline points="16 17 21 12 16 7" />
+    <line x1="21" y1="12" x2="9" y2="12" />
+  </svg>
+);
+
+/* ── Banking DNA personas (unchanged) ──────────────────────── */
 const QUIZ_PERSONAS = {
-  spender: {
-    name: "The Spender",
-    badge: "◈",
-    color: "#c84bff",
-    description: "You have strong earning potential but tend to prioritise immediate lifestyle gratification. Savings and investments are inconsistent — making habits more intentional is the key unlock.",
-  },
-  builder: {
-    name: "The Future Builder",
-    badge: "◆",
-    color: "#ff4bba",
-    description: "Focused on long-term milestones. You save aggressively and delay lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in tomorrow's foundation.",
-  },
-  maximiser: {
-    name: "The Lifestyle Maximiser",
-    badge: "◉",
-    color: "#4bbdff",
-    description: "You use income for the enjoyment of life — travel, dining, experiences. Finding a sustainable balance between spending and saving is your key lever.",
-  },
-  balancer: {
-    name: "The Strategic Balancer",
-    badge: "◇",
-    color: "#4bffab",
-    description: "You maintain a middle ground between saving, investing, and living well. Progress feels steady and manageable. You're the rarest profile — the one most likely to win over time.",
-  },
+  spender:   { name: "The Spender",           badge: "◈", color: "#c84bff", description: "You have strong earning potential but tend to prioritise immediate lifestyle gratification. Savings and investments are inconsistent — making habits more intentional is the key unlock." },
+  builder:   { name: "The Future Builder",     badge: "◆", color: "#ff4bba", description: "Focused on long-term milestones. You save aggressively and delay lifestyle upgrades to reach goals sooner. Every rand saved today is a brick in tomorrow's foundation." },
+  maximiser: { name: "The Lifestyle Maximiser",badge: "◉", color: "#4bbdff", description: "You use income for the enjoyment of life — travel, dining, experiences. Finding a sustainable balance between spending and saving is your key lever." },
+  balancer:  { name: "The Strategic Balancer", badge: "◇", color: "#4bffab", description: "You maintain a middle ground between saving, investing, and living well. Progress feels steady and manageable. You're the rarest profile — the one most likely to win over time." },
 };
 
 function getBankingDNA(metrics, healthScore, quizResult) {
-  // If the user has completed the Banking DNA quiz, use that result
   if (quizResult?.answers?.length) {
     const counts = { spender: 0, builder: 0, maximiser: 0, balancer: 0 };
     quizResult.answers.forEach(a => { if (a?.type) counts[a.type]++; });
     const topType = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
     return QUIZ_PERSONAS[topType];
   }
-  // Fall back to metric-derived archetype if quiz not yet taken
-  if (healthScore >= 75 && metrics.savingsRate >= 15) {
-    return {
-      name: "Wealth Builder",
-      badge: "🏆",
-      color: "#4ade80",
-      description: "You consistently save above the 15% benchmark and keep debt under control. You're compounding wealth, not just managing it.",
-    };
+  if (healthScore >= 75 && metrics.savingsRate >= 15) return { name: "Wealth Builder",  badge: "🏆", color: "#4ade80", description: "You consistently save above the 15% benchmark and keep debt under control. You're compounding wealth, not just managing it." };
+  if (metrics.dti > 50)                               return { name: "Debt Climber",    badge: "⚡", color: "#f87171", description: "More than half your income services debt. Your priority is aggressive repayment — every extra rand clears the path faster." };
+  if (metrics.emergencyMonths < 1)                    return { name: "Exposed Earner",  badge: "🛡️", color: "#f59e0b", description: "You're earning, but one unexpected bill could tip the balance. Building even a small emergency fund is your most urgent move." };
+  if (metrics.savingsRate >= 5 && metrics.dti < 36)   return { name: "Steady Climber",  badge: "📈", color: "#c84bff", description: "Your fundamentals are solid — debt is manageable and you're saving. Pushing your savings rate above 15% is the next unlock." };
+  return { name: "Finding Footing", badge: "🔍", color: "#f8d299", description: "You're getting a clear picture of your finances. Use the Insights tab to identify your highest-leverage improvement." };
+}
+
+function formatDate(iso) {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  } catch {
+    return "—";
   }
-  if (metrics.dti > 50) {
-    return {
-      name: "Debt Climber",
-      badge: "⚡",
-      color: "#f87171",
-      description: "More than half your income services debt. Your priority is aggressive repayment — every extra rand clears the path faster.",
-    };
-  }
-  if (metrics.emergencyMonths < 1) {
-    return {
-      name: "Exposed Earner",
-      badge: "🛡️",
-      color: "#f59e0b",
-      description: "You're earning, but one unexpected bill could tip the balance. Building even a small emergency fund is your most urgent move.",
-    };
-  }
-  if (metrics.savingsRate >= 5 && metrics.dti < 36) {
-    return {
-      name: "Steady Climber",
-      badge: "📈",
-      color: "#c84bff",
-      description: "Your fundamentals are solid — debt is manageable and you're saving. Pushing your savings rate above 15% is the next unlock.",
-    };
-  }
-  return {
-    name: "Finding Footing",
-    badge: "🔍",
-    color: "#f8d299",
-    description: "You're getting a clear picture of your finances. Use the Insights tab to identify your highest-leverage improvement.",
-  };
 }
 
 /* ── Main component ─────────────────────────────────────────── */
 export default function ProfilePage() {
+  const navigate = useNavigate();
   const { derived, state } = useSnapshotStore();
   const { grossMonthly, takeHome, paye, totalExpenses, metrics, healthScore, fmt } = derived;
 
-  // Persist profile info across sessions
-  const [profile, setProfile] = useLocalStorage("userProfile_v1", {
-    firstName: "Name",
-    lastName: "Surname",
-    username: "Name_Surname",
-    email: "NameSurname@gmail.com",
-  });
+  // Auth data from context
+  const { user, displayName, email, userId, logout, updateProfile, getUserStorageKey } = useUser();
 
-  // Read Banking DNA quiz result saved by BankingDNA.jsx
-  const [quizResult] = useLocalStorage("bankingDNA_result_v1", null);
+  // Extra profile fields (username, bio) — scoped per user
+  const [profile, setProfile] = useLocalStorage(
+    getUserStorageKey ? getUserStorageKey("userProfile_v1") : "userProfile_v1",
+    { username: "", bio: "" }
+  );
+
+  const [quizResult] = useLocalStorage(
+    getUserStorageKey ? getUserStorageKey("bankingDNA_result_v1") : "bankingDNA_result_v1",
+    null
+  );
 
   const [modalOpen, setModalOpen]   = useState(false);
   const [clearModal, setClearModal] = useState(false);
-  const [draft, setDraft] = useState({ ...profile });
+  const [logoutModal, setLogoutModal] = useState(false);
+
+  // Draft for edit modal — includes auth fields + local profile fields
+  const [draft, setDraft] = useState({
+    displayName: displayName || "",
+    username: profile.username || "",
+    bio: profile.bio || "",
+  });
 
   const dna = getBankingDNA(metrics, healthScore, quizResult);
   const scoreColor = healthScore >= 75 ? "#4ade80" : healthScore >= 50 ? "#f59e0b" : "#f87171";
   const circ = 2 * Math.PI * 44;
 
-  const openModal  = () => { setDraft({ ...profile }); setModalOpen(true); };
+  const openModal = () => {
+    setDraft({ displayName: displayName || "", username: profile.username || "", bio: profile.bio || "" });
+    setModalOpen(true);
+  };
   const closeModal = () => setModalOpen(false);
+
   const handleChange = (e) => setDraft(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSave   = () => { setProfile({ ...draft }); setModalOpen(false); };
+
+  const handleSave = () => {
+    // Update displayName via context (syncs to auth_session + auth_users)
+    if (draft.displayName.trim()) {
+      updateProfile({ displayName: draft.displayName.trim() });
+    }
+    // Update local profile extras
+    setProfile({ username: draft.username, bio: draft.bio });
+    setModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
 
   const handleClearData = () => {
+    // Only clear this user's scoped data — other users' data is untouched
+    const prefix = userId ? `_${userId}` : "";
     [
-      "moneySnapshot_v3",
-      "moneySnapshot_history_v3",
-      "moneySnapshot_dismissed_nudges_v3",
-      "bankingDNA_result_v1",
-      "userProfile_v1",
+      `moneySnapshot_v3${prefix}`,
+      `moneySnapshot_history_v3${prefix}`,
+      `moneySnapshot_dismissed_nudges_v3${prefix}`,
+      `bankingDNA_result_v1${prefix}`,
+      `userProfile_v1${prefix}`,
     ].forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
 
-  /* Snapshot metric tiles */
   const snapshotMetrics = [
-    { label: "Gross Monthly",    value: fmt(grossMonthly),                                      accent: "#c84bff" },
-    { label: "Take-Home Pay",    value: fmt(takeHome),                                          accent: "#f8d299" },
-    { label: "Monthly PAYE",     value: fmt(paye),                                              accent: "#f87171" },
-    { label: "Total Expenses",   value: fmt(totalExpenses),                                     accent: "#f87171" },
-    { label: "Savings Rate",     value: `${metrics.savingsRate.toFixed(0)}%`,                   accent: metrics.savingsRate >= 15 ? "#4ade80" : "#f59e0b" },
-    { label: "Emergency Cover",  value: `${metrics.emergencyMonths.toFixed(1)} mo`,             accent: metrics.emergencyMonths >= 3 ? "#4ade80" : "#f59e0b" },
-    { label: "Debt-to-Income",   value: `${metrics.dti.toFixed(0)}%`,                          accent: metrics.dti < 36 ? "#4ade80" : "#f87171" },
-    { label: "Disposable",       value: fmt(metrics.disposable),                                accent: metrics.disposable >= 0 ? "#4ade80" : "#f87171" },
+    { label: "Gross Monthly",  value: fmt(grossMonthly),  accent: "#c84bff" },
+    { label: "Take-Home Pay",  value: fmt(takeHome),      accent: "#f8d299" },
+    { label: "Monthly PAYE",   value: fmt(paye),          accent: "#f87171" },
+    { label: "Total Expenses", value: fmt(totalExpenses), accent: "#f87171" },
+    { label: "Savings Rate",   value: `${metrics.savingsRate ?? 0}%`,    accent: "#4bffab" },
+    { label: "Emergency Fund", value: `${metrics.emergencyMonths ?? 0}mo`, accent: "#4bbdff" },
   ];
+
+  /* ── Derived display values ──────────────────────────────── */
+  const firstName = (displayName || "User").split(" ")[0];
+  const lastName  = (displayName || "").split(" ").slice(1).join(" ");
+  const handle    = profile.username || (displayName ? displayName.toLowerCase().replace(/\s+/g, "_") : "user");
 
   return (
     <div className={styles.pageWrapper}>
 
-      {/* ── Hero ──────────────────────────────────────────────── */}
+      {/* ── Hero ─────────────────────────────────────────────── */}
       <div className={styles.hero}>
-        <p className={styles.heroEyebrow}>Financial Overview</p>
-        <h1 className={styles.heroTitle}>
-          {profile.firstName} {profile.lastName}
-        </h1>
-        <p className={styles.heroSub}>Your money, your picture — updated live from Money Snapshot</p>
+        <p className={styles.heroEyebrow}>Your Account</p>
+        <h1 className={styles.heroTitle}>{displayName || "Profile"}</h1>
+        <p className={styles.heroSub}>Member since {formatDate(user?.joinedDate)}</p>
       </div>
 
-      {/* ── Profile card + DNA side by side ────────────────────── */}
+      {/* ── Profile card + DNA card ───────────────────────────── */}
       <div className={styles.topRow}>
 
-        {/* Identity card */}
+        {/* Profile card */}
         <div className={styles.profileCard}>
           <div className={styles.avatarRing} style={{ "--dna-color": dna.color }}>
-            <div className={styles.avatarInner}><UserIcon /></div>
+            <div className={styles.avatarInner}>
+              <UserIcon />
+            </div>
           </div>
-          <div className={styles.profileInfo}>
-            <h2 className={styles.profileName}>{profile.firstName} {profile.lastName}</h2>
-            <p className={styles.profileHandle}>@{profile.username}</p>
-            <p className={styles.profileEmail}>{profile.email}</p>
-          </div>
+          <h2 className={styles.profileName}>{displayName || "—"}</h2>
+          <p className={styles.profileHandle}>@{handle}</p>
+          <p className={styles.profileEmail}>{email || "—"}</p>
+          {user?.lastLogin && (
+            <p style={{ fontSize: "0.72rem", color: "var(--clr-text-muted)", margin: 0 }}>
+              Last sign-in: {formatDate(user.lastLogin)}
+            </p>
+          )}
           <button className={styles.editBtn} onClick={openModal}>
             <EditIcon /> Edit Profile
           </button>
         </div>
 
-        {/* Banking DNA */}
+        {/* Banking DNA card */}
         <div className={styles.dnaCard} style={{ "--dna-color": dna.color }}>
           <div className={styles.dnaHeader}>
             <span className={styles.dnaEyebrow}>
@@ -221,7 +221,7 @@ export default function ProfilePage() {
 
       </div>
 
-      {/* ── Health Score gauge + label ─────────────────────────── */}
+      {/* ── Health Score gauge ────────────────────────────────── */}
       <div className={styles.healthSection}>
         <div className={styles.healthGauge}>
           <svg width="110" height="110" viewBox="0 0 110 110">
@@ -240,14 +240,13 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Score breakdown bars */}
         <div className={styles.scoreBreakdown}>
           {[
-            { label: "Debt-to-Income",  score: metrics.dti < 36 ? 25 : metrics.dti < 50 ? 12 : 0,               max: 25 },
-            { label: "Savings Rate",    score: metrics.savingsRate >= 15 ? 25 : metrics.savingsRate >= 5 ? 12 : 0, max: 25 },
-            { label: "Emergency Fund",  score: metrics.emergencyMonths >= 3 ? 25 : metrics.emergencyMonths >= 1 ? 12 : 0, max: 25 },
-            { label: "Cash Flow",       score: metrics.disposable > 0 ? 15 : 0,                                   max: 15 },
-            { label: "TFSA",            score: state.tfsa > 0 ? 10 : 0,                                           max: 10 },
+            { label: "Debt-to-Income", score: metrics.dti < 36 ? 25 : metrics.dti < 50 ? 12 : 0, max: 25 },
+            { label: "Savings Rate",   score: metrics.savingsRate >= 15 ? 25 : metrics.savingsRate >= 5 ? 12 : 0, max: 25 },
+            { label: "Emergency Fund", score: metrics.emergencyMonths >= 3 ? 25 : metrics.emergencyMonths >= 1 ? 12 : 0, max: 25 },
+            { label: "Cash Flow",      score: metrics.disposable > 0 ? 15 : 0, max: 15 },
+            { label: "TFSA",           score: state.tfsa > 0 ? 10 : 0, max: 10 },
           ].map(row => {
             const c = row.score === row.max ? "#4ade80" : row.score > 0 ? "#f59e0b" : "#f87171";
             return (
@@ -263,7 +262,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Money Snapshot metrics grid ────────────────────────── */}
+      {/* ── Money Snapshot ────────────────────────────────────── */}
       <div className={styles.snapshotSection}>
         <h2 className={styles.sectionTitle}>Money Snapshot</h2>
         <p className={styles.sectionSub}>Live read from your latest financial data — update values in the Snapshot tool.</p>
@@ -278,19 +277,35 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Settings ───────────────────────────────────────────── */}
+      {/* ── Settings ─────────────────────────────────────────── */}
       <div className={styles.settingsSection}>
         <h2 className={styles.sectionTitle}>Settings</h2>
         <div className={styles.settingsCard}>
+
+          {/* Sign out */}
+          <div className={styles.settingRow}>
+            <div>
+              <div className={styles.settingLabel}>Sign out</div>
+              <div className={styles.settingDesc}>You'll need your email and password to sign back in.</div>
+            </div>
+            <button className={styles.dangerBtn} style={{ borderColor: "rgba(201,168,76,0.3)", color: "#c9a84c", background: "rgba(201,168,76,0.06)" }} onClick={() => setLogoutModal(true)}>
+              <LogOutIcon /> Sign out
+            </button>
+          </div>
+
+          <div style={{ borderTop: "1px solid var(--clr-border)" }} />
+
+          {/* Clear data */}
           <div className={styles.settingRow}>
             <div>
               <div className={styles.settingLabel}>Clear all snapshot data</div>
-              <div className={styles.settingDesc}>Permanently removes all saved inputs, snapshots, and history from this device.</div>
+              <div className={styles.settingDesc}>Permanently removes your saved inputs, snapshots, and history from this device.</div>
             </div>
             <button className={styles.dangerBtn} onClick={() => setClearModal(true)}>
               <TrashIcon /> Clear data
             </button>
           </div>
+
         </div>
       </div>
 
@@ -303,28 +318,44 @@ export default function ProfilePage() {
               <button className={styles.modalClose} onClick={closeModal}><CloseIcon /></button>
             </div>
             <div className={styles.modalBody}>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>First Name</label>
-                  <input className={styles.formInput} name="firstName" value={draft.firstName} onChange={handleChange} placeholder="First name" />
-                </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Last Name</label>
-                  <input className={styles.formInput} name="lastName" value={draft.lastName} onChange={handleChange} placeholder="Last name" />
-                </div>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Display Name</label>
+                <input className={styles.formInput} name="displayName" value={draft.displayName} onChange={handleChange} placeholder="Your name" />
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Username</label>
-                <input className={styles.formInput} name="username" value={draft.username} onChange={handleChange} placeholder="Username" />
+                <input className={styles.formInput} name="username" value={draft.username} onChange={handleChange} placeholder="@handle" />
               </div>
               <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Email Address</label>
-                <input className={styles.formInput} name="email" type="email" value={draft.email} onChange={handleChange} placeholder="Email address" />
+                <label className={styles.formLabel}>Email address</label>
+                {/* Email is read-only — it's the account identifier */}
+                <input className={styles.formInput} value={email || ""} readOnly disabled style={{ opacity: 0.5, cursor: "not-allowed" }} />
               </div>
             </div>
             <div className={styles.modalFooter}>
               <button className={styles.cancelBtn} onClick={closeModal}>Cancel</button>
               <button className={styles.saveBtn} onClick={handleSave}>Save Changes</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Sign-out confirmation modal ──────────────────────── */}
+      {logoutModal && (
+        <div className={styles.modalOverlay} onClick={() => setLogoutModal(false)}>
+          <div className={styles.modalCard} onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
+            <div className={styles.modalHeader}>
+              <span className={styles.modalTitle}>Sign out?</span>
+              <button className={styles.modalClose} onClick={() => setLogoutModal(false)}><CloseIcon /></button>
+            </div>
+            <div className={styles.modalBody}>
+              <p style={{ color: "var(--clr-text-muted)", fontSize: "0.9rem", lineHeight: 1.6, margin: 0 }}>
+                You'll be returned to the sign-in page. Your data stays saved and will be here when you come back.
+              </p>
+            </div>
+            <div className={styles.modalFooter}>
+              <button className={styles.cancelBtn} onClick={() => setLogoutModal(false)}>Stay signed in</button>
+              <button className={styles.dangerConfirmBtn} onClick={handleLogout}>Sign out</button>
             </div>
           </div>
         </div>
@@ -339,7 +370,7 @@ export default function ProfilePage() {
               <button className={styles.modalClose} onClick={() => setClearModal(false)}><CloseIcon /></button>
             </div>
             <div className={styles.modalBody}>
-              <p style={{ color: "var(--clr-text-muted)", fontSize: "0.9rem", lineHeight: 1.6 }}>
+              <p style={{ color: "var(--clr-text-muted)", fontSize: "0.9rem", lineHeight: 1.6, margin: 0 }}>
                 This will permanently delete all your saved snapshot data, history, and settings from this device. This cannot be undone.
               </p>
             </div>

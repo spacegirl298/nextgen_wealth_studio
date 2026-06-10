@@ -1,35 +1,80 @@
 /*
   Auth.module.css
-  Shared styles for Login, Signup, and ForgotPassword pages.
-  – Centred card layout on a subtle background
-  – Logo / app name at top
-  – Form card with shadow
-  – Responsive: full-width on mobile
+  Restyled to match the Finpath dark design system (Profile.module.css).
+  Dark void background · gold accent · display typography · glassmorphism card
 */
 
-/* ── Page wrapper ────────────────────────────────────────── */
+/* ── CSS variables (mirror Profile design tokens) ─────────── */
+:root {
+  --clr-bg:           #0d0018;
+  --clr-bg-card:      rgba(255, 255, 255, 0.04);
+  --clr-border:       rgba(255, 255, 255, 0.08);
+  --clr-text:         #f0eaf8;
+  --clr-text-muted:   rgba(240, 234, 248, 0.45);
+  --clr-gold:         #c9a84c;
+  --clr-gold-hi:      #e2c06a;
+  --clr-accent:       #c84bff;
+  --clr-success:      #4bffab;
+  --clr-danger:       #f87171;
+  --font-display:     "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body:        "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --radius-sm:        6px;
+  --radius-md:        10px;
+  --radius-lg:        16px;
+  --radius-round:     999px;
+}
+
+/* ── Page wrapper ────────────────────────────────────────────── */
 .page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f3;
+  background: var(--clr-bg);
   padding: 2rem 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-body);
+  position: relative;
+  overflow: hidden;
 }
 
-/* ── Card ────────────────────────────────────────────────── */
+/* Ambient radial glow behind card */
+.page::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse at center, rgba(200, 75, 255, 0.13) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
 .card {
-  background: #ffffff;
-  border: 1px solid #e8e8e5;
-  border-radius: 14px;
-  padding: 2rem 2rem 1.75rem;
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem 2rem;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
 }
 
-/* ── Brand / logo ─────────────────────────────────────────── */
+/* Top gold accent line */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--clr-gold), transparent);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ── Brand / logo ────────────────────────────────────────────── */
 .brand {
   display: flex;
   align-items: center;
@@ -40,51 +85,62 @@
 .brandIcon {
   width: 36px;
   height: 36px;
-  border-radius: 9px;
-  background: #1d9e75;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--clr-gold), var(--clr-accent));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.brandName {
+  color: #180016;
   font-size: 16px;
-  font-weight: 600;
-  color: #1a1a1a;
-  letter-spacing: -0.01em;
-}
-
-/* ── Heading block ────────────────────────────────────────── */
-.heading {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 4px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  flex-shrink: 0;
   letter-spacing: -0.02em;
 }
 
-.subtitle {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+.brandName {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--clr-text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-/* ── Form fields ─────────────────────────────────────────── */
+/* ── Heading block ───────────────────────────────────────────── */
+.heading {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, var(--clr-text) 40%, var(--clr-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--clr-text-muted);
+  margin-bottom: 1.75rem;
+  line-height: 1.55;
+}
+
+/* ── Form fields ─────────────────────────────────────────────── */
 .field {
   margin-bottom: 1rem;
 }
 
 .label {
   display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--font-display);
 }
 
 .inputWrap {
@@ -93,46 +149,50 @@
 
 .input {
   width: 100%;
-  padding: 9px 12px;
+  padding: 10px 13px;
   font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  color: #1a1a1a;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--clr-text);
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  font-family: inherit;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  font-family: var(--font-body);
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: rgba(240, 234, 248, 0.2);
 }
 
 .input:focus {
-  border-color: #1d9e75;
-  box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.12);
+  border-color: var(--clr-gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
 }
 
 .inputError {
-  border-color: #e24b4a !important;
+  border-color: var(--clr-danger) !important;
   box-shadow: none !important;
 }
 
 .inputSuccess {
-  border-color: #1d9e75;
+  border-color: var(--clr-success);
 }
 
-/* password with eye-toggle needs right padding */
 .inputWithEye {
   padding-right: 40px;
 }
 
-/* ── Eye / show-password button ──────────────────────────── */
+/* ── Eye / show-password button ──────────────────────────────── */
 .eyeBtn {
   position: absolute;
-  right: 10px;
+  right: 11px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  color: #aaa;
+  color: var(--clr-text-muted);
   padding: 2px;
   display: flex;
   align-items: center;
@@ -141,13 +201,13 @@
 }
 
 .eyeBtn:hover {
-  color: #555;
+  color: var(--clr-gold);
 }
 
-/* ── Inline messages ─────────────────────────────────────── */
+/* ── Inline messages ─────────────────────────────────────────── */
 .fieldError {
   font-size: 12px;
-  color: #e24b4a;
+  color: var(--clr-danger);
   margin-top: 5px;
   display: flex;
   align-items: center;
@@ -157,7 +217,7 @@
 
 .fieldSuccess {
   font-size: 12px;
-  color: #1d9e75;
+  color: var(--clr-success);
   margin-top: 5px;
   display: flex;
   align-items: center;
@@ -166,15 +226,15 @@
 
 .fieldHint {
   font-size: 12px;
-  color: #aaa;
+  color: var(--clr-text-muted);
   margin-top: 4px;
 }
 
-/* ── Password strength ───────────────────────────────────── */
+/* ── Password strength ───────────────────────────────────────── */
 .strengthBar {
   height: 3px;
   border-radius: 2px;
-  background: #eee;
+  background: rgba(255,255,255,0.06);
   margin-top: 7px;
   overflow: hidden;
 }
@@ -188,56 +248,58 @@
 .strengthLabel {
   font-size: 11px;
   margin-top: 4px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-/* ── Alert toast (form-level errors) ─────────────────────── */
+/* ── Alert toast (form-level errors) ─────────────────────────── */
 .alert {
   display: flex;
   align-items: flex-start;
   gap: 8px;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   margin-bottom: 1.1rem;
   line-height: 1.5;
 }
 
 .alertDanger {
-  background: #fef2f2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
+  background: rgba(248, 113, 113, 0.08);
+  color: #fca5a5;
+  border: 1px solid rgba(248, 113, 113, 0.25);
 }
 
 .alertSuccess {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  background: rgba(75, 255, 171, 0.08);
+  color: var(--clr-success);
+  border: 1px solid rgba(75, 255, 171, 0.25);
 }
 
-/* ── Submit button ───────────────────────────────────────── */
+/* ── Submit button ───────────────────────────────────────────── */
 .submitBtn {
   width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
+  padding: 11px;
+  font-size: 13px;
+  font-weight: 800;
+  border-radius: var(--radius-round);
   border: none;
   cursor: pointer;
-  background: #1d9e75;
-  color: #fff;
-  transition: opacity 0.15s, transform 0.1s;
+  background: var(--clr-gold);
+  color: #180016;
+  transition: background 0.18s, transform 0.1s;
   margin-top: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: inherit;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .submitBtn:hover:not(:disabled) {
-  opacity: 0.9;
+  background: var(--clr-gold-hi);
 }
 
 .submitBtn:active:not(:disabled) {
@@ -245,16 +307,16 @@
 }
 
 .submitBtn:disabled {
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-/* ── Spinner ─────────────────────────────────────────────── */
+/* ── Spinner ─────────────────────────────────────────────────── */
 .spinner {
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #fff;
+  border: 2px solid rgba(24, 0, 22, 0.25);
+  border-top-color: #180016;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   flex-shrink: 0;
@@ -264,7 +326,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Forgot password link ────────────────────────────────── */
+/* ── Forgot password link ────────────────────────────────────── */
 .forgotRow {
   text-align: right;
   margin-top: -4px;
@@ -273,44 +335,68 @@
 
 .forgotLink {
   font-size: 12px;
-  color: #0f6e56;
+  color: var(--clr-gold);
   text-decoration: none;
   cursor: pointer;
   background: none;
   border: none;
   padding: 0;
-  font-family: inherit;
+  font-family: var(--font-body);
+  opacity: 0.8;
+  transition: opacity 0.15s;
 }
 
 .forgotLink:hover {
+  opacity: 1;
   text-decoration: underline;
 }
 
-/* ── Footer redirect links ───────────────────────────────── */
+/* ── Divider ─────────────────────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1.25rem 0;
+  color: var(--clr-text-muted);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--clr-border);
+}
+
+/* ── Footer redirect links ───────────────────────────────────── */
 .footerText {
   text-align: center;
   font-size: 13px;
-  color: #aaa;
+  color: var(--clr-text-muted);
   margin-top: 1.25rem;
 }
 
 .footerLink {
-  color: #0f6e56;
+  color: var(--clr-gold);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   background: none;
   border: none;
   padding: 0;
   font-family: inherit;
   font-size: inherit;
+  transition: color 0.15s;
 }
 
 .footerLink:hover {
+  color: var(--clr-gold-hi);
   text-decoration: underline;
 }
 
-/* ── Success / confirmation state (ForgotPassword) ───────── */
+/* ── Success / confirmation state (ForgotPassword) ───────────── */
 .successState {
   text-align: center;
   padding: 0.5rem 0 0.25rem;
@@ -320,8 +406,8 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background: rgba(75, 255, 171, 0.08);
+  border: 1px solid rgba(75, 255, 171, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,41 +415,51 @@
 }
 
 .successTitle {
+  font-family: var(--font-display);
   font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 700;
+  color: var(--clr-text);
   margin-bottom: 6px;
+  letter-spacing: 0.02em;
 }
 
 .successMessage {
   font-size: 14px;
-  color: #888;
+  color: var(--clr-text-muted);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
 
+.successMessage strong {
+  color: var(--clr-gold);
+  font-weight: 600;
+}
+
 .backBtn {
   width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--radius-round);
+  border: 1px solid var(--clr-border);
   cursor: pointer;
-  background: #fff;
-  color: #1a1a1a;
-  transition: background 0.15s;
-  font-family: inherit;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--clr-text);
+  transition: border-color 0.18s, background 0.18s;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .backBtn:hover {
-  background: #f5f5f3;
+  border-color: var(--clr-gold);
+  background: rgba(201, 168, 76, 0.06);
 }
 
-/* ── Responsive ──────────────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .card {
-    padding: 1.5rem 1.25rem;
-    border-radius: 12px;
+    padding: 1.75rem 1.25rem;
+    border-radius: var(--radius-md);
   }
 }

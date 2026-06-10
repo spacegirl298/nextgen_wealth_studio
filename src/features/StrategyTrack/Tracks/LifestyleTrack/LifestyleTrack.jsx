@@ -8,8 +8,7 @@
  *   - useLocalStorage persists slider inputs, completed stages, dismissed nudges
  *   - useNudges evaluates nudge conditions against live metrics
  */
-import { useState, useEffect, useRef, useMemo } from "react";
-import { createPortal } from "react-dom";
+import { useState, useMemo, useEffect } from "react";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";
 import { useNudges } from "../../../../hooks/useNudges";
@@ -17,6 +16,7 @@ import { TRACKS } from "../../data/tracksData";
 import TrackTimeline from "../../components/TrackTimeline";
 import TrackProgress from "../../components/TrackProgress";
 import MilestoneStep from "../../components/MilestoneStep";
+import { SliderField } from "../../components/SharedControls";
 
 // ─── Track data ───────────────────────────────────────────────────────────────
 // Stages and nudges are defined inline here since tracksData stubs them as [].
@@ -236,81 +236,6 @@ const INFO_CONTENT = {
     body: "A realistic long-term return assumption for a diversified portfolio. A global equity ETF has historically returned 9–11% p.a. over 10+ year periods. Use 8–9% as a conservative estimate.",
   },
 };
-
-// ─── Info Tooltip ─────────────────────────────────────────────────────────────
-const InfoTooltip = ({ field }) => {
-  const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
-  const buttonRef = useRef(null);
-  const info = INFO_CONTENT[field];
-
-  useEffect(() => {
-    if (!open) return;
-    const update = () => {
-      if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        setPosition({ top: rect.bottom + 8, left: rect.left - 120 });
-      }
-    };
-    update();
-    window.addEventListener("scroll", update);
-    window.addEventListener("resize", update);
-    const handleOut = (e) => {
-      if (buttonRef.current && !buttonRef.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handleOut);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      document.removeEventListener("mousedown", handleOut);
-    };
-  }, [open]);
-
-  if (!info) return null;
-
-  return (
-    <>
-      <button ref={buttonRef} className={styles.infoIcon} onClick={() => setOpen((v) => !v)}
-        aria-label={`Info about ${field}`} aria-expanded={open}>
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="6" stroke="var(--clr-gold)" strokeWidth="1" />
-          <text x="7" y="7" textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="var(--clr-gold)">i</text>
-        </svg>
-      </button>
-      {open && createPortal(
-        <div className={styles.tooltipBox}
-          style={{ position: "fixed", top: position.top, left: position.left, zIndex: 999999 }} role="tooltip">
-          <div className={styles.tooltipHeader}>
-            <span className={styles.tooltipTitle}>{info.title}</span>
-            <button className={styles.tooltipClose} onClick={() => setOpen(false)} aria-label="Close">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-          </div>
-          <p className={styles.tooltipBody}>{info.body}</p>
-        </div>,
-        document.body,
-      )}
-    </>
-  );
-};
-
-// ─── Slider Field ────────────────────────────────────────────────────────────
-const SliderField = ({ label, min, max, step, value, onChange, prefix = "", suffix = "", info }) => (
-  <div className={styles.fieldRow}>
-    <label className={styles.fieldLabel}>{label}</label>
-    <div className={styles.sliderWrap}>
-      <div className={styles.sliderTrackWrap}>
-        <input type="range" min={min} max={max} step={step} value={value}
-          onChange={(e) => onChange(Number(e.target.value))} className={styles.slider}
-          style={{ "--pct": `${((value - min) / (max - min)) * 100}%` }} />
-      </div>
-      <span className={styles.sliderValue}>{prefix}{value.toLocaleString()}{suffix}</span>
-      {info && <InfoTooltip field={label} />}
-    </div>
-  </div>
-);
 
 // ─── Balance Gauge — shows lifestyle vs savings split visually ────────────────
 const BalanceGauge = ({ savingsRate, lifestylePct, needsPct }) => {
@@ -590,13 +515,13 @@ export default function BalancedLifestyle() {
         </p>
         <div className={styles.twoCol}>
           <div>
-            <SliderField label="Monthly Take-Home Pay" min={10000} max={150000} step={1000} value={takeHome} onChange={set("takeHome")} prefix="R " info />
-            <SliderField label="Monthly Savings Contribution" min={500} max={50000} step={500} value={monthlySave} onChange={set("monthlySave")} prefix="R " info />
-            <SliderField label="Expected Annual Return" min={4} max={15} step={0.25} value={returnRate} onChange={set("returnRate")} suffix="% p.a." info />
+            <SliderField label="Monthly Take-Home Pay" min={10000} max={150000} step={1000} value={takeHome} onChange={set("takeHome")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Monthly Savings Contribution" min={500} max={50000} step={500} value={monthlySave} onChange={set("monthlySave")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Expected Annual Return" min={4} max={15} step={0.25} value={returnRate} onChange={set("returnRate")} suffix="% p.a." info infoMap={INFO_CONTENT} />
           </div>
           <div>
-            <SliderField label="Monthly Lifestyle Spending" min={1000} max={80000} step={500} value={monthlyLifestyle} onChange={set("monthlyLifestyle")} prefix="R " info />
-            <SliderField label="Monthly Investment Amount" min={500} max={40000} step={500} value={monthlyInvest} onChange={set("monthlyInvest")} prefix="R " info />
+            <SliderField label="Monthly Lifestyle Spending" min={1000} max={80000} step={500} value={monthlyLifestyle} onChange={set("monthlyLifestyle")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Monthly Investment Amount" min={500} max={40000} step={500} value={monthlyInvest} onChange={set("monthlyInvest")} prefix="R " info infoMap={INFO_CONTENT} />
           </div>
         </div>
       </div>

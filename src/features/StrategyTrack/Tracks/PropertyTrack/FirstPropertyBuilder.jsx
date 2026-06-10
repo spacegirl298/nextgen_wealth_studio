@@ -10,7 +10,6 @@
  *   - Stage completion records the date in localStorage
  */
 import { useState, useRef, useEffect, useMemo } from "react";
-import { createPortal } from "react-dom";
 import styles from "../../Tracks.module.css";
 import { useLocalStorage } from "../../../../hooks/userLocalStorage";
 import { useNudges } from "../../../../hooks/useNudges";
@@ -18,6 +17,7 @@ import { TRACKS } from "../../data/tracksData";
 import TrackTimeline from "../../components/TrackTimeline";
 import TrackProgress from "../../components/TrackProgress";
 import MilestoneStep from "../../components/MilestoneStep";
+import { SliderField } from "../../components/SharedControls";
 
 const TRACK = TRACKS.firstProperty;
 const STORAGE_KEY = "fpb_state_v1";
@@ -51,99 +51,6 @@ const INFO_CONTENT = {
     body: "Your credit score is one of the most important factors in bond approval. South African scores range from 300–999. Most banks require 600+ for approval. Above 700 typically unlocks better interest rates.",
   },
 };
-
-// ─── Info Tooltip (portal-based, stays inside viewport) ─────────────────────
-const InfoTooltip = ({ field }) => {
-  const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
-  const buttonRef = useRef(null);
-  const info = INFO_CONTENT[field];
-
-  useEffect(() => {
-    if (!open) return;
-    const updatePosition = () => {
-      if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        setPosition({ top: rect.bottom + 8, left: rect.left - 120 });
-      }
-    };
-    updatePosition();
-    window.addEventListener("scroll", updatePosition);
-    window.addEventListener("resize", updatePosition);
-    const handleClickOutside = (e) => {
-      if (buttonRef.current && !buttonRef.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("scroll", updatePosition);
-      window.removeEventListener("resize", updatePosition);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open]);
-
-  if (!info) return null;
-
-  return (
-    <>
-      <button
-        ref={buttonRef}
-        className={styles.infoIcon}
-        onClick={() => setOpen((v) => !v)}
-        aria-label={`Info about ${field}`}
-        aria-expanded={open}
-      >
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="6" stroke="var(--clr-gold)" strokeWidth="1" />
-          <text x="7" y="7" textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="var(--clr-gold)">i</text>
-        </svg>
-      </button>
-      {open &&
-        createPortal(
-          <div
-            className={styles.tooltipBox}
-            style={{ position: "fixed", top: position.top, left: position.left, zIndex: 999999 }}
-            role="tooltip"
-          >
-            <div className={styles.tooltipHeader}>
-              <span className={styles.tooltipTitle}>{info.title}</span>
-              <button className={styles.tooltipClose} onClick={() => setOpen(false)} aria-label="Close">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </button>
-            </div>
-            <p className={styles.tooltipBody}>{info.body}</p>
-          </div>,
-          document.body,
-        )}
-    </>
-  );
-};
-
-// ─── Slider Field ────────────────────────────────────────────────────────────
-const SliderField = ({ label, min, max, step, value, onChange, prefix = "", suffix = "", info }) => (
-  <div className={styles.fieldRow}>
-    <label className={styles.fieldLabel}>{label}</label>
-    <div className={styles.sliderWrap}>
-      <div className={styles.sliderTrackWrap}>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          className={styles.slider}
-          style={{ "--pct": `${((value - min) / (max - min)) * 100}%` }}
-        />
-      </div>
-      <span className={styles.sliderValue}>
-        {prefix}{value.toLocaleString()}{suffix}
-      </span>
-      {info && <InfoTooltip field={label} />}
-    </div>
-  </div>
-);
 
 // ─── Donut Chart ─────────────────────────────────────────────────────────────
 const DonutChart = ({ pct }) => {
@@ -458,14 +365,14 @@ export default function FirstPropertyBuilder() {
         </p>
         <div className={styles.twoCol}>
           <div>
-            <SliderField label="Monthly Take-Home Pay" min={8000} max={120000} step={500} value={takeHome} onChange={set("takeHome")} prefix="R " info />
-            <SliderField label="Monthly Savings Contribution" min={500} max={30000} step={250} value={monthlySave} onChange={set("monthlySave")} prefix="R " info />
-            <SliderField label="Savings Interest Rate" min={4} max={14} step={0.25} value={interestRate} onChange={set("interestRate")} suffix="% p.a." info />
+            <SliderField label="Monthly Take-Home Pay" min={8000} max={120000} step={500} value={takeHome} onChange={set("takeHome")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Monthly Savings Contribution" min={500} max={30000} step={250} value={monthlySave} onChange={set("monthlySave")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Savings Interest Rate" min={4} max={14} step={0.25} value={interestRate} onChange={set("interestRate")} suffix="% p.a." info infoMap={INFO_CONTENT} />
           </div>
           <div>
-            <SliderField label="Current Savings Balance" min={0} max={500000} step={5000} value={savings} onChange={set("savings")} prefix="R " info />
-            <SliderField label="Target Deposit" min={50000} max={600000} step={10000} value={targetDeposit} onChange={set("targetDeposit")} prefix="R " info />
-            <SliderField label="Credit Score" min={300} max={999} step={1} value={creditScore} onChange={set("creditScore")} info />
+            <SliderField label="Current Savings Balance" min={0} max={500000} step={5000} value={savings} onChange={set("savings")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Target Deposit" min={50000} max={600000} step={10000} value={targetDeposit} onChange={set("targetDeposit")} prefix="R " info infoMap={INFO_CONTENT} />
+            <SliderField label="Credit Score" min={300} max={999} step={1} value={creditScore} onChange={set("creditScore")} info infoMap={INFO_CONTENT} />
           </div>
         </div>
       </div>

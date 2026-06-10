@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import { FinancialProvider } from "./context/FinancialContext"
+import { SimProvider } from "./features/SimulationLab/components/SimContext"
 import AuthGuard from "./features/Auth/components/AuthGuard"
 import Navbar from "./components/Layout/Navbar"
 import Footer from "./components/Layout/Footer"
@@ -29,6 +30,7 @@ import BankingDNA from "./features/BankingDNA/BankingDNA"
 export default function App() {
   return (
     <FinancialProvider>
+      <SimProvider>
       <Navbar />
       <Routes>
         {/* Public routes*/}
@@ -66,6 +68,7 @@ export default function App() {
       </Routes>
       <BackToTopButton />
       <Footer />
+      </SimProvider>
     </FinancialProvider>
   )
 }

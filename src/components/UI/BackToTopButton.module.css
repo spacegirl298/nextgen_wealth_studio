@@ -1,0 +1,39 @@
+.button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-round);
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  z-index: 999;
+  box-shadow: var(--shadow-md);
+}
+
+.button:hover {
+  border-color: var(--clr-gold);
+  background: var(--clr-accent-soft);
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-4px);
+}
+
+.button:active {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .button {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 44px;
+    height: 44px;
+  }
+}

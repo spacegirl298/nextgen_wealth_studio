@@ -3,6 +3,7 @@ import { FinancialProvider } from "./context/FinancialContext"
 import AuthGuard from "./features/Auth/components/AuthGuard"
 import Navbar from "./components/Layout/Navbar"
 import Footer from "./components/Layout/Footer"
+import BackToTopButton from "./components/UI/BackToTopButton"
 // Auth
 import Login from "./features/Auth/Login"
 import Signup from "./features/Auth/Signup"
@@ -63,6 +64,7 @@ export default function App() {
         <Route path="/profile"        element={<AuthGuard><Profile /></AuthGuard>} />
         <Route path="/dna"            element={<AuthGuard><BankingDNA /></AuthGuard>} />*/}
       </Routes>
+      <BackToTopButton />
       <Footer />
     </FinancialProvider>
   )

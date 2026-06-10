@@ -445,7 +445,7 @@ export default function StrategyTrack() {
           <h1 className={styles.heroTitle}>Strategy Tracks</h1>
           <p className={styles.heroSub}>
             Pick the financial journey that matches your goal. Each track gives you a structured path, 
-            a live simulator, and stage-by-stage milestones — so you always know exactly what to do next.
+            a live simulator, and stage-by-stage milestones.
           </p>
         </div>
 

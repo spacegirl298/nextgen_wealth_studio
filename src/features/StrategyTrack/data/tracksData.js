@@ -14,7 +14,7 @@ export const TRACKS = {
     pill: "Track — Property",
     heroTitle: ["First Property", "Builder"],
     heroSub:
-      "A structured path for professionals working toward home ownership. Track your deposit, credit score, and five key milestones — updating live as you adjust your inputs.",
+      "A structured path for professionals working toward home ownership. Track your deposit, credit score, and five key milestones.",
     heroStats: [
       { val: "6", label: "Stages" },
       { val: "18–36", label: "Months" },

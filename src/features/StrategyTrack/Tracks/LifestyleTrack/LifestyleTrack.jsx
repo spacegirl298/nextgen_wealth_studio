@@ -474,7 +474,7 @@ export default function BalancedLifestyle() {
       <div className={styles.sectionCard}>
         <h2 className={styles.cardTitle}>Your Financial Profile</h2>
         <p className={styles.cardSub}>
-          Adjust the sliders to reflect your current income and spending. All outputs update live — your inputs are saved automatically.
+          Adjust the sliders to reflect your current income and spending. 
         </p>
         <div className={styles.twoCol}>
           <div>

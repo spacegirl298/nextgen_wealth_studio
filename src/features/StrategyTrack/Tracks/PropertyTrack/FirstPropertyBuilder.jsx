@@ -327,7 +327,7 @@ export default function FirstPropertyBuilder() {
       <div className={styles.sectionCard}>
         <h2 className={styles.cardTitle}>Your Financial Profile</h2>
         <p className={styles.cardSub}>
-          Adjust the sliders to reflect your current situation. All outputs update in real time — and your inputs are saved automatically.
+          Adjust the sliders to reflect your current situation. 
         </p>
         <div className={styles.twoCol}>
           <div>

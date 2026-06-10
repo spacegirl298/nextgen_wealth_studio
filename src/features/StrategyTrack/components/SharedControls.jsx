@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import styles from "../Tracks.module.css";
 
@@ -8,15 +8,23 @@ export const InfoTooltip = ({ field, infoMap }) => {
   const buttonRef = useRef(null);
   const info = infoMap?.[field];
 
-  useEffect(() => {
-    if (!open) return;
-
-    const updatePosition = () => {
-      if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
+  const updatePosition = useCallback(() => {
+    if (buttonRef.current && open) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      // On mobile, center the tooltip
+      if (window.innerWidth <= 768) {
+        setPosition({ 
+          top: rect.bottom + 8, 
+          left: window.innerWidth / 2 - 140 
+        });
+      } else {
         setPosition({ top: rect.bottom + 8, left: rect.left - 120 });
       }
-    };
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
 
     updatePosition();
     window.addEventListener("scroll", updatePosition);
@@ -24,18 +32,29 @@ export const InfoTooltip = ({ field, infoMap }) => {
 
     const handleClickOutside = (event) => {
       if (buttonRef.current && !buttonRef.current.contains(event.target)) {
-        setOpen(false);
+        // Also check if click is inside tooltip
+        const tooltip = document.querySelector(`.${styles.tooltipBox}`);
+        if (tooltip && !tooltip.contains(event.target)) {
+          setOpen(false);
+        } else if (!tooltip) {
+          setOpen(false);
+        }
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // Delay to avoid immediate close
+    setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }, 0);
 
     return () => {
       window.removeEventListener("scroll", updatePosition);
       window.removeEventListener("resize", updatePosition);
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, [open]);
+  }, [open, updatePosition]);
 
   if (!info) return null;
 
@@ -45,6 +64,10 @@ export const InfoTooltip = ({ field, infoMap }) => {
         ref={buttonRef}
         className={styles.infoIcon}
         onClick={() => setOpen((value) => !value)}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }}
         aria-label={`Info about ${field}`}
         aria-expanded={open}
         type="button"
@@ -57,12 +80,24 @@ export const InfoTooltip = ({ field, infoMap }) => {
       {open && createPortal(
         <div
           className={styles.tooltipBox}
-          style={{ position: "fixed", top: position.top, left: position.left, zIndex: 999999 }}
+          style={{ 
+            position: "fixed", 
+            top: position.top, 
+            left: position.left, 
+            zIndex: 999999,
+            maxWidth: window.innerWidth <= 768 ? "calc(100vw - 32px)" : "260px",
+          }}
           role="tooltip"
         >
           <div className={styles.tooltipHeader}>
             <span className={styles.tooltipTitle}>{info.title}</span>
-            <button className={styles.tooltipClose} onClick={() => setOpen(false)} aria-label="Close" type="button">
+            <button 
+              className={styles.tooltipClose} 
+              onClick={() => setOpen(false)}
+              onTouchEnd={() => setOpen(false)}
+              aria-label="Close" 
+              type="button"
+            >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
@@ -70,7 +105,7 @@ export const InfoTooltip = ({ field, infoMap }) => {
           </div>
           <p className={styles.tooltipBody}>{info.body}</p>
         </div>,
-        document.body,
+        document.body
       )}
     </>
   );
@@ -87,26 +122,42 @@ export const SliderField = ({
   suffix = "",
   info,
   infoMap,
-}) => (
-  <div className={styles.fieldRow}>
-    <label className={styles.fieldLabel}>{label}</label>
-    <div className={styles.sliderWrap}>
-      <div className={styles.sliderTrackWrap}>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(event) => onChange(Number(event.target.value))}
-          className={styles.slider}
-          style={{ "--pct": `${((value - min) / (max - min)) * 100}%` }}
-        />
+}) => {
+  const handleChange = (e) => {
+    const newValue = Number(e.target.value);
+    onChange(newValue);
+  };
+
+  // For mobile touch events
+  const handleTouchEnd = (e) => {
+    const newValue = Number(e.target.value);
+    onChange(newValue);
+  };
+
+  const percentage = ((value - min) / (max - min)) * 100;
+
+  return (
+    <div className={styles.fieldRow}>
+      <label className={styles.fieldLabel}>{label}</label>
+      <div className={styles.sliderWrap}>
+        <div className={styles.sliderTrackWrap}>
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={handleChange}
+            onTouchEnd={handleTouchEnd}
+            className={styles.slider}
+            style={{ "--pct": `${percentage}%` }}
+          />
+        </div>
+        <span className={styles.sliderValue}>
+          {prefix}{value.toLocaleString()}{suffix}
+        </span>
+        {info && <InfoTooltip field={label} infoMap={infoMap} />}
       </div>
-      <span className={styles.sliderValue}>
-        {prefix}{value.toLocaleString()}{suffix}
-      </span>
-      {info && <InfoTooltip field={label} infoMap={infoMap} />}
     </div>
-  </div>
-);
+  );
+};

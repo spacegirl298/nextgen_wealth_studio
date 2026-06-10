@@ -1,10 +1,16 @@
 .page {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 1rem 1rem 3rem;
   overflow: visible;
   position: relative;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 2rem 1.5rem 4rem;
+  }
 }
 
 /* Back Button */
@@ -17,15 +23,20 @@
   border-radius: 20px;
   color: var(--clr-text);
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   font-weight: 400;
-  padding: 0.4rem 0.9rem 0.4rem 0.65rem;
+  padding: 0.35rem 0.8rem 0.35rem 0.6rem;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-  margin-top: 2rem;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .backBtn {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.65rem;
+    margin-top: 2rem;
+  }
 }
 
 .backBtn:hover {
@@ -39,28 +50,53 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
-  margin-top: 50px;
-  margin-bottom: 60px;
+  gap: 1rem;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    gap: 1.25rem;
+    margin-top: 50px;
+    margin-bottom: 60px;
+  }
 }
 
 .heroTitle {
   font-family: var(--font-main);
-  font-size: clamp(3.5rem, 6vw, 4.2rem);
+  font-size: clamp(1.8rem, 8vw, 4.2rem);
   font-weight: 700;
-  line-height: 1.08;
+  line-height: 1.2;
   color: var(--clr-text);
   letter-spacing: -0.02em;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+@media (min-width: 480px) {
+  .heroTitle {
+    line-height: 1.08;
+  }
 }
 
 .heroSub {
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 300;
   color: var(--clr-text-light);
-  line-height: 1.75;
+  line-height: 1.6;
   max-width: 580px;
   text-align: center;
+  padding: 0 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .heroSub {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    padding: 0;
+  }
 }
 
 /* Learn More */
@@ -78,9 +114,9 @@
   background: none;
   border: none;
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 0.9rem 1.25rem;
+  padding: 0.75rem 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -89,10 +125,18 @@
   letter-spacing: 0.03em;
 }
 
+@media (min-width: 768px) {
+  .learnToggle {
+    font-size: 0.95rem;
+    padding: 0.9rem 1.25rem;
+  }
+}
+
 .chevron {
   transition: transform 0.25s ease;
   margin-left: auto;
   opacity: 0.6;
+  flex-shrink: 0;
 }
 
 .chevronOpen {
@@ -100,12 +144,20 @@
 }
 
 .learnBody {
-  padding: 0 1.25rem 1rem;
+  padding: 0 1rem 1rem;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 300;
   color: var(--clr-text);
-  line-height: 1.8;
+  line-height: 1.7;
+}
+
+@media (min-width: 768px) {
+  .learnBody {
+    padding: 0 1.25rem 1rem;
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
 }
 
 /* Cards */
@@ -114,54 +166,117 @@
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
   overflow: visible;
   position: relative;
   z-index: 10;
 }
 
+@media (min-width: 480px) {
+  .sectionCard {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .sectionCard {
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
 .cardTitle {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--clr-text);
   margin-bottom: 0.2rem;
   text-align: center;
   margin: 0 0 0.35rem;
 }
 
+@media (min-width: 480px) {
+  .cardTitle {
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (min-width: 768px) {
+  .cardTitle {
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+  }
+}
+
 .cardSub {
   text-align: center;
   margin: 0 0 1rem;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 300;
   color: var(--clr-text);
-  line-height: 1.8;
+  line-height: 1.6;
+}
+
+@media (min-width: 480px) {
+  .cardSub {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .cardSub {
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
 }
 
 /* Fields */
 .fieldRow {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.85rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
   overflow: visible;
   position: relative;
   width: 100%;
 }
 
+@media (min-width: 480px) {
+  .fieldRow {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+  }
+}
+
 .fieldLabel {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 300;
   color: var(--clr-text);
-  line-height: 1.8;
-  min-width: 180px;
+  line-height: 1.6;
+  min-width: auto;
   flex-shrink: 0;
-  width: 200px;
+}
+
+@media (min-width: 480px) {
+  .fieldLabel {
+    font-size: 0.8rem;
+    min-width: 150px;
+  }
+}
+
+@media (min-width: 640px) {
+  .fieldLabel {
+    min-width: 180px;
+    width: 180px;
+  }
 }
 
 .sliderWrap {
@@ -172,6 +287,7 @@
   overflow: visible;
   position: relative;
   min-width: 0;
+  width: 100%;
 }
 
 .sliderTrackWrap {
@@ -218,13 +334,21 @@
 }
 
 .sliderValue {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: var(--clr-text);
-  min-width: 70px;
-  width: 70px;
+  min-width: 65px;
+  width: 65px;
   text-align: right;
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
+}
+
+@media (min-width: 480px) {
+  .sliderValue {
+    font-size: 0.78rem;
+    min-width: 70px;
+    width: 70px;
+  }
 }
 
 /* Info Icon & Tooltip */
@@ -253,17 +377,23 @@
 }
 
 .tooltipBox {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
-  width: 260px;
-  background: rgba(18, 10, 30, 0.97);
+  position: fixed;
+  width: calc(100vw - 2rem);
+  max-width: 280px;
+  background: rgba(18, 10, 30, 0.98);
   border: 1px solid rgba(248, 210, 153, 0.35);
   border-radius: 10px;
-  padding: 0.85rem 1rem;
+  padding: 0.75rem 1rem;
   z-index: 999999;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   animation: tooltipIn 0.15s ease;
+}
+
+@media (min-width: 480px) {
+  .tooltipBox {
+    width: 260px;
+    padding: 0.85rem 1rem;
+  }
 }
 
 @keyframes tooltipIn {
@@ -282,14 +412,22 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .tooltipTitle {
   font-family: var(--font-display, sans-serif);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--clr-gold);
   letter-spacing: 0.03em;
+}
+
+@media (min-width: 768px) {
+  .tooltipTitle {
+    font-size: 0.82rem;
+  }
 }
 
 .tooltipClose {
@@ -310,29 +448,40 @@
 
 .tooltipBody {
   font-family: var(--font-body, sans-serif);
-  font-size: 0.77rem;
+  font-size: 0.7rem;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.72);
-  line-height: 1.7;
+  line-height: 1.6;
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .tooltipBody {
+    font-size: 0.77rem;
+    line-height: 1.7;
+  }
 }
 
 /* Two column layout */
 .twoCol {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
   margin-bottom: 0;
   overflow: visible;
   position: relative;
 }
 
-@media (max-width: 640px) {
+@media (min-width: 640px) {
   .twoCol {
-    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
-  .fieldLabel {
-    min-width: 130px;
+}
+
+@media (min-width: 768px) {
+  .twoCol {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
   }
 }
 
@@ -340,7 +489,13 @@
 .ctaWrap {
   display: flex;
   justify-content: center;
-  padding: 1.75rem 0;
+  padding: 1.25rem 0;
+}
+
+@media (min-width: 768px) {
+  .ctaWrap {
+    padding: 1.75rem 0;
+  }
 }
 
 .ctaBtn {
@@ -348,15 +503,28 @@
   color: #180016;
   border: none;
   border-radius: 40px;
-  padding: 0.85rem 3rem;
-  font-size: 1rem;
+  padding: 0.7rem 2rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+@media (min-width: 480px) {
+  .ctaBtn {
+    padding: 0.8rem 2.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .ctaBtn {
+    padding: 0.85rem 3rem;
+    font-size: 1rem;
+  }
 }
 
 .ctaBtn:hover {
@@ -372,37 +540,78 @@
 /* Results */
 .resultsGrid {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
   align-items: start;
 }
 
-@media (max-width: 720px) {
+@media (min-width: 768px) {
   .resultsGrid {
-    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .resultsGrid {
+    grid-template-columns: 1fr 340px;
   }
 }
 
 .verdictCol {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .verdictCol {
+    gap: 1.25rem;
+  }
 }
 
 /* Table */
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.82rem;
+  font-size: 0.7rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 480px) {
+  .table {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .table {
+    font-size: 0.82rem;
+  }
 }
 
 .table th {
   text-align: right;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.8rem;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--clr-text);
   border-bottom: 1px solid var(--clr-gold);
+}
+
+@media (min-width: 480px) {
+  .table th {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .table th {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
 }
 
 .table th:first-child {
@@ -410,11 +619,23 @@
 }
 
 .table td {
-  padding: 0.6rem 0.75rem;
+  padding: 0.4rem 0.5rem;
   text-align: right;
   color: var(--clr-text-light);
   border-bottom: 0.1px solid rgba(248, 210, 153, 0.3);
   font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 480px) {
+  .table td {
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .table td {
+    padding: 0.6rem 0.75rem;
+  }
 }
 
 .table tr:last-child td {
@@ -425,6 +646,14 @@
   text-align: left !important;
   font-weight: 600;
   color: var(--clr-text) !important;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .rowLabel {
+    white-space: normal;
+    min-width: 100px;
+  }
 }
 
 .emptyCell {
@@ -433,26 +662,51 @@
 
 /* Verdict */
 .verdictWinner {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--clr-gold);
   text-align: center;
   margin: 0.5rem 0;
 }
 
+@media (min-width: 480px) {
+  .verdictWinner {
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .verdictWinner {
+    font-size: 1.4rem;
+  }
+}
+
 .verdictText {
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   color: var(--clr-text);
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0.5rem 0 0;
   text-align: center;
 }
 
+@media (min-width: 768px) {
+  .verdictText {
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+}
+
 .emptyVerdict {
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   color: var(--clr-text-light);
   text-align: center;
   margin: 0.5rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .emptyVerdict {
+    font-size: 0.82rem;
+  }
 }
 
 /* Consider list */
@@ -463,11 +717,26 @@
 }
 
 .considerList li {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--clr-text);
   padding: 0.3rem 0;
   border-bottom: 1px solid rgba(248, 210, 153, 0.1);
   line-height: 1.5;
+}
+
+@media (min-width: 480px) {
+  .considerList li {
+    font-size: 0.75rem;
+    padding: 0.4rem 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .considerList li {
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+    line-height: 1.5;
+  }
 }
 
 .considerList li::before {
@@ -477,4 +746,24 @@
 
 .considerList li:last-child {
   border-bottom: none;
+}
+
+/* Chart container responsiveness */
+.chartContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Nudge bar responsive */
+.nudgeBar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .nudgeBar {
+    gap: 0.8rem;
+  }
 }

@@ -1,35 +1,54 @@
 /**
  * MilestoneStep.jsx
  * Individual milestone/stage detail card — generic, used by all tracks.
- *
- * Props:
- *   stage        — { id, icon, title, desc, badge, actions[], tradeoffs[], warnings[], glossary[], example }
- *   status       — "done" | "active" | "locked"
- *   isExpanded   — bool
- *   onToggle     — () => void
- *   onComplete   — () => void  (called when "Mark as Complete" is clicked)
- *   completedAt  — ISO date string | null  (from localStorage)
  */
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "../Tracks.module.css";
 
 function GlossaryTerm({ term, def }) {
   const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (open && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      if (window.innerWidth <= 768) {
+        setPosition({ 
+          top: rect.bottom + 8, 
+          left: window.innerWidth / 2 - 120 
+        });
+      } else {
+        setPosition({ top: rect.bottom + 8, left: rect.left });
+      }
+    }
+  }, [open]);
 
   return (
     <span className={styles.glossaryTerm}>
       <button
+        ref={buttonRef}
         className={styles.glossaryBtn}
         onClick={() => setOpen((v) => !v)}
+        onTouchEnd={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
         {term}
       </button>
       {open && (
-        <span className={styles.glossaryPop}>
+        <div
+          className={styles.glossaryPop}
+          style={{
+            position: "fixed",
+            top: position.top,
+            left: position.left,
+            zIndex: 100000,
+            maxWidth: window.innerWidth <= 768 ? "calc(100vw - 32px)" : "240px",
+          }}
+        >
           <span className={styles.glossaryPopTitle}>{term}</span>
           <span className={styles.glossaryPopBody}>{def}</span>
-        </span>
+        </div>
       )}
     </span>
   );
@@ -65,6 +84,10 @@ export default function MilestoneStep({
     ? `${styles.msIcon} ${styles.msIconActive}`
     : `${styles.msIcon} ${styles.msIconLocked}`;
 
+  const handleToggle = () => {
+    if (!isLocked) onToggle();
+  };
+
   return (
     <div
       className={[
@@ -78,7 +101,8 @@ export default function MilestoneStep({
     >
       <button
         className={styles.milestoneCardHeader}
-        onClick={isLocked ? undefined : onToggle}
+        onClick={handleToggle}
+        onTouchEnd={handleToggle}
         disabled={isLocked}
         aria-expanded={isExpanded}
         aria-controls={`stage-detail-${stage.id}`}
@@ -184,7 +208,11 @@ export default function MilestoneStep({
 
           {!isDone && (
             <div className={styles.milestoneCompleteWrap}>
-              <button className={styles.completeBtn} onClick={onComplete}>
+              <button 
+                className={styles.completeBtn} 
+                onClick={onComplete}
+                onTouchEnd={onComplete}
+              >
                 Mark Stage as Complete
               </button>
             </div>

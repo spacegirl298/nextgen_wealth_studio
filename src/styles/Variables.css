@@ -1,3 +1,4 @@
+/* variables.css */
 @import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap");
 :root {
 
@@ -100,8 +101,8 @@
   /* ── Layout ──────────────────────────────────────────────── */
   --page-max-width:   900px;
   --content-max-width: 680px;
-  --page-padding-x:   1.5rem;
-  --page-padding-y:   2rem;
+  --page-padding-x:   clamp(1rem, 4vw, 1.5rem);
+  --page-padding-y:   clamp(1.25rem, 3vw, 2rem);
 
 
   /* Scalability */
@@ -134,8 +135,4 @@
 
   /* Touch-friendly minimum tap target */
   --tap-min: 44px;
-
-  /* Responsive page padding */
-  --page-padding-x: clamp(1rem, 4vw, 1.5rem);
-  --page-padding-y: clamp(1.25rem, 3vw, 2rem);
 }

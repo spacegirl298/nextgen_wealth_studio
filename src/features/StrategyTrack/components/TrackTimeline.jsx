@@ -1,15 +1,14 @@
 /**
  * TrackTimeline.jsx
  * Visual timeline of stages within any track.
- * Props:
- *   stages        — array of { id, title, icon, badge }
- *   statuses      — parallel array of "done" | "active" | "locked"
- *   activeIndex   — index of the currently expanded stage
- *   onSelect(i)   — called when a stage dot is clicked
  */
 import styles from "../Tracks.module.css";
 
 export default function TrackTimeline({ stages, statuses, activeIndex, onSelect }) {
+  const handleSelect = (i) => {
+    onSelect(i);
+  };
+
   return (
     <div className={styles.timelineWrap} role="navigation" aria-label="Stage timeline">
       {stages.map((stage, i) => {
@@ -28,7 +27,8 @@ export default function TrackTimeline({ stages, statuses, activeIndex, onSelect 
             ]
               .filter(Boolean)
               .join(" ")}
-            onClick={() => onSelect(i)}
+            onClick={() => handleSelect(i)}
+            onTouchEnd={() => handleSelect(i)}
             aria-label={`Stage ${i + 1}: ${stage.title}`}
             aria-current={isActive ? "step" : undefined}
           >

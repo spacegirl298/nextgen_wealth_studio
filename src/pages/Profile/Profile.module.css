@@ -1,22 +1,45 @@
-/* Profile.module.css - Updated with gold/purple only */
+/* Profile.module.css - Fully Responsive (gold/purple only) */
 /* ============================================================
-   PROFILE  —  Profile.module.css
-   Design language: dark purple/void bg, gold accent, crisp type
-   Consistent with Snapshot.module.css design system
+   PROFILE — Profile.module.css
+   Design: dark purple/void bg, gold accent, crisp type
+   Fully responsive: mobile-first, adapts to all screen sizes
    ============================================================ */
+
+/* ── CSS Variables for responsive scaling ─────────────────── */
+:root {
+  --profile-spacing-xs: 12px;
+  --profile-spacing-sm: 16px;
+  --profile-spacing-md: 24px;
+  --profile-spacing-lg: 32px;
+  --profile-spacing-xl: 48px;
+  --profile-radius-card: var(--radius-lg, 20px);
+  --profile-radius-tile: var(--radius-md, 12px);
+}
 
 /* ── Page shell ─────────────────────────────────────────────── */
 .pageWrapper {
   min-height: 100vh;
-  padding: 0 0 80px;
+  padding: 0 0 var(--profile-spacing-xl);
   color: var(--clr-text);
 }
 
-/* ── Hero ───────────────────────────────────────────────────── */
+/* ── Hero (mobile-first) ───────────────────────────────────── */
 .hero {
-  padding: 56px 24px 48px;
+  padding: var(--profile-spacing-xl) var(--profile-spacing-md) var(--profile-spacing-xl);
   text-align: center;
   position: relative;
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: var(--profile-spacing-lg) var(--profile-spacing-sm) var(--profile-spacing-lg);
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero {
+    padding: 72px var(--profile-spacing-xl) 64px;
+  }
 }
 
 .hero::after {
@@ -38,7 +61,7 @@
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
   font-weight: var(--weight-black);
   letter-spacing: 0.04em;
   margin: 0 0 10px;
@@ -54,27 +77,60 @@
   margin: 0;
 }
 
-/* ── Top row: profile + DNA ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .heroSub {
+    font-size: 0.8rem;
+  }
+}
+
+/* ── Top row: profile + DNA (responsive grid) ───────────────── */
 .topRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: var(--profile-spacing-md);
   max-width: 860px;
-  margin: 0 auto 40px;
-  padding: 0 24px;
+  margin: 0 auto var(--profile-spacing-xl);
+  padding: 0 var(--profile-spacing-md);
+}
+
+@media (min-width: 700px) {
+  .topRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 860px) {
+  .topRow {
+    padding: 0 var(--profile-spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .topRow {
+    gap: var(--profile-spacing-sm);
+    margin-bottom: var(--profile-spacing-lg);
+    padding: 0 var(--profile-spacing-sm);
+  }
 }
 
 /* ── Profile card ───────────────────────────────────────────── */
 .profileCard {
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
-  border-radius: var(--radius-lg);
-  padding: 32px 24px 28px;
+  border-radius: var(--profile-radius-card);
+  padding: var(--profile-spacing-lg) var(--profile-spacing-md) var(--profile-spacing-xl);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 480px) {
+  .profileCard {
+    padding: var(--profile-spacing-md) var(--profile-spacing-sm) var(--profile-spacing-lg);
+  }
 }
 
 .avatarRing {
@@ -84,6 +140,13 @@
   padding: 3px;
   background: linear-gradient(135deg, var(--dna-color, var(--clr-gold)), rgba(255,255,255,0.1));
   flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .avatarRing {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 .avatarInner {
@@ -108,6 +171,12 @@
   text-align: center;
 }
 
+@media (max-width: 480px) {
+  .profileName {
+    font-size: 1rem;
+  }
+}
+
 .profileHandle {
   margin: 0;
   font-size: 0.8rem;
@@ -120,6 +189,13 @@
   font-size: 0.78rem;
   color: var(--clr-text-light);
   text-align: center;
+  word-break: break-all;
+}
+
+.lastLoginText {
+  font-size: 0.72rem;
+  color: var(--clr-text-light);
+  margin: 0;
 }
 
 .editBtn {
@@ -140,20 +216,37 @@
   transition: all 0.2s ease;
 }
 
-.editBtn:hover { background: #5535a0; color: var(--clr-text); transform: scale(0.98); }
+.editBtn:hover { 
+  background: #5535a0; 
+  color: var(--clr-text); 
+  transform: scale(0.98); 
+}
+
+@media (max-width: 480px) {
+  .editBtn {
+    padding: 6px 16px;
+    font-size: 0.75rem;
+  }
+}
 
 /* ── Banking DNA card ───────────────────────────────────────── */
 .dnaCard {
   background: var(--clr-bg-card);
   border: 1px solid color-mix(in srgb, var(--dna-color, var(--clr-border)) 30%, var(--clr-border));
-  border-radius: var(--radius-lg);
-  padding: 28px 24px 24px;
+  border-radius: var(--profile-radius-card);
+  padding: var(--profile-spacing-lg) var(--profile-spacing-md) var(--profile-spacing-lg);
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   gap: 10px;
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .dnaCard {
+    padding: var(--profile-spacing-md) var(--profile-spacing-sm) var(--profile-spacing-lg);
+  }
 }
 
 .dnaCard::before {
@@ -169,6 +262,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .dnaEyebrow {
@@ -179,7 +274,9 @@
   font-family: var(--font-display);
 }
 
-.dnaBadgeIcon { font-size: 1.4rem; }
+.dnaBadgeIcon { 
+  font-size: 1.4rem; 
+}
 
 .dnaName {
   margin: 0;
@@ -187,6 +284,13 @@
   font-size: 1.4rem;
   font-weight: var(--weight-black);
   letter-spacing: 0.04em;
+  word-break: break-word;
+}
+
+@media (max-width: 480px) {
+  .dnaName {
+    font-size: 1.2rem;
+  }
 }
 
 .dnaDesc {
@@ -219,20 +323,33 @@
   margin-top: 2px;
 }
 
-/* ── Health section ─────────────────────────────────────────── */
+/* ── Health section (responsive) ────────────────────────────── */
 .healthSection {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 32px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--profile-spacing-md);
   max-width: 860px;
-  margin: 0 auto 40px;
-  padding: 0 24px;
+  margin: 0 auto var(--profile-spacing-xl);
+  padding: var(--profile-spacing-lg) var(--profile-spacing-md);
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
-  border-radius: var(--radius-lg);
-  padding: 28px 32px;
+  border-radius: var(--profile-radius-card);
   backdrop-filter: blur(10px);
+}
+
+@media (min-width: 700px) {
+  .healthSection {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--profile-spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .healthSection {
+    padding: var(--profile-spacing-md) var(--profile-spacing-sm);
+    margin-bottom: var(--profile-spacing-lg);
+  }
 }
 
 .healthGauge {
@@ -240,9 +357,32 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
-.gaugeLabel { text-align: center; }
+@media (max-width: 480px) {
+  .healthGauge {
+    flex-direction: row;
+    gap: var(--profile-spacing-md);
+    justify-content: center;
+  }
+}
+
+.gaugeSvg {
+  width: 110px;
+  height: 110px;
+}
+
+@media (max-width: 480px) {
+  .gaugeSvg {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+.gaugeLabel { 
+  text-align: center; 
+}
 
 .gaugeLabelTitle {
   display: block;
@@ -266,18 +406,40 @@
   flex-direction: column;
   gap: 12px;
   justify-content: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .scoreRow {
   display: grid;
-  grid-template-columns: 130px 1fr 48px;
+  grid-template-columns: 110px 1fr 48px;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .scoreRow {
+    grid-template-columns: 90px 1fr 42px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .scoreRow {
+    grid-template-columns: 80px 1fr 38px;
+    gap: 6px;
+  }
 }
 
 .scoreLabel {
   font-size: 0.78rem;
   color: var(--clr-text-light);
+}
+
+@media (max-width: 480px) {
+  .scoreLabel {
+    font-size: 0.7rem;
+  }
 }
 
 .scoreTrack {
@@ -299,6 +461,12 @@
   text-align: right;
 }
 
+@media (max-width: 480px) {
+  .scoreVal {
+    font-size: 0.7rem;
+  }
+}
+
 /* ── Section header ─────────────────────────────────────────── */
 .sectionTitle {
   font-family: var(--font-display);
@@ -310,6 +478,12 @@
   margin: 0 0 6px;
 }
 
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1rem;
+  }
+}
+
 .sectionSub {
   font-size: 0.8rem;
   color: var(--clr-text-light);
@@ -317,30 +491,70 @@
   line-height: 1.5;
 }
 
-/* ── Snapshot metrics grid ──────────────────────────────────── */
+@media (max-width: 480px) {
+  .sectionSub {
+    font-size: 0.75rem;
+  }
+}
+
+/* ── Snapshot metrics grid (responsive) ─────────────────────── */
 .snapshotSection {
   max-width: 860px;
-  margin: 0 auto 40px;
-  padding: 0 24px;
+  margin: 0 auto var(--profile-spacing-xl);
+  padding: 0 var(--profile-spacing-md);
+}
+
+@media (max-width: 480px) {
+  .snapshotSection {
+    margin-bottom: var(--profile-spacing-lg);
+    padding: 0 var(--profile-spacing-sm);
+  }
 }
 
 .metricsGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
+}
+
+@media (min-width: 500px) {
+  .metricsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 700px) {
+  .metricsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 380px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
 }
 
 .metricTile {
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
-  border-radius: var(--radius-md);
-  padding: 18px 16px 16px;
+  border-radius: var(--profile-radius-tile);
+  padding: var(--profile-spacing-md) var(--profile-spacing-sm) var(--profile-spacing-sm);
   position: relative;
   backdrop-filter: blur(8px);
   transition: border-color 0.2s ease;
 }
 
-.metricTile:hover { border-color: rgba(255,255,255,0.15); }
+@media (max-width: 480px) {
+  .metricTile {
+    padding: 14px 12px;
+  }
+}
+
+.metricTile:hover { 
+  border-color: rgba(255,255,255,0.15); 
+}
 
 .metricDot {
   width: 6px;
@@ -350,7 +564,7 @@
 }
 
 .metricLabel {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--clr-text-light);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -358,56 +572,71 @@
   margin-bottom: 6px;
 }
 
+@media (max-width: 480px) {
+  .metricLabel {
+    font-size: 0.65rem;
+  }
+}
+
 .metricValue {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: var(--weight-black);
   font-family: var(--font-display);
   letter-spacing: 0.02em;
+  word-break: break-word;
 }
 
-/* ── Settings ───────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .metricValue {
+    font-size: 1.15rem;
+  }
+}
+
+/* ── Settings (responsive) ─────────────────────────────────── */
 .settingsSection {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--profile-spacing-md);
+}
+
+@media (max-width: 480px) {
+  .settingsSection {
+    padding: 0 var(--profile-spacing-sm);
+  }
 }
 
 .settingsCard {
   background: var(--clr-bg-card);
   border: 1px solid var(--clr-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--profile-radius-card);
   overflow: hidden;
   backdrop-filter: blur(10px);
 }
-/* Add to Profile.module.css after .settingsCard */
+
 .settingsDivider {
   border-top: 1px solid var(--clr-border);
 }
 
-.lastLoginText {
-  font-size: 0.72rem;
-  color: var(--clr-text-light);
-  margin: 0;
-}
-
-.modalText {
-  color: var(--clr-text-light);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* For disabled email input */
-.formInput:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 .settingRow {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  gap: 20px;
+  flex-direction: column;
+  gap: var(--profile-spacing-sm);
+  padding: var(--profile-spacing-md) var(--profile-spacing-md);
+}
+
+@media (min-width: 480px) {
+  .settingRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--profile-spacing-md);
+  }
+}
+
+@media (min-width: 768px) {
+  .settingRow {
+    padding: var(--profile-spacing-lg) var(--profile-spacing-lg);
+  }
 }
 
 .settingLabel {
@@ -426,6 +655,7 @@
 .dangerBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 9px 18px;
   background: rgba(200, 75, 255, 0.08);
@@ -439,6 +669,14 @@
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
+}
+
+@media (max-width: 480px) {
+  .dangerBtn {
+    width: 100%;
+    white-space: normal;
+    padding: 8px 16px;
+  }
 }
 
 .dangerBtn:hover {
@@ -458,11 +696,21 @@
   letter-spacing: 0.08em;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.dangerConfirmBtn:hover { background: #b032e0; border-color: #b032e0; }
+@media (max-width: 480px) {
+  .dangerConfirmBtn {
+    padding: 8px 18px;
+  }
+}
 
-/* ── Modals ─────────────────────────────────────────────────── */
+.dangerConfirmBtn:hover { 
+  background: #b032e0; 
+  border-color: #b032e0; 
+}
+
+/* ── Modals (responsive) ───────────────────────────────────── */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -473,28 +721,48 @@
   justify-content: center;
   z-index: 1000;
   animation: fadeIn 0.18s ease;
+  padding: var(--profile-spacing-md);
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 480px) {
+  .modalOverlay {
+    padding: var(--profile-spacing-sm);
+  }
+}
+
+@keyframes fadeIn { 
+  from { opacity: 0; } 
+  to { opacity: 1; } 
+}
 
 .modalCard {
   background: var(--clr-bg-card);
   backdrop-filter: blur(16px);
   border: 1px solid var(--clr-border);
-  border-radius: var(--radius-lg);
-  width: min(480px, 92vw);
+  border-radius: var(--profile-radius-card);
+  width: min(480px, 100%);
+  max-width: 100%;
   animation: slideUp 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
-@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { 
+  from { opacity: 0; transform: translateY(16px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
 
 .modalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px 16px;
+  padding: var(--profile-spacing-md) var(--profile-spacing-md) var(--profile-spacing-sm);
   border-bottom: 1px solid var(--clr-border);
+}
+
+@media (max-width: 480px) {
+  .modalHeader {
+    padding: 16px 16px 12px;
+  }
 }
 
 .modalTitle {
@@ -503,6 +771,12 @@
   font-weight: var(--weight-bold);
   letter-spacing: 0.06em;
   color: var(--clr-text);
+}
+
+@media (max-width: 480px) {
+  .modalTitle {
+    font-size: 1rem;
+  }
 }
 
 .modalClose {
@@ -517,13 +791,29 @@
   transition: color 0.15s ease;
 }
 
-.modalClose:hover { color: var(--clr-gold-highlight); }
+.modalClose:hover { 
+  color: var(--clr-gold-highlight); 
+}
 
-.modalBody { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+.modalBody { 
+  padding: var(--profile-spacing-md); 
+  display: flex; 
+  flex-direction: column; 
+  gap: 18px; 
+}
 
-.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) {
+  .modalBody {
+    padding: var(--profile-spacing-sm);
+    gap: 14px;
+  }
+}
 
-.formGroup { display: flex; flex-direction: column; gap: 6px; }
+.formGroup { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+}
 
 .formLabel {
   font-size: 0.8rem;
@@ -546,19 +836,46 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.formInput::placeholder { color: rgba(255, 255, 255, 0.2); }
+@media (max-width: 480px) {
+  .formInput {
+    padding: 9px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+.formInput::placeholder { 
+  color: rgba(255, 255, 255, 0.2); 
+}
 
 .formInput:focus {
   border-color: var(--clr-gold);
   box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
 }
 
+.formInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .modalFooter {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  padding: 16px 24px 20px;
+  padding: var(--profile-spacing-sm) var(--profile-spacing-md) var(--profile-spacing-md);
   border-top: 1px solid var(--clr-border);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .modalFooter {
+    padding: 12px 16px 16px;
+    gap: 10px;
+  }
+  
+  .modalFooter button {
+    flex: 1;
+    justify-content: center;
+  }
 }
 
 .cancelBtn {
@@ -575,7 +892,17 @@
   transition: all 0.2s ease;
 }
 
-.cancelBtn:hover { border-color: var(--clr-gold); color: var(--clr-text); }
+@media (max-width: 480px) {
+  .cancelBtn {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+  }
+}
+
+.cancelBtn:hover { 
+  border-color: var(--clr-gold); 
+  color: var(--clr-text); 
+}
 
 .saveBtn {
   font-family: var(--font-body);
@@ -591,33 +918,73 @@
   transition: all 0.2s ease;
 }
 
-.saveBtn:hover { background: var(--clr-gold-highlight); border-color: var(--clr-gold-highlight); }
-
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 860px) {
-  .topRow { max-width: 100%; padding: 0 16px; }
-  .snapshotSection { padding: 0 16px; }
-  .settingsSection { padding: 0 16px; }
-  .healthSection { padding: 20px 24px; gap: 20px; }
+@media (max-width: 480px) {
+  .saveBtn {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+  }
 }
 
-@media (max-width: 700px) {
-  .topRow { grid-template-columns: 1fr; }
-  .metricsGrid { grid-template-columns: repeat(2, 1fr); }
-  .healthSection { grid-template-columns: 1fr; }
-  .healthGauge { flex-direction: row; gap: 16px; }
+.saveBtn:hover { 
+  background: var(--clr-gold-highlight); 
+  border-color: var(--clr-gold-highlight); 
+}
+
+.modalText {
+  color: var(--clr-text-light);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 @media (max-width: 480px) {
-  .metricsGrid { grid-template-columns: repeat(2, 1fr); }
-  .formRow { grid-template-columns: 1fr; }
-  .scoreRow { grid-template-columns: 100px 1fr 40px; }
-  .settingRow { flex-direction: column; align-items: flex-start; }
-  .hero { padding: 36px 16px 32px; }
-  .heroTitle { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+  .modalText {
+    font-size: 0.85rem;
+  }
 }
 
+/* ── Extra small screen adjustments ────────────────────────── */
 @media (max-width: 380px) {
-  .metricsGrid { grid-template-columns: 1fr; }
-  .topRow { padding: 0 12px; }
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .scoreRow {
+    grid-template-columns: 80px 1fr 38px;
+    gap: 6px;
+  }
+  
+  .settingRow {
+    padding: 14px;
+  }
+  
+  .heroTitle {
+    font-size: clamp(1.5rem, 6vw, 1.8rem);
+  }
+}
+
+/* ── Large screen optimizations ────────────────────────────── */
+@media (min-width: 1200px) {
+  .topRow,
+  .healthSection,
+  .snapshotSection,
+  .settingsSection {
+    max-width: 1000px;
+  }
+  
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+  
+  .metricsGrid {
+    gap: 16px;
+  }
+  
+  .metricTile {
+    padding: 20px 16px;
+  }
+  
+  .metricValue {
+    font-size: 1.25rem;
+  }
 }

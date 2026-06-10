@@ -1,13 +1,9 @@
+// Profile.jsx
 /**
  * Profile.jsx
  * ─────────────────────────────────────────────────────────────
  * User profile page — wired to useSnapshotStore for live metrics.
- * Changes from original:
- *   · Pulls displayName, email, joinedDate, lastLogin from UserContext
- *     (auth data is shown on the profile card automatically)
- *   · Edit modal updates UserContext + localStorage so data persists
- *   · Logout button in Settings section
- *   · "Clear data" only removes the current user's scoped keys
+ * Fully responsive: adapts to all screen sizes (mobile, tablet, desktop)
  * ─────────────────────────────────────────────────────────────
  */
 import React, { useState } from "react";
@@ -217,7 +213,7 @@ export default function ProfilePage() {
       {/* ── Health Score gauge ────────────────────────────────── */}
       <div className={styles.healthSection}>
         <div className={styles.healthGauge}>
-          <svg width="110" height="110" viewBox="0 0 110 110">
+          <svg width="110" height="110" viewBox="0 0 110 110" className={styles.gaugeSvg}>
             <circle cx="55" cy="55" r="44" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="10" />
             <circle cx="55" cy="55" r="44" fill="none"
               stroke={scoreColor} strokeWidth="10"

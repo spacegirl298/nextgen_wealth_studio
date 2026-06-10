@@ -1,10 +1,10 @@
 /*Styles for the Snapshot page.
-–	Tab bar styles with active indicator
-–	Section content fade-in transition
-–	Metrics summary grid layout
-–	Responsive stacking on mobile
-
+– Tab bar styles with active indicator
+– Section content fade-in transition
+– Metrics summary grid layout
+– Responsive stacking on mobile
 */
+
 .page {
   width: 100%;
   max-width: 900px;
@@ -14,13 +14,13 @@
   position: relative;
 }
 
-/*  Hero*/
+/* Hero */
 .hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-    margin-top: 80px;
+  margin-top: 80px;
   margin-bottom: 40px;
 }
 
@@ -38,13 +38,13 @@
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 300;
- color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.75;
   max-width: 540px;
   text-align: center;
 }
 
-/*  Learn More */
+/* Learn More */
 .learnCard {
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
@@ -89,24 +89,45 @@
   line-height: 1.8;
 }
 
-/* Tabs */
+/* Tabs - Improved responsive behavior */
 .tabs {
   display: flex;
   gap: 0;
   border-bottom: 0.1px solid var(--clr-gold-soft);
   margin-bottom: 1.75rem;
   overflow-x: auto;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(248, 210, 153, 0.3) transparent;
+  position: sticky;
+  top: 0;
+  background: var(--clr-bg);
+  padding: 0.5rem 0;
+  z-index: 100;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tabs::-webkit-scrollbar {
-  display: none;
+  height: 2px; /* Thinner */
+}
+
+.tabs::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+  background: rgba(248, 210, 153, 0.3); /* Subtle gold */
+  border-radius: 3px;
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+  background: rgba(248, 210, 153, 0.5);
 }
 
 .tab {
   background: none;
   border: none;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 400;
@@ -116,6 +137,8 @@
   transition: color 0.2s, border-color 0.2s;
   white-space: nowrap;
   margin-bottom: -1px;
+  flex-shrink: 0;
+  min-height: var(--tap-min, 44px);
 }
 
 .tab:hover {
@@ -134,7 +157,7 @@
   gap: 0;
 }
 
-/*  Cards */
+/* Cards */
 .sectionCard {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
@@ -163,37 +186,51 @@
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 300;
- color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.8;
 }
 
-/* Two Col  */
+/* Two Column - responsive gap */
 .twoCol {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
   margin-bottom: 0;
   overflow: visible;
   position: relative;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .twoCol {
-    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 }
 
-/* Stat Cards (Overview) */
+@media (max-width: 640px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* Stat Cards (Overview) - Improved responsive */
 .statsRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 1.25rem;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
   .statsRow {
-    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
 }
 
@@ -233,6 +270,12 @@
   line-height: 1;
 }
 
+@media (max-width: 480px) {
+  .statValue {
+    font-size: 1.3rem;
+  }
+}
+
 .statCardInfo {
   position: absolute;
   bottom: 0.75rem;
@@ -245,7 +288,7 @@
   margin-top: 0.2rem;
 }
 
-/* Multi-Segment Bar  */
+/* Multi-Segment Bar */
 .multiBar {
   display: flex;
   height: 12px;
@@ -294,10 +337,10 @@
   font-family: var(--font-body);
   font-size: 0.7rem;
   font-weight: 300;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
 }
 
-/* Circle Progress  */
+/* Circle Progress */
 .circleRow {
   display: flex;
   flex-wrap: wrap;
@@ -317,12 +360,12 @@
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 400;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   text-align: center;
   max-width: 80px;
 }
 
-/*  Fields */
+/* Fields */
 .fieldRow {
   display: flex;
   align-items: center;
@@ -331,6 +374,12 @@
   overflow: visible;
   position: relative;
   width: 100%;
+}
+
+@media (max-width: 560px) {
+  .fieldRow {
+    flex-wrap: wrap;
+  }
 }
 
 .fieldLabel {
@@ -344,6 +393,14 @@
   width: 160px;
 }
 
+@media (max-width: 560px) {
+  .fieldLabel {
+    width: 100%;
+    min-width: 100%;
+    margin-bottom: 0.25rem;
+  }
+}
+
 .sliderWrap {
   display: flex;
   align-items: center;
@@ -352,6 +409,12 @@
   overflow: visible;
   position: relative;
   min-width: 0;
+}
+
+@media (max-width: 560px) {
+  .sliderWrap {
+    width: 100%;
+  }
 }
 
 .sliderTrackWrap {
@@ -407,7 +470,15 @@
   flex-shrink: 0;
 }
 
-/* Info Icon ─ */
+@media (max-width: 480px) {
+  .sliderValue {
+    min-width: 60px;
+    width: 60px;
+    font-size: 0.72rem;
+  }
+}
+
+/* Info Icon */
 .infoIcon {
   display: flex;
   align-items: center;
@@ -484,12 +555,12 @@
   font-family: var(--font-body);
   font-size: 0.77rem;
   font-weight: 300;
- color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.7;
   margin: 0;
 }
 
-/*  Totals Row  */
+/* Totals Row */
 .totalRow {
   display: flex;
   justify-content: space-between;
@@ -508,7 +579,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Tax Table  */
+/* Tax Table */
 .taxTable {
   display: flex;
   flex-direction: column;
@@ -557,7 +628,7 @@
   font-weight: 700;
 }
 
-/* Stat (Savings)  */
+/* Stat (Savings) */
 .bigStatWrap {
   display: flex;
   flex-direction: column;
@@ -573,6 +644,12 @@
   font-variant-numeric: tabular-nums;
 }
 
+@media (max-width: 480px) {
+  .bigStat {
+    font-size: 1.8rem;
+  }
+}
+
 .bigStatLabel {
   font-family: var(--font-body);
   font-size: 0.78rem;
@@ -586,7 +663,7 @@
   margin: 1rem 0;
 }
 
-/*  TFSA Bar */
+/* TFSA Bar */
 .tfsaBar {
   height: 8px;
   border-radius: 4px;
@@ -607,7 +684,7 @@
   justify-content: space-between;
   font-family: var(--font-body);
   font-size: 0.72rem;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
 }
 
 /* Goals */
@@ -616,6 +693,13 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.85rem;
+}
+
+@media (max-width: 480px) {
+  .goalNameRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .goalNameInput {
@@ -629,6 +713,12 @@
   padding: 0.35rem 0.65rem;
   outline: none;
   transition: border-color 0.2s;
+}
+
+@media (max-width: 480px) {
+  .goalNameInput {
+    width: 100%;
+  }
 }
 
 .goalNameInput:focus {
@@ -672,7 +762,7 @@
   font-family: var(--font-body);
 }
 
-/*Health Rows  */
+/* Health Rows */
 .healthRow {
   display: flex;
   flex-direction: column;
@@ -696,7 +786,7 @@
   font-family: var(--font-body);
   font-size: 0.77rem;
   font-weight: 300;
- color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.5;
 }
 
@@ -712,7 +802,7 @@
 .healthScoreLabel {
   font-family: var(--font-body);
   font-size: 0.8rem;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   text-align: center;
   line-height: 1.6;
   margin: 0;
@@ -777,12 +867,25 @@
   gap: 0.75rem;
 }
 
+@media (max-width: 480px) {
+  .scoreRow {
+    gap: 0.5rem;
+  }
+}
+
 .scoreRowLabel {
   font-family: var(--font-body);
   font-size: 0.72rem;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   min-width: 100px;
   flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .scoreRowLabel {
+    min-width: 75px;
+    font-size: 0.68rem;
+  }
 }
 
 .scoreRowTrack {
@@ -829,6 +932,7 @@
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-body);
+  min-height: 36px;
 }
 
 .categoryPill:hover {
@@ -1021,6 +1125,13 @@
   gap: 1rem;
 }
 
+@media (max-width: 480px) {
+  .insightScoreRow {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 .insightScoreBadge {
   display: flex;
   flex-direction: column;
@@ -1060,7 +1171,7 @@
   text-align: center;
   font-family: var(--font-body);
   font-size: 0.85rem;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.6;
 }
 
@@ -1086,6 +1197,13 @@
   align-items: center;
   margin-bottom: 0.4rem;
   gap: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .recCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .recCardAction {
@@ -1146,6 +1264,7 @@
   cursor: pointer;
   transition: opacity 0.2s, background 0.2s;
   font-family: var(--font-body);
+  min-height: 44px;
 }
 
 .saveBtn:hover {
@@ -1267,7 +1386,7 @@
 .trendLabel {
   font-family: var(--font-body);
   font-size: 0.68rem;
- color: var(--clr-text-light);
+  color: var(--clr-text-light);
 }
 
 .trendDirection {
@@ -1293,6 +1412,7 @@
   outline: none;
   box-sizing: border-box;
   transition: border-color 0.2s;
+  min-height: 44px;
 }
 
 .glossaryInput:focus {
@@ -1318,6 +1438,7 @@
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-body);
+  padding: 0.25rem 0;
 }
 
 .glossaryTerm::-webkit-details-marker {
@@ -1327,7 +1448,7 @@
 .glossaryDef {
   margin-top: 0.5rem;
   font-size: 0.8rem;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.7;
   font-family: var(--font-body);
   font-weight: 300;
@@ -1353,7 +1474,50 @@
 
 .benchmarkDetail {
   font-size: 0.75rem;
-   color: var(--clr-text-light);
+  color: var(--clr-text-light);
   line-height: 1.6;
   font-family: var(--font-body);
+}
+
+/* Mobile tab specific adjustments */
+@media (max-width: 640px) {
+  .tabs {
+    margin: 0 -1rem 1.25rem -1rem;
+    padding: 0.5rem 1rem;
+    width: calc(100% + 2rem);
+    position: relative;
+  }
+  
+  .tab {
+    font-size: 0.78rem;
+    padding: 0.5rem 0.9rem;
+  }
+  
+  .page {
+    padding: 1rem 1rem 3rem;
+  }
+  
+  .hero {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  
+  .sectionCard {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    font-size: 0.72rem;
+    padding: 0.45rem 0.7rem;
+  }
+  
+  .heroTitle {
+    font-size: clamp(2rem, 7vw, 3rem);
+  }
+  
+  .cardTitle {
+    font-size: 1rem;
+  }
 }

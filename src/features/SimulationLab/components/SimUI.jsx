@@ -18,7 +18,17 @@ export const InfoTooltip = ({ title, body }) => {
     const updatePosition = () => {
       if (buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
-        setPosition({ top: rect.bottom + 8, left: rect.left - 120 });
+        const viewportWidth = window.innerWidth;
+        const tooltipWidth = Math.min(viewportWidth - 20, 280);
+        let leftPos = rect.left - (tooltipWidth - rect.width) / 2;
+        
+        // Ensure tooltip stays within viewport
+        leftPos = Math.max(10, Math.min(leftPos, viewportWidth - tooltipWidth - 10));
+        
+        setPosition({ 
+          top: rect.bottom + 8, 
+          left: leftPos 
+        });
       }
     };
     updatePosition();
@@ -55,7 +65,13 @@ export const InfoTooltip = ({ title, body }) => {
         createPortal(
           <div
             className={styles.tooltipBox}
-            style={{ position: "fixed", top: position.top, left: position.left, zIndex: 999999 }}
+            style={{ 
+              position: "fixed", 
+              top: position.top, 
+              left: position.left, 
+              zIndex: 999999,
+              maxWidth: "calc(100vw - 20px)"
+            }}
             role="tooltip"
           >
             <div className={styles.tooltipHeader}>
@@ -113,7 +129,7 @@ export const NudgeBar = ({ nudges, onDismiss }) => {
   if (!nudges || nudges.length === 0) return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1rem" }}>
+    <div className="nudgeBarContainer" style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1rem" }}>
       {nudges.map((nudge) => {
         const { border, icon, accent } = SEVERITY_COLORS[nudge.severity] || SEVERITY_COLORS.info;
         return (
@@ -122,8 +138,8 @@ export const NudgeBar = ({ nudges, onDismiss }) => {
             style={{
               display: "flex",
               alignItems: "flex-start",
-              gap: "0.75rem",
-              padding: "0.75rem 1rem",
+              gap: "0.6rem",
+              padding: "0.7rem 0.9rem",
               borderRadius: "10px",
               border: `1px solid ${border}`,
               background: "rgba(255,255,255,0.04)",
@@ -131,15 +147,15 @@ export const NudgeBar = ({ nudges, onDismiss }) => {
               animation: "nudgeIn 0.25s ease",
             }}
           >
-            <span style={{ fontSize: "1rem", lineHeight: 1.4, flexShrink: 0 }}>{icon}</span>
+            <span style={{ fontSize: "0.9rem", lineHeight: 1.4, flexShrink: 0 }}>{icon}</span>
             <p style={{
               flex: 1,
               margin: 0,
               fontFamily: "var(--font-body)",
-              fontSize: "0.8rem",
+              fontSize: "0.75rem",
               fontWeight: 300,
               color: "var(--clr-text)",
-              lineHeight: 1.7,
+              lineHeight: 1.6,
             }}>
               {nudge.message}
             </p>
@@ -154,7 +170,7 @@ export const NudgeBar = ({ nudges, onDismiss }) => {
                 opacity: 0.7,
                 padding: "0 0 0 0.5rem",
                 flexShrink: 0,
-                fontSize: "0.75rem",
+                fontSize: "0.7rem",
                 fontFamily: "var(--font-body)",
                 transition: "opacity 0.15s",
               }}
